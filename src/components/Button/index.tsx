@@ -1,13 +1,13 @@
 import * as React from 'react';
-import MuiButton from '@mui/material/Button';
+import MuiButton, {ButtonTypeMap} from '@mui/material/Button';
 
 type ButtonTypes = {
-    variant: string;
+    variant: ButtonTypeMap["props"]["variant"];
 
 }
 
 
-export default function Button(props: ButtonTypes) {
-    const {variant} = props;
-    return <MuiButton variant={variant}>Hello world</MuiButton>;
+export default function Button(props: React.PropsWithChildren<ButtonTypes>) {
+    const {variant,children} = props;
+    return <MuiButton variant={variant}>{children}</MuiButton>;
 }
