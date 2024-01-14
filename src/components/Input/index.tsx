@@ -25,12 +25,14 @@ const Input = (props: InputTypes) => {
     };
 
     React.useEffect(() => {
-        if (showPassword) {
-            setInputType('text');
-        } else {
-            setInputType('password');
+        if (type === 'password') {
+            if (showPassword) {
+                setInputType('text');
+            } else {
+                setInputType('password');
+            }
         }
-    }, [showPassword]);
+    }, [showPassword, type]);
 
     return (
         <MuiTextField
