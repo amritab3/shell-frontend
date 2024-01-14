@@ -47,7 +47,7 @@ const Input = (props: InputTypes) => {
                     <InputAdornment position="end">
                         {type === 'password' ? (
                             <IconButton onClick={passwordVisibilityToggle}>
-                                {showPassword ? (
+                                {!showPassword ? (
                                     <VisibilityIcon />
                                 ) : (
                                     <VisibilityOffIcon />
