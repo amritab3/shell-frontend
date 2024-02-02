@@ -6,6 +6,7 @@ import { InputAdornment } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
+import styles from './input.module.css';
 
 type InputTypes = {
     variant: TextFieldVariants;
@@ -35,7 +36,9 @@ const Input = (props: InputTypes) => {
     }, [showPassword, type]);
 
     return (
-        <MuiTextField
+        <div className={styles.inputWrapper}>
+            <MuiTextField 
+            fullWidth
             label={label}
             variant={variant}
             type={inputType || 'text'}
@@ -62,6 +65,7 @@ const Input = (props: InputTypes) => {
                 ),
             }}
         />
+        </div>
     );
 };
 
