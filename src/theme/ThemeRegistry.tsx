@@ -6,6 +6,26 @@ import { createTheme, ThemeOptions, ThemeProvider } from '@mui/material/styles';
 import { Roboto } from 'next/font/google';
 import { NextAppDirEmotionCacheProvider } from './EmotionCache';
 
+import { TypeBackground, TypeText } from '@mui/material/styles';
+
+interface MyTypeBackground extends TypeBackground {
+    formTitleBg: string;
+}
+
+interface MyTypeText extends TypeText {
+    onPrimaryBg: string;
+}
+
+const backgroundColors = {
+    default: '#f0f8ff',
+    formTitleBg: '#E65540',
+} as MyTypeBackground;
+
+const textColors = {
+    primary: '#300000',
+    onPrimaryBg: '#f0f8ff',
+} as MyTypeText;
+
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
     style: ['normal', 'italic'],
@@ -18,15 +38,11 @@ const themeOptions: ThemeOptions = {
         fontFamily: roboto.style.fontFamily,
     },
     palette: {
-        background: {
-            default: '#f0f8ff', // aliceblue
-        },
+        background: backgroundColors,
         primary: {
             main: '#E65540',
         },
-        text: {
-            primary: '#300000',
-        },
+        text: textColors,
     },
 };
 
