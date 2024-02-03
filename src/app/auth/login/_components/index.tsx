@@ -1,3 +1,5 @@
+'use client';
+
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import { Box, Checkbox, FormControlLabel } from '@mui/material';
@@ -11,6 +13,11 @@ import Input from '@/components/Input';
 import withNavLayout from '@/hoc/withNavLayout';
 
 const LoginPage = () => {
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log('Hello! Form Submitted');
+    };
+
     return (
         <Container
             component="main"
@@ -60,6 +67,7 @@ const LoginPage = () => {
                         width: '90%',
                         px: 5,
                     }}
+                    onSubmit={handleSubmit}
                 >
                     <Input
                         variant="standard"
@@ -78,7 +86,9 @@ const LoginPage = () => {
                         label="Remember me"
                     />
 
-                    <Button variant="outlined">Log In</Button>
+                    <Button variant="outlined" type="submit">
+                        Log In
+                    </Button>
                     <Grid container sx={{ my: 4 }}>
                         <Grid item xs>
                             <Link href="#" variant="body2">
