@@ -8,6 +8,7 @@ import Container from '@mui/material/Container';
 
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import withNavLayout from '@/hoc/withNavLayout';
 
 const LoginPage = () => {
     return (
@@ -96,4 +97,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default withNavLayout(LoginPage);
