@@ -1,18 +1,17 @@
 import * as React from 'react';
-import MuiButton, {ButtonTypeMap} from '@mui/material/Button';
-import styles from './button.module.css'
+import MuiButton, { ButtonTypeMap } from '@mui/material/Button';
 
 type ButtonTypes = {
-    variant: ButtonTypeMap["props"]["variant"];
-
-}
-
+    variant: ButtonTypeMap['props']['variant'];
+};
 
 export default function Button(props: React.PropsWithChildren<ButtonTypes>) {
-    const {variant,children} = props;
+    const { variant, children } = props;
     return (
-        <div className={styles.buttonWrapper}>
-            <MuiButton fullWidth variant={variant}>{children}</MuiButton>
+        <div>
+            <MuiButton fullWidth variant={variant} sx={{ mt: 2, mb: 2 }}>
+                {children}
+            </MuiButton>
         </div>
-    )
+    );
 }
