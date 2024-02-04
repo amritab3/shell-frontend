@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+
+// import { useState } from 'react';
 
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
@@ -120,7 +121,7 @@ const LoginPage = () => {
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/auth/register/" variant="body2">
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
