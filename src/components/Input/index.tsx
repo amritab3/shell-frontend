@@ -1,22 +1,19 @@
 'use client';
 
 import * as React from 'react';
-import MuiTextField, { TextFieldVariants } from '@mui/material/TextField';
+import MuiTextField, { TextFieldProps } from '@mui/material/TextField';
 import { InputAdornment } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 
-type InputTypes = {
-    variant: TextFieldVariants;
-    label: string;
-    type?: string;
+interface InputTypes {
     StartIcon?: React.ElementType;
     EndIcon?: React.ElementType;
-};
+}
 
-const Input = (props: InputTypes) => {
-    const { variant, label, type, StartIcon, EndIcon } = props;
+const Input = (props: InputTypes & TextFieldProps) => {
+    const { variant, label, type, StartIcon, EndIcon, ...rest } = props;
     const [showPassword, setShowPassword] = React.useState(false);
     const [inputType, setInputType] = React.useState(type);
 
@@ -66,6 +63,7 @@ const Input = (props: InputTypes) => {
                 mt: 2,
                 mb: 2,
             }}
+            {...rest}
         />
     );
 };
