@@ -30,13 +30,20 @@ const LoginPage = () => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
+        const email = formData.get('email');
+        const password = formData.get('password');
 
         const response = await fetch('http://localhost:8000/users/login/', {
             method: 'POST',
-            body: formData,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
         });
 
-        console.log(await response.json());
+        if (response.ok) {
+            console.log(await response.json());
+        } else {
+            console.log('ERROR ENCOUNTERED');
+        }
     };
 
     return (
