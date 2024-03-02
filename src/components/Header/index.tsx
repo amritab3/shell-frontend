@@ -1,6 +1,8 @@
 'use client';
 
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,12 +17,19 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Link } from '@mui/material';
 // import PersonIcon from '@mui/icons-material/Person';
 
-const pages = ['Men', 'Women', 'Kids', 'Thrift', 'Contact'];
+const navBarItems = [
+    { label: 'Men', path: '/products/instore/men/' },
+    { label: 'Women', path: '/products/instore/women/' },
+    { label: 'Kids', path: '/products/instore/kids/' },
+    { label: 'Thrift', path: '/products/thrift/' },
+    { label: 'Contact', path: '/contact/' },
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function Header() {
+const Header = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
         null,
     );
@@ -42,6 +51,8 @@ function Header() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const router = useRouter();
 
     return (
         <AppBar position="static">
@@ -102,14 +113,14 @@ function Header() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map(page => (
+                            {navBarItems.map(navBarItem => (
                                 <MenuItem
-                                    key={page}
+                                    key={navBarItem.label}
                                     onClick={handleCloseNavMenu}
                                 >
-                                    <Typography textAlign="center">
-                                        {page}
-                                    </Typography>
+                                    <Link textAlign="center">
+                                        {navBarItem.label}
+                                    </Link>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -141,13 +152,13 @@ function Header() {
                             display: { xs: 'none', md: 'flex' },
                         }}
                     >
-                        {pages.map(page => (
+                        {navBarItems.map(navBarItem => (
                             <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
+                                key={navBarItem.label}
+                                onClick={() => router.push(navBarItem.path)}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                {page}
+                                {navBarItem.label}
                             </Button>
                         ))}
                     </Box>
@@ -206,5 +217,5 @@ function Header() {
             </Container>
         </AppBar>
     );
-}
+};
 export default Header;
