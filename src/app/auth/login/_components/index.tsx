@@ -45,14 +45,20 @@ const LoginPage = () => {
             direction="column"
             alignItems="center"
             justifyContent="center"
-            sx={{ minHeight: '80vh' }}
         >
             <CustomForm
                 title="Login"
                 initialValues={initialValues}
                 submitHandler={handleSubmit}
+                showBoxShadow
             >
-                <Grid container item sx={{ width: '500px' }}>
+                <Grid
+                    container
+                    item
+                    sx={{
+                        width: '500px',
+                    }}
+                >
                     <Grid container item sx={{ margin: 2 }}>
                         <FormInput
                             variant="standard"

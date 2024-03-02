@@ -13,10 +13,12 @@ interface CustomFormProps {
     children: ReactNode;
     initialValues: Object;
     submitHandler: any;
+    showBoxShadow?: boolean;
 }
 
 const CustomForm = (props: CustomFormProps) => {
-    const { title, initialValues, submitHandler, children } = props;
+    const { title, initialValues, submitHandler, showBoxShadow, children } =
+        props;
 
     return (
         <Grid
@@ -26,7 +28,9 @@ const CustomForm = (props: CustomFormProps) => {
             sx={{
                 padding: 0,
                 width: 'auto',
-                boxShadow: '0px 1px 2px 0px rgba(0,0,0,0.4)',
+                boxShadow: showBoxShadow
+                    ? '0px 1px 2px 0px rgba(0,0,0,0.4)'
+                    : null,
             }}
             justifySelf="center"
         >
