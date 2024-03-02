@@ -1,127 +1,82 @@
 'use client';
 
-// import { useState } from 'react';
+import React from 'react';
 
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
-import { Box, Checkbox, FormControlLabel } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import Container from '@mui/material/Container';
+import { Box } from '@mui/material';
 
-import Button from '@/components/Button';
-import Input from '@/components/Input';
+import FormInput from '@/components/Form/FormInput';
+import FormButton from '@/components/Form/FormButton';
+import CustomForm from '@/components/Form';
 import withNavLayout from '@/hoc/withNavLayout';
+import { Padding } from '@mui/icons-material';
 
 const LoginPage = () => {
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
+    const initialValues = {
+        email: '',
+        password: '',
+    };
 
-    // const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setEmail(e.target.value);
-    // };
-
-    // const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setPassword(e.target.value);
-    // };
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.currentTarget);
-        const email = formData.get('email');
-        const password = formData.get('password');
+    const handleSubmit = async (values: any, actions: any) => {
+        console.log(values);
 
         const response = await fetch('http://localhost:8000/users/login/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify(values),
         });
 
         if (response.ok) {
+            actions.setSubmitting(false);
+            actions.resetForm(initialValues);
             console.log(await response.json());
         } else {
+            actions.setSubmitting(false);
             console.log('ERROR ENCOUNTERED');
         }
     };
 
     return (
-        <Container
-            component="main"
-            sx={{
-                height: '100vh',
-                width: '100%',
-                margin: 0,
-                padding: 0,
-                position: 'absolute',
-                left: '21%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
+        <Grid
+            container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ minHeight: '80vh' }}
         >
-            <Box
-                sx={{
-                    width: '60%',
-                    boxShadow: 3,
-                    borderRadius: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    pb: 3,
-                }}
+            <CustomForm
+                title="Login"
+                initialValues={initialValues}
+                submitHandler={handleSubmit}
             >
-                <Typography
-                    component="h1"
-                    variant="h4"
-                    sx={{
-                        bgcolor: 'background.formTitleBg',
-                        color: 'text.onPrimaryBg',
-                        width: '100%',
-                        borderTopLeftRadius: 3,
-                        borderTopRightRadius: 3,
-                        textAlign: 'center',
-                        height: '50px',
-                        lineHeight: '50px',
-                    }}
-                >
-                    Sign In
-                </Typography>
-                <Box
-                    component="form"
-                    sx={{
-                        marginTop: 3,
-                        width: '90%',
-                        px: 5,
-                    }}
-                    onSubmit={handleSubmit}
-                >
-                    <Input
-                        variant="standard"
-                        label="Email"
-                        type="text"
-                        name="email"
-                        StartIcon={PersonIcon}
-                    />
-                    <Input
-                        variant="standard"
-                        label="Password"
-                        type="password"
-                        name="password"
-                        StartIcon={LockIcon}
-                    />
+                <Grid container item sx={{ width: '500px' }}>
+                    <Grid container item sx={{ margin: 2 }}>
+                        <FormInput
+                            variant="standard"
+                            label="Email"
+                            type="text"
+                            name="email"
+                            StartIcon={PersonIcon}
+                        />
+                        <FormInput
+                            variant="standard"
+                            label="Password"
+                            type="password"
+                            name="password"
+                            StartIcon={LockIcon}
+                        />
 
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
+                        <FormButton
+                            variant="contained"
+                            type="submit"
+                            label="Log In"
+                        />
+                    </Grid>
 
-                    <Button variant="outlined" type="submit">
-                        Log In
-                    </Button>
-
-                    <Grid container sx={{ my: 4 }}>
+                    <Grid container item sx={{ margin: 2 }}>
                         <Grid item xs>
                             <Link href="#" variant="body2">
                                 Forgot password?
@@ -133,9 +88,9 @@ const LoginPage = () => {
                             </Link>
                         </Grid>
                     </Grid>
-                </Box>
-            </Box>
-        </Container>
+                </Grid>
+            </CustomForm>
+        </Grid>
     );
 };
 
