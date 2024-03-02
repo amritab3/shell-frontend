@@ -114,11 +114,11 @@ const Header = () => {
                             }}
                         >
                             {navBarItems.map(navBarItem => (
-                                <MenuItem
-                                    key={navBarItem.label}
-                                    onClick={handleCloseNavMenu}
-                                >
-                                    <Link textAlign="center">
+                                <MenuItem key={navBarItem.label}>
+                                    <Link
+                                        textAlign="center"
+                                        href={navBarItem.path}
+                                    >
                                         {navBarItem.label}
                                     </Link>
                                 </MenuItem>
