@@ -15,6 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+// import PersonIcon from '@mui/icons-material/Person';
 
 const pages = ['Men', 'Women', 'Kids', 'Thrift', 'Contact'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];

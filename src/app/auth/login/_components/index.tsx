@@ -2,19 +2,21 @@
 
 import React from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import { Box } from '@mui/material';
 
 import FormInput from '@/components/Form/FormInput';
 import FormButton from '@/components/Form/FormButton';
 import CustomForm from '@/components/Form';
 import withNavLayout from '@/hoc/withNavLayout';
-import { Padding } from '@mui/icons-material';
 
 const LoginPage = () => {
+    const router = useRouter();
+
     const initialValues = {
         email: '',
         password: '',
@@ -33,6 +35,7 @@ const LoginPage = () => {
             actions.setSubmitting(false);
             actions.resetForm(initialValues);
             console.log(await response.json());
+            router.push('/');
         } else {
             actions.setSubmitting(false);
             console.log('ERROR ENCOUNTERED');
