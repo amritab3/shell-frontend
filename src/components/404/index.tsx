@@ -16,11 +16,11 @@ const NotFound = (props: NotFoundProps) => {
     return (
         <Grid container alignItems="center" justifyContent="center">
             <Grid item>
-                <Typography variant="h1" textAlign="center">
+                <Typography variant="h1" textAlign="center" color="primary">
                     404
                 </Typography>
                 <Typography variant="h6">
-                    The page you’re looking for doesn’t exist.
+                    The page you requested is under construction.
                 </Typography>
                 <Button
                     fullWidth
