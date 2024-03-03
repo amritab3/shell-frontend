@@ -1,113 +1,97 @@
 'use client';
 
+import React from 'react';
+
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 
-import Button from '@/components/Button';
-import Input from '@/components/Input';
+import CustomForm from '@/components/Form';
+import FormInput from '@/components/Form/FormInput';
+import FormButton from '@/components/Form/FormButton';
 import withNavLayout from '@/hoc/withNavLayout';
-import { Box, Container, Grid, Link, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 const RegisterPage = () => {
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const router = useRouter();
+    const initialValues = {
+        email: '',
+        password: '',
+    };
 
-        const formData = new FormData(e.currentTarget);
-
+    const handleSubmit = async (values: any, actions: any) => {
         const response = await fetch('http://localhost:8000/users/register/', {
             method: 'POST',
-            body: formData,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
         });
+
+        if (response.ok) {
+            actions.setSubmitting(false);
+            actions.resetForm(initialValues);
+            console.log(await response.json());
+            router.push('/');
+        } else {
+            actions.setSubmitting(false);
+            console.log('ERROR ENCOUNTERED');
+        }
 
         console.log(await response.json());
     };
     return (
-        <Container
-            component="main"
-            sx={{
-                height: '100vh',
-                width: '100%',
-                margin: 0,
-                padding: 0,
-                position: 'absolute',
-                left: '21%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
+        <Grid
+            container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
         >
-            <Box
-                sx={{
-                    width: '60%',
-                    boxShadow: 3,
-                    borderRadius: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    pb: 3,
-                }}
+            <CustomForm
+                title="Register"
+                initialValues={initialValues}
+                submitHandler={handleSubmit}
+                showBoxShadow
             >
-                <Typography
-                    component="h1"
-                    variant="h4"
+                <Grid
+                    container
+                    item
                     sx={{
-                        bgcolor: 'background.formTitleBg',
-                        color: 'text.onPrimaryBg',
-                        width: '100%',
-                        borderTopLeftRadius: 3,
-                        borderTopRightRadius: 3,
-                        textAlign: 'center',
-                        height: '50px',
-                        lineHeight: '50px',
+                        width: '500px',
                     }}
                 >
-                    Sign Up
-                </Typography>
-                <Box
-                    component="form"
-                    sx={{
-                        marginTop: 3,
-                        width: '90%',
-                        px: 5,
-                    }}
-                    onSubmit={handleSubmit}
-                >
-                    <Input
-                        variant="standard"
-                        label="Email"
-                        type="text"
-                        name="email"
-                        StartIcon={PersonIcon}
-                    />
-                    <Input
-                        variant="standard"
-                        label="Password"
-                        type="password"
-                        name="password"
-                        StartIcon={LockIcon}
-                    />
-                    {/* <Input
-                        variant="standard"
-                        label="Re-enter Password"
-                        type="password"
-                        name="password2"
-                        StartIcon={LockIcon}
-                    /> */}
+                    <Grid container item sx={{ margin: 2 }}>
+                        <FormInput
+                            variant="standard"
+                            label="Email"
+                            type="text"
+                            name="email"
+                            StartIcon={PersonIcon}
+                        />
+                        <FormInput
+                            variant="standard"
+                            label="Password"
+                            type="password"
+                            name="password"
+                            StartIcon={LockIcon}
+                        />
 
-                    <Button variant="outlined" type="submit">
-                        Sign Up
-                    </Button>
+                        <FormButton
+                            variant="contained"
+                            type="submit"
+                            label="Register"
+                        />
+                    </Grid>
 
-                    <Grid container sx={{ my: 4 }}>
+                    <Grid container item sx={{ margin: 2 }}>
                         <Grid item>
                             <Link href="/auth/login/" variant="body2">
-                                {'Already have an account? Sign In'}
+                                {'Already have an account?'}
                             </Link>
                         </Grid>
                     </Grid>
-                </Box>
-            </Box>
-        </Container>
+                </Grid>
+            </CustomForm>
+        </Grid>
     );
 };
 
