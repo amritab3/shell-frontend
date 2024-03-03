@@ -1,23 +1,33 @@
-import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
+import { useRouter } from 'next/navigation';
+import { Grid, Typography } from '@mui/material';
+
+import Button from '@/components/Button';
+
 interface NotFoundProps {
-    pageName: string;
+    pageName?: string;
 }
 
 const NotFound = (props: NotFoundProps) => {
     const { pageName } = props;
+    const router = useRouter();
+
     return (
         <Grid container alignItems="center" justifyContent="center">
-            <Grid
-                container
-                flexDirection="column"
-                item
-                alignItems="center"
-                justifyContent="center"
-            >
-                <Typography>{pageName}</Typography>
-                <Typography>UNDER CONSTRUCTION</Typography>
+            <Grid item>
+                <Typography variant="h1" textAlign="center" color="primary">
+                    404
+                </Typography>
+                <Typography variant="h6">
+                    The page you requested is under construction.
+                </Typography>
+                <Button
+                    fullWidth
+                    label="Back Home"
+                    variant="contained"
+                    onClick={() => router.push('/')}
+                />
             </Grid>
         </Grid>
     );
