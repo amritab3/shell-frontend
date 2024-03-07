@@ -1,71 +1,83 @@
-"use client";
+'use client';
 import React, { useState } from 'react';
-import Card from '@mui/material/Card';
+import Card, { CardProps } from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
-import Button from '@mui/material/Button';
+import { CardActionArea, Grid } from '@mui/material';
 
-export default function ProductCard() {
-  const [isHovered, setIsHovered] = useState(false);
+import Button from '@/components/Button';
+import { Product } from '@/utils/schema';
 
-  return (
-    <Card
-      sx={{ width: 300, borderRadius: 0 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <CardActionArea
-        sx={{
-          width: 300,
-          position: 'relative',
-          overflow: 'hidden',
-          borderRadius: 0,
-        }}
-      >
-        <CardMedia
-          component="img"
-          height="350"
-          image="https://mode23nepal.com/image/catalog/Product/Feb%20sweatshirt%20+%20Zip/DSC00356.jpg"
-          alt="dress"
-          sx={{
-            transform: isHovered ? 'scale(1.1)' : 'none', // Updated to 'none' on the server
-            transition: 'all 1s ease',
-          }}
-        />
+interface CustomCardProps {
+    product: Product;
+}
 
-        <Button
-          variant="contained"
-          sx={{
-            display: 'block',
-            opacity: isHovered ? '1.2' : '0',
-            height: '50px',
-            width: '500px',
-            position: 'absolute',
-            borderRadius: 0,
-            bottom: '0px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            transition: 'all 1s ease',
-            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-            color: 'black',
-            fontSize: 'medium',
-            fontFamily: 'sans-serif',
-            letterSpacing: '2.7px',
-          }}
+export default function ProductCard(props: CustomCardProps & CardProps) {
+    const { product, ...rest } = props;
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <Card
+            sx={{ width: 300, borderRadius: 0 }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
         >
-          Order Now
-        </Button>
-      </CardActionArea>
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Floral Dress
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Rs.2,600
-        </Typography>
-      </CardContent>
-    </Card>
-  );
+            <Grid container direction="column" sx={{ position: 'relative' }}>
+                <Grid item>
+                    <CardActionArea
+                        sx={{
+                            overflow: 'hidden',
+                        }}
+                    >
+                        <CardMedia
+                            component="img"
+                            height="350"
+                            image={product.imageUrl}
+                            alt="dress"
+                            sx={{
+                                transform: isHovered ? 'scale(1.1)' : 'none', // Updated to 'none' on the server
+                                transition: 'all 1s ease',
+                            }}
+                        />
+                    </CardActionArea>
+                </Grid>
+                <Grid
+                    item
+                    sx={{
+                        position: 'absolute',
+                        width: '100%',
+                        bottom: 0,
+                        opacity: isHovered ? '1' : '0',
+                        transition: 'all 0.6s ease',
+                    }}
+                >
+                    <Button
+                        fullWidth
+                        label="Order Now"
+                        variant="contained"
+                        sx={{
+                            borderRadius: 0,
+                            height: '50px',
+                            background: 'rgba(255,255,255,0.5)',
+                            fontSize: 'medium',
+                            color: 'black',
+                            letterSpacing: '2.7px',
+                            '&:hover': {
+                                background: 'rgba(255,255,255,0.5)',
+                            },
+                        }}
+                    />
+                </Grid>
+            </Grid>
+            <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                    {product.productName}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    Rs.{product.productPrice}
+                </Typography>
+            </CardContent>
+        </Card>
+    );
 }
