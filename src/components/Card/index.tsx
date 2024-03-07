@@ -12,38 +12,60 @@ export default function ProductCard() {
 
   return (
     <Card
-      sx={{ width: 300, borderRadius: 0}}
+      sx={{ width: 300, borderRadius: 0 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <CardActionArea sx={{
-        width: 300,
-        position: 'relative',
-        overflow: 'hidden',
-        transition: 'filter 0.3s ease-in-out, opacity 0.3s ease-in-out',
-        opacity: isHovered ? 0.6 : 1,
-        borderRadius: 0,
-      }}>
-        <CardMedia 
+      <CardActionArea
+        sx={{
+          width: 300,
+          position: 'relative',
+          overflow: 'hidden',
+          borderRadius: 0,
+        }}
+      >
+        <CardMedia
           component="img"
           height="350"
-          image="https://images.pexels.com/photos/20331062/pexels-photo-20331062/free-photo-of-young-woman-in-a-dress-posing-in-a-forest.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          image="https://mode23nepal.com/image/catalog/Product/Feb%20sweatshirt%20+%20Zip/DSC00356.jpg"
           alt="dress"
-          
+          sx={{
+            transform: isHovered ? 'scale(1.1)' : 'none', // Updated to 'none' on the server
+            transition: 'all 1s ease',
+          }}
         />
-        <Button variant='outlined' sx = {{ display: isHovered? "block": "none" }}> 
-            Order Now
-        </Button>
 
+        <Button
+          variant="contained"
+          sx={{
+            display: 'block',
+            opacity: isHovered ? '1.2' : '0',
+            height: '50px',
+            width: '500px',
+            position: 'absolute',
+            borderRadius: 0,
+            bottom: '0px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            transition: 'all 1s ease',
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+            color: 'black',
+            fontSize: 'medium',
+            fontFamily: 'sans-serif',
+            letterSpacing: '2.7px',
+          }}
+        >
+          Order Now
+        </Button>
       </CardActionArea>
       <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            floral dress
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Rs.2,600
-          </Typography>
-        </CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          Floral Dress
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Rs.2,600
+        </Typography>
+      </CardContent>
     </Card>
   );
 }
