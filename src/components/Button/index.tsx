@@ -7,11 +7,7 @@ interface CustomButtonProps {
 
 const Button = (props: CustomButtonProps & ButtonProps) => {
     const { label, ...rest } = props;
-    return (
-        <div>
-            <MuiButton {...rest}>{label}</MuiButton>
-        </div>
-    );
+    return <MuiButton {...rest}>{label}</MuiButton>;
 };
 
 export default Button;

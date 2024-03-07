@@ -57,7 +57,6 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
                     <Button
                         fullWidth
                         label="Order Now"
-                        variant="contained"
                         sx={{
                             borderRadius: 0,
                             boxShadow: 'none',
