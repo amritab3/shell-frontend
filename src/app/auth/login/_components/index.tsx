@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { useRouter } from 'next/navigation';
+import { useSelector, useDispatch } from 'react-redux';
 
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
@@ -13,18 +14,17 @@ import FormInput from '@/components/Form/FormInput';
 import FormButton from '@/components/Form/FormButton';
 import CustomForm from '@/components/Form';
 import withNavLayout from '@/hoc/withNavLayout';
+import { RootState } from '@/redux/store';
+import { setToken } from '@/redux/features/userSlice';
 
 const LoginPage = () => {
     const router = useRouter();
-
-    const initialValues = {
-        email: '',
-        password: '',
-    };
+    const userInitialValues = useSelector(
+        (state: RootState) => state.user.user,
+    );
+    const dispatch = useDispatch();
 
     const handleSubmit = async (values: any, actions: any) => {
-        console.log(values);
-
         const response = await fetch('http://localhost:8000/users/login/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -32,9 +32,11 @@ const LoginPage = () => {
         });
 
         if (response.ok) {
+            const data = await response.json();
+            dispatch(setToken(data));
+
             actions.setSubmitting(false);
-            actions.resetForm(initialValues);
-            console.log(await response.json());
+            actions.resetForm(userInitialValues);
             router.push('/');
         } else {
             actions.setSubmitting(false);
@@ -51,7 +53,7 @@ const LoginPage = () => {
         >
             <CustomForm
                 title="Login"
-                initialValues={initialValues}
+                initialValues={userInitialValues}
                 submitHandler={handleSubmit}
                 showBoxShadow
             >
