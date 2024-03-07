@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,7 +19,10 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Link } from '@mui/material';
-// import PersonIcon from '@mui/icons-material/Person';
+import PersonIcon from '@mui/icons-material/Person';
+
+import { RootState } from '@/redux/store';
+import { logoutUser } from '@/redux/features/userSlice';
 
 const navBarItems = [
     { label: 'Men', path: '/products/instore/men/' },
@@ -27,7 +31,7 @@ const navBarItems = [
     { label: 'Thrift', path: '/products/thrift/' },
     { label: 'Contact', path: '/contact/' },
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Dashboard'];
 
 const Header = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -53,6 +57,13 @@ const Header = () => {
     };
 
     const router = useRouter();
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
+
+    const handleLogout = () => {
+        dispatch(logoutUser());
+        router.push('/');
+    };
 
     return (
         <AppBar position="static">
@@ -175,15 +186,19 @@ const Header = () => {
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
-                            <IconButton
-                                onClick={handleOpenUserMenu}
-                                sx={{ p: 0 }}
-                            >
+                            {isLoggedIn ? (
                                 <Avatar
-                                    alt="Remy Sharp"
-                                    src="/static/images/avatar/2.jpg"
+                                    alt="avatar"
+                                    src="https://www.w3schools.com/howto/img_avatar2.png"
                                 />
-                            </IconButton>
+                            ) : (
+                                <IconButton
+                                    onClick={handleOpenUserMenu}
+                                    sx={{ p: 0, color: 'white' }}
+                                >
+                                    <PersonIcon />
+                                </IconButton>
+                            )}
                         </Tooltip>
                         <Menu
                             sx={{ mt: '45px' }}
@@ -211,6 +226,21 @@ const Header = () => {
                                     </Typography>
                                 </MenuItem>
                             ))}
+                            {isLoggedIn ? (
+                                <MenuItem onClick={handleLogout}>
+                                    <Typography textAlign="center">
+                                        Logout
+                                    </Typography>
+                                </MenuItem>
+                            ) : (
+                                <MenuItem
+                                    onClick={() => router.push('/auth/login')}
+                                >
+                                    <Typography textAlign="center">
+                                        Login
+                                    </Typography>
+                                </MenuItem>
+                            )}
                         </Menu>
                     </Box>
                 </Toolbar>

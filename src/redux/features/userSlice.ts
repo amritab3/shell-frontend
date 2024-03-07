@@ -26,9 +26,15 @@ export const userSlice = createSlice({
             localStorage.setItem('access', action.payload.access);
             localStorage.setItem('refresh', action.payload.refresh);
         },
+        logoutUser: state => {
+            state.loggedIn = false;
+
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+        },
     },
 });
 
-export const { setToken } = userSlice.actions;
+export const { setToken, logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;
