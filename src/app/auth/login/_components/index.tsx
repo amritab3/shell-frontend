@@ -16,6 +16,8 @@ import CustomForm from '@/components/Form';
 import withNavLayout from '@/hoc/withNavLayout';
 import { RootState } from '@/redux/store';
 import { setToken } from '@/redux/features/userSlice';
+import { openToast } from '@/redux/features/toastSlice';
+import URLS from '@/utils/urls';
 
 const LoginPage = () => {
     const router = useRouter();
@@ -25,7 +27,7 @@ const LoginPage = () => {
     const dispatch = useDispatch();
 
     const handleSubmit = async (values: any, actions: any) => {
-        const response = await fetch('http://localhost:8000/users/login/', {
+        const response = await fetch(URLS.USER_LOGIN_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values),
@@ -34,13 +36,19 @@ const LoginPage = () => {
         if (response.ok) {
             const data = await response.json();
             dispatch(setToken(data));
+            dispatch(
+                openToast({
+                    message: 'Login Successful',
+                    severity: 'success',
+                }),
+            );
 
             actions.setSubmitting(false);
             actions.resetForm(userInitialValues);
             router.push('/');
         } else {
+            dispatch(openToast({ message: 'Login Failed', severity: 'error' }));
             actions.setSubmitting(false);
-            console.log('ERROR ENCOUNTERED');
         }
     };
 

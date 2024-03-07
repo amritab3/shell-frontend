@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { ReduxProvider } from '@/redux/provider';
+import Toast from '@/components/Toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
             <ReduxProvider>
                 <ThemeRegistry>
                     <body className={inter.className}>{children}</body>
+                    <Toast />
                 </ThemeRegistry>
             </ReduxProvider>
         </html>
