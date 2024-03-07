@@ -28,6 +28,8 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
                     <CardActionArea
                         sx={{
                             overflow: 'hidden',
+                            borderRadius: 0,
+                            boxShadow: 'none',
                         }}
                     >
                         <CardMedia
@@ -58,13 +60,15 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
                         variant="contained"
                         sx={{
                             borderRadius: 0,
+                            boxShadow: 'none',
                             height: '50px',
                             background: 'rgba(255,255,255,0.5)',
                             fontSize: 'medium',
                             color: 'black',
                             letterSpacing: '2.7px',
                             '&:hover': {
-                                background: 'rgba(255,255,255,0.5)',
+                                background: 'rgba(255,255,255,0.6)',
+                                boxShadow: 'none',
                             },
                         }}
                     />
