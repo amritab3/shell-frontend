@@ -9,7 +9,7 @@ interface CustomButtonProps {
 
 const FormButton = (props: CustomButtonProps & ButtonProps) => {
     const { label, color, variant, ...rest } = props;
-    const { submitForm, isSubmitting } = useFormikContext();
+    const { submitForm, isSubmitting, isValid } = useFormikContext();
 
     const handleSubmit = () => {
         submitForm();
@@ -21,7 +21,7 @@ const FormButton = (props: CustomButtonProps & ButtonProps) => {
             color={color}
             variant={variant}
             onClick={handleSubmit}
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isValid}
             {...rest}
         >
             {label}

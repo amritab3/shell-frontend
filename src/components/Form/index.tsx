@@ -12,13 +12,20 @@ interface CustomFormProps {
     title: string;
     children: ReactNode;
     initialValues: Object;
+    validationSchema: Object;
     submitHandler: any;
     showBoxShadow?: boolean;
 }
 
 const CustomForm = (props: CustomFormProps) => {
-    const { title, initialValues, submitHandler, showBoxShadow, children } =
-        props;
+    const {
+        title,
+        initialValues,
+        submitHandler,
+        validationSchema,
+        showBoxShadow,
+        children,
+    } = props;
 
     return (
         <Grid
@@ -34,7 +41,11 @@ const CustomForm = (props: CustomFormProps) => {
             }}
             justifySelf="center"
         >
-            <Formik initialValues={initialValues} onSubmit={submitHandler}>
+            <Formik
+                initialValues={initialValues}
+                onSubmit={submitHandler}
+                validationSchema={validationSchema}
+            >
                 {({ isSubmitting }) => (
                     <Form>
                         <Grid container>

@@ -9,6 +9,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
+import * as Yup from 'yup';
 
 import FormInput from '@/components/Form/FormInput';
 import FormButton from '@/components/Form/FormButton';
@@ -18,6 +19,13 @@ import { RootState } from '@/redux/store';
 import { setToken } from '@/redux/features/userSlice';
 import { openToast } from '@/redux/features/toastSlice';
 import URLS from '@/utils/urls';
+
+const validationSchema = Yup.object({
+    email: Yup.string()
+        .email('Invalid email format')
+        .required('Email is required'),
+    password: Yup.string().required('Password is required'),
+});
 
 const LoginPage = () => {
     const router = useRouter();
@@ -63,6 +71,7 @@ const LoginPage = () => {
                 title="Login"
                 initialValues={userInitialValues}
                 submitHandler={handleSubmit}
+                validationSchema={validationSchema}
                 showBoxShadow
             >
                 <Grid
