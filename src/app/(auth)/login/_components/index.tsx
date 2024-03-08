@@ -47,7 +47,7 @@ const LoginPage = () => {
             dispatch(login(data));
             dispatch(
                 openToast({
-                    message: 'Login Successful',
+                    message: 'User Login Successful',
                     severity: 'success',
                 }),
             );
@@ -56,7 +56,9 @@ const LoginPage = () => {
             actions.resetForm(initialValues);
             router.push('/');
         } else {
-            dispatch(openToast({ message: 'Login Failed', severity: 'error' }));
+            dispatch(
+                openToast({ message: 'User Login Failed', severity: 'error' }),
+            );
             actions.setSubmitting(false);
         }
     };
