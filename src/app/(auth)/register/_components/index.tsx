@@ -103,7 +103,7 @@ const RegisterPage = () => {
 
                     <Grid container item sx={{ margin: 2 }}>
                         <Grid item>
-                            <Link href="/auth/login/" variant="body2">
+                            <Link href="/login/" variant="body2">
                                 {'Already have an account?'}
                             </Link>
                         </Grid>

@@ -233,9 +233,7 @@ const Header = () => {
                                     </Typography>
                                 </MenuItem>
                             ) : (
-                                <MenuItem
-                                    onClick={() => router.push('/auth/login')}
-                                >
+                                <MenuItem onClick={() => router.push('/login')}>
                                     <Typography textAlign="center">
                                         Login
                                     </Typography>
