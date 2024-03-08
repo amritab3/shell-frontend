@@ -24,9 +24,9 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <ReduxProvider>
-                <ThemeRegistry>
-                    <body className={inter.className}>
+            <body className={inter.className}>
+                <ReduxProvider>
+                    <ThemeRegistry>
                         <Grid
                             container
                             sx={{
@@ -44,9 +44,9 @@ export default function RootLayout({
                             </Grid>
                         </Grid>
                         <Toast />
-                    </body>
-                </ThemeRegistry>
-            </ReduxProvider>
+                    </ThemeRegistry>
+                </ReduxProvider>
+            </body>
         </html>
     );
 }
