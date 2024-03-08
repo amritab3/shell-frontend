@@ -22,7 +22,7 @@ import { Link } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
 import { RootState } from '@/redux/store';
-import { logoutUser } from '@/redux/features/userSlice';
+import { logout } from '@/redux/features/userSlice';
 
 const navBarItems = [
     { label: 'Men', path: '/products/instore/men/' },
@@ -61,7 +61,7 @@ const Header = () => {
     const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
 
     const handleLogout = () => {
-        dispatch(logoutUser());
+        dispatch(logout());
         router.push('/');
     };
 
@@ -190,6 +190,7 @@ const Header = () => {
                                 <Avatar
                                     alt="avatar"
                                     src="https://www.w3schools.com/howto/img_avatar2.png"
+                                    onClick={handleOpenUserMenu}
                                 />
                             ) : (
                                 <IconButton
