@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import * as Yup from 'yup';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import Grid from '@mui/material/Grid';
@@ -10,14 +11,24 @@ import Link from '@mui/material/Link';
 import CustomForm from '@/components/Form';
 import FormInput from '@/components/Form/FormInput';
 import FormButton from '@/components/Form/FormButton';
-import withNavLayout from '@/hoc/withNavLayout';
 import { useRouter } from 'next/navigation';
+
+const validationSchema = Yup.object({
+    email: Yup.string()
+        .email('Invalid email format')
+        .required('Email is required'),
+    password: Yup.string().required('Password is required'),
+    confirmPassword: Yup.string()
+        .required('Confirm password is required')
+        .oneOf([Yup.ref('password')], 'Passwords must match'),
+});
 
 const RegisterPage = () => {
     const router = useRouter();
     const initialValues = {
         email: '',
         password: '',
+        confirmPassword: '',
     };
 
     const handleSubmit = async (values: any, actions: any) => {
@@ -50,6 +61,7 @@ const RegisterPage = () => {
                 title="Register"
                 initialValues={initialValues}
                 submitHandler={handleSubmit}
+                validationSchema={validationSchema}
                 showBoxShadow
             >
                 <Grid
@@ -74,6 +86,13 @@ const RegisterPage = () => {
                             name="password"
                             StartIcon={LockIcon}
                         />
+                        <FormInput
+                            variant="standard"
+                            label="Confirm Password"
+                            type="password"
+                            name="confirmPassword"
+                            StartIcon={LockIcon}
+                        />
 
                         <FormButton
                             variant="contained"
@@ -95,4 +114,4 @@ const RegisterPage = () => {
     );
 };
 
-export default withNavLayout(RegisterPage);
+export default RegisterPage;

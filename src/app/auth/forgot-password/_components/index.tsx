@@ -6,12 +6,9 @@ import EmailIcon from '@mui/icons-material/Email';
 
 import Button from '@/components/Button';
 import Input from '@/components/Input';
-import withNavLayout from "@/hoc/withNavLayout";
-
-
 
 const PasswordResetForm = () => {
-    return(
+    return (
         <Container
             component="main"
             sx={{
@@ -25,7 +22,6 @@ const PasswordResetForm = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
             }}
-        
         >
             <Box
                 sx={{
@@ -54,15 +50,15 @@ const PasswordResetForm = () => {
                 >
                     Forgot Password
                 </Typography>
-                    
-                <Typography 
-                    variant="h6" 
-                    sx={{ 
-                        my: 2,
 
+                <Typography
+                    variant="h6"
+                    sx={{
+                        my: 2,
                     }}
-                    >
-                        Enter your email below to receive your password reset instruction
+                >
+                    Enter your email below to receive your password reset
+                    instruction
                 </Typography>
 
                 <Box
@@ -80,18 +76,11 @@ const PasswordResetForm = () => {
                         StartIcon={EmailIcon}
                     />
 
-                    <Button variant="outlined" type="submit">
-                        Send
-                    </Button>
-
+                    <Button variant="outlined" type="submit" label="Send" />
                 </Box>
-
             </Box>
-
         </Container>
-
-);
-
+    );
 };
 
-export default withNavLayout(PasswordResetForm);
+export default PasswordResetForm;

@@ -14,7 +14,6 @@ import * as Yup from 'yup';
 import FormInput from '@/components/Form/FormInput';
 import FormButton from '@/components/Form/FormButton';
 import CustomForm from '@/components/Form';
-import withNavLayout from '@/hoc/withNavLayout';
 import { RootState } from '@/redux/store';
 import { setToken } from '@/redux/features/userSlice';
 import { openToast } from '@/redux/features/toastSlice';
@@ -63,6 +62,7 @@ const LoginPage = () => {
     return (
         <Grid
             container
+            item
             direction="column"
             alignItems="center"
             justifyContent="center"
@@ -122,4 +122,4 @@ const LoginPage = () => {
     );
 };
 
-export default withNavLayout(LoginPage);
+export default LoginPage;

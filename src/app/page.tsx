@@ -1,5 +1,7 @@
 import styles from './page.module.css';
 
+import { Grid } from '@mui/material';
+
 import Card from '@/components/Card';
 import { Product } from '@/utils/schema';
 
@@ -15,10 +17,10 @@ export default function Home() {
     ];
 
     return (
-        <main className={styles.main}>
+        <Grid container item justifyContent="center">
             {products.map(product => {
                 return <Card key={product.id} product={product} />;
             })}
-        </main>
+        </Grid>
     );
 }

@@ -3,8 +3,12 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import Grid from '@mui/material/Grid';
+
 import { ReduxProvider } from '@/redux/provider';
 import Toast from '@/components/Toast';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,8 +26,25 @@ export default function RootLayout({
         <html lang="en">
             <ReduxProvider>
                 <ThemeRegistry>
-                    <body className={inter.className}>{children}</body>
-                    <Toast />
+                    <body className={inter.className}>
+                        <Grid
+                            container
+                            sx={{
+                                height: '100vh',
+                            }}
+                            flexDirection="column"
+                            justifyContent="space-between"
+                        >
+                            <Grid item>
+                                <Header />
+                            </Grid>
+                            <Grid item>{children}</Grid>
+                            <Grid item>
+                                <Footer />
+                            </Grid>
+                        </Grid>
+                        <Toast />
+                    </body>
                 </ThemeRegistry>
             </ReduxProvider>
         </html>
