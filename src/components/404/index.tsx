@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import { useRouter } from 'next/navigation';
@@ -20,7 +22,9 @@ const NotFound = (props: NotFoundProps) => {
                     404
                 </Typography>
                 <Typography variant="h6">
-                    The page you requested is under construction.
+                    {pageName
+                        ? pageName + ' is under construction'
+                        : 'The page you requested is not found'}
                 </Typography>
                 <Button
                     fullWidth
