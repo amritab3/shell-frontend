@@ -24,7 +24,9 @@ export const userSlice = createSlice({
             state.refresh_token = action.payload.refresh;
         },
         logout: state => {
-            state = initialState;
+            state.loggedIn = false;
+            state.access_token = '';
+            state.refresh_token = '';
         },
     },
 });

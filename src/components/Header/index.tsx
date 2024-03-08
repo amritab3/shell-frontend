@@ -23,6 +23,7 @@ import PersonIcon from '@mui/icons-material/Person';
 
 import { RootState } from '@/redux/store';
 import { logout } from '@/redux/features/userSlice';
+import { openToast } from '@/redux/features/toastSlice';
 
 const navBarItems = [
     { label: 'Men', path: '/products/instore/men/' },
@@ -61,7 +62,11 @@ const Header = () => {
     const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
 
     const handleLogout = () => {
+        handleCloseUserMenu();
         dispatch(logout());
+        dispatch(
+            openToast({ message: 'User logged out', severity: 'success' }),
+        );
         router.push('/');
     };
 
@@ -234,7 +239,12 @@ const Header = () => {
                                     </Typography>
                                 </MenuItem>
                             ) : (
-                                <MenuItem onClick={() => router.push('/login')}>
+                                <MenuItem
+                                    onClick={() => {
+                                        handleCloseUserMenu();
+                                        router.push('/login');
+                                    }}
+                                >
                                     <Typography textAlign="center">
                                         Login
                                     </Typography>
