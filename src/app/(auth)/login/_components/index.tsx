@@ -15,7 +15,7 @@ import FormInput from '@/components/Form/FormInput';
 import FormButton from '@/components/Form/FormButton';
 import CustomForm from '@/components/Form';
 import { RootState } from '@/redux/store';
-import { setToken } from '@/redux/features/userSlice';
+import { login } from '@/redux/features/userSlice';
 import { openToast } from '@/redux/features/toastSlice';
 import URLS from '@/utils/urls';
 
@@ -28,10 +28,12 @@ const validationSchema = Yup.object({
 
 const LoginPage = () => {
     const router = useRouter();
-    const userInitialValues = useSelector(
-        (state: RootState) => state.user.user,
-    );
     const dispatch = useDispatch();
+
+    const initialValues = {
+        email: '',
+        password: '',
+    };
 
     const handleSubmit = async (values: any, actions: any) => {
         const response = await fetch(URLS.USER_LOGIN_URL, {
@@ -42,7 +44,7 @@ const LoginPage = () => {
 
         if (response.ok) {
             const data = await response.json();
-            dispatch(setToken(data));
+            dispatch(login(data));
             dispatch(
                 openToast({
                     message: 'Login Successful',
@@ -51,7 +53,7 @@ const LoginPage = () => {
             );
 
             actions.setSubmitting(false);
-            actions.resetForm(userInitialValues);
+            actions.resetForm(initialValues);
             router.push('/');
         } else {
             dispatch(openToast({ message: 'Login Failed', severity: 'error' }));
@@ -69,7 +71,7 @@ const LoginPage = () => {
         >
             <CustomForm
                 title="Login"
-                initialValues={userInitialValues}
+                initialValues={initialValues}
                 submitHandler={handleSubmit}
                 validationSchema={validationSchema}
                 showBoxShadow
