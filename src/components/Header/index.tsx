@@ -181,12 +181,13 @@ const Header = () => {
 
                     <Box
                         sx={{
-                            flexGrow: 0,
                             mr: 3,
                             display: { xs: 'none', md: 'flex' },
                         }}
                     >
-                        <ShoppingCartOutlinedIcon />
+                        <IconButton sx={{ p: 0, color: 'white' }}>
+                            <ShoppingCartOutlinedIcon />
+                        </IconButton>
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
