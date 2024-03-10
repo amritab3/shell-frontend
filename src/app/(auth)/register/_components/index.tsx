@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 
 import * as Yup from 'yup';
 import PersonIcon from '@mui/icons-material/Person';
@@ -11,7 +13,8 @@ import Link from '@mui/material/Link';
 import CustomForm from '@/components/Form';
 import FormInput from '@/components/Form/FormInput';
 import FormButton from '@/components/Form/FormButton';
-import { useRouter } from 'next/navigation';
+import { openToast } from '@/redux/features/toastSlice';
+import URLS from '@/utils/urls';
 
 const validationSchema = Yup.object({
     email: Yup.string()
@@ -24,6 +27,7 @@ const validationSchema = Yup.object({
 });
 
 const RegisterPage = () => {
+    const dispatch = useDispatch();
     const router = useRouter();
     const initialValues = {
         email: '',
@@ -32,23 +36,34 @@ const RegisterPage = () => {
     };
 
     const handleSubmit = async (values: any, actions: any) => {
-        const response = await fetch('http://localhost:8000/users/register/', {
+        const response = await fetch(URLS.USER_REGISTER_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values),
         });
 
         if (response.ok) {
+            dispatch(
+                openToast({
+                    message: 'User Registration Successful',
+                    severity: 'success',
+                }),
+            );
+
             actions.setSubmitting(false);
             actions.resetForm(initialValues);
             console.log(await response.json());
             router.push('/');
         } else {
+            dispatch(
+                openToast({
+                    message: 'User Registration Failed',
+                    severity: 'success',
+                }),
+            );
             actions.setSubmitting(false);
             console.log('ERROR ENCOUNTERED');
         }
-
-        console.log(await response.json());
     };
     return (
         <Grid

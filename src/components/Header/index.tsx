@@ -22,7 +22,8 @@ import { Link } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
 import { RootState } from '@/redux/store';
-import { logoutUser } from '@/redux/features/userSlice';
+import { logout } from '@/redux/features/userSlice';
+import { openToast } from '@/redux/features/toastSlice';
 
 const navBarItems = [
     { label: 'Men', path: '/products/instore/men/' },
@@ -61,7 +62,11 @@ const Header = () => {
     const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
 
     const handleLogout = () => {
-        dispatch(logoutUser());
+        handleCloseUserMenu();
+        dispatch(logout());
+        dispatch(
+            openToast({ message: 'User logged out', severity: 'success' }),
+        );
         router.push('/');
     };
 
@@ -176,12 +181,13 @@ const Header = () => {
 
                     <Box
                         sx={{
-                            flexGrow: 0,
                             mr: 3,
                             display: { xs: 'none', md: 'flex' },
                         }}
                     >
-                        <ShoppingCartOutlinedIcon />
+                        <IconButton sx={{ p: 0, color: 'white' }}>
+                            <ShoppingCartOutlinedIcon />
+                        </IconButton>
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
@@ -190,6 +196,7 @@ const Header = () => {
                                 <Avatar
                                     alt="avatar"
                                     src="https://www.w3schools.com/howto/img_avatar2.png"
+                                    onClick={handleOpenUserMenu}
                                 />
                             ) : (
                                 <IconButton
@@ -233,7 +240,12 @@ const Header = () => {
                                     </Typography>
                                 </MenuItem>
                             ) : (
-                                <MenuItem onClick={() => router.push('/login')}>
+                                <MenuItem
+                                    onClick={() => {
+                                        handleCloseUserMenu();
+                                        router.push('/login');
+                                    }}
+                                >
                                     <Typography textAlign="center">
                                         Login
                                     </Typography>

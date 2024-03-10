@@ -2,18 +2,15 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 
-interface UserDetails {
-    email: string;
-    password: string;
-}
-
-export interface User {
-    user: UserDetails;
+export interface UserDetails {
+    access_token: string;
+    refresh_token: string;
     loggedIn: boolean;
 }
 
-const initialState: User = {
-    user: { email: '', password: '' },
+const initialState: UserDetails = {
+    access_token: '',
+    refresh_token: '',
     loggedIn: false,
 };
 
@@ -21,20 +18,19 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setToken: (state, action) => {
+        login: (state, action) => {
             state.loggedIn = true;
-            localStorage.setItem('access', action.payload.access);
-            localStorage.setItem('refresh', action.payload.refresh);
+            state.access_token = action.payload.access;
+            state.refresh_token = action.payload.refresh;
         },
-        logoutUser: state => {
+        logout: state => {
             state.loggedIn = false;
-
-            localStorage.removeItem('access');
-            localStorage.removeItem('refresh');
+            state.access_token = '';
+            state.refresh_token = '';
         },
     },
 });
 
-export const { setToken, logoutUser } = userSlice.actions;
+export const { login, logout } = userSlice.actions;
 
 export default userSlice.reducer;
