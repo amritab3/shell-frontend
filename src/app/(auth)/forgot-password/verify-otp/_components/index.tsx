@@ -34,8 +34,6 @@ const VerifyOTPPage = () => {
     };
 
     const handleSubmit = async (values: any, actions: any) => {
-        console.log('Values: ', values);
-
         const response = await fetch(URLS.VERIFY_FORGOT_PASSWORD_OTP, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
