@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import FormInput from '@/components/Form/FormInput';
 import FormButton from '@/components/Form/FormButton';
 import CustomForm from '@/components/Form';
-import { login } from '@/redux/features/userSlice';
+import { setForgotPasswordEmail } from '@/redux/features/userSlice';
 import { openToast } from '@/redux/features/toastSlice';
 import URLS from '@/utils/urls';
 
@@ -31,33 +31,36 @@ const ForgotPasswordPage = () => {
     };
 
     const handleSubmit = async (values: any, actions: any) => {
-        console.log('Values: ', values);
-        router.push('/forgot-password/verify-otp');
-        // const response = await fetch(URLS.USER_LOGIN_URL, {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(values),
-        // });
+        const response = await fetch(URLS.GENERATE_FORGOT_PASSWORD_OTP, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+        });
 
-        // if (response.ok) {
-        //     const data = await response.json();
-        //     dispatch(login(data));
-        //     dispatch(
-        //         openToast({
-        //             message: 'User Login Successful',
-        //             severity: 'success',
-        //         }),
-        //     );
+        if (response.ok) {
+            const data = await response.json();
 
-        //     actions.setSubmitting(false);
-        //     actions.resetForm(initialValues);
-        //     router.push('/');
-        // } else {
-        //     dispatch(
-        //         openToast({ message: 'User Login Failed', severity: 'error' }),
-        //     );
-        //     actions.setSubmitting(false);
-        // }
+            console.log('response', data);
+            dispatch(setForgotPasswordEmail(values));
+            dispatch(
+                openToast({
+                    message: 'OTP generated successfully',
+                    severity: 'success',
+                }),
+            );
+
+            actions.setSubmitting(false);
+            actions.resetForm(initialValues);
+            router.push('forgot-password/verify-otp');
+        } else {
+            dispatch(
+                openToast({
+                    message: 'OTP generation failed',
+                    severity: 'error',
+                }),
+            );
+            actions.setSubmitting(false);
+        }
     };
 
     return (

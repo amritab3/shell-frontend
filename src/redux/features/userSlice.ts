@@ -6,12 +6,16 @@ export interface UserDetails {
     access_token: string;
     refresh_token: string;
     loggedIn: boolean;
+
+    forgotPasswordEmail: string;
 }
 
 const initialState: UserDetails = {
     access_token: '',
     refresh_token: '',
     loggedIn: false,
+
+    forgotPasswordEmail: '',
 };
 
 export const userSlice = createSlice({
@@ -28,9 +32,12 @@ export const userSlice = createSlice({
             state.access_token = '';
             state.refresh_token = '';
         },
+        setForgotPasswordEmail: (state, action) => {
+            state.forgotPasswordEmail = action.payload.email;
+        },
     },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, setForgotPasswordEmail } = userSlice.actions;
 
 export default userSlice.reducer;
