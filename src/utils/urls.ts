@@ -5,6 +5,7 @@ const URLS = {
     USER_REGISTER_URL: `${BASE_URL}/users/register/`,
     GENERATE_FORGOT_PASSWORD_OTP: `${BASE_URL}/auth/generate-otp/`,
     VERIFY_FORGOT_PASSWORD_OTP: `${BASE_URL}/auth/verify-otp/`,
+    UPDATE_PASSWORD: `${BASE_URL}/auth/update-password/`,
 };
 
 export default URLS;

@@ -35,9 +35,17 @@ export const userSlice = createSlice({
         setForgotPasswordEmail: (state, action) => {
             state.forgotPasswordEmail = action.payload.email;
         },
+        removeForgotPasswordEmail: state => {
+            state.forgotPasswordEmail = '';
+        },
     },
 });
 
-export const { login, logout, setForgotPasswordEmail } = userSlice.actions;
+export const {
+    login,
+    logout,
+    setForgotPasswordEmail,
+    removeForgotPasswordEmail,
+} = userSlice.actions;
 
 export default userSlice.reducer;

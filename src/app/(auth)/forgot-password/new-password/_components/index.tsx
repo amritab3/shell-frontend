@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import LockIcon from '@mui/icons-material/Lock';
 import Grid from '@mui/material/Grid';
@@ -12,9 +12,10 @@ import * as Yup from 'yup';
 import FormInput from '@/components/Form/FormInput';
 import FormButton from '@/components/Form/FormButton';
 import CustomForm from '@/components/Form';
-import { login } from '@/redux/features/userSlice';
 import { openToast } from '@/redux/features/toastSlice';
+import { removeForgotPasswordEmail } from '@/redux/features/userSlice';
 import URLS from '@/utils/urls';
+import { RootState } from '@/redux/store';
 
 const validationSchema = Yup.object({
     new_password: Yup.string().required('Password is required'),
@@ -27,38 +28,44 @@ const NewPasswordPage = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
+    const forgotPasswordEmail = useSelector(
+        (state: RootState) => state.user.forgotPasswordEmail,
+    );
+
     const initialValues = {
+        email: forgotPasswordEmail,
         new_password: '',
         confirm_new_password: '',
     };
 
     const handleSubmit = async (values: any, actions: any) => {
-        console.log('Values: ', values);
-        // const response = await fetch(URLS.USER_LOGIN_URL, {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(values),
-        // });
+        const response = await fetch(URLS.UPDATE_PASSWORD, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+        });
 
-        // if (response.ok) {
-        //     const data = await response.json();
-        //     dispatch(login(data));
-        //     dispatch(
-        //         openToast({
-        //             message: 'User Login Successful',
-        //             severity: 'success',
-        //         }),
-        //     );
+        if (response.ok) {
+            dispatch(removeForgotPasswordEmail());
+            dispatch(
+                openToast({
+                    message: 'Password successfully updated',
+                    severity: 'success',
+                }),
+            );
 
-        //     actions.setSubmitting(false);
-        //     actions.resetForm(initialValues);
-        //     router.push('/');
-        // } else {
-        //     dispatch(
-        //         openToast({ message: 'User Login Failed', severity: 'error' }),
-        //     );
-        //     actions.setSubmitting(false);
-        // }
+            actions.setSubmitting(false);
+            actions.resetForm(initialValues);
+            router.push('/login');
+        } else {
+            dispatch(
+                openToast({
+                    message: 'Password update failed',
+                    severity: 'error',
+                }),
+            );
+            actions.setSubmitting(false);
+        }
     };
 
     return (
