@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useRouter } from 'next/navigation';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
@@ -110,7 +110,7 @@ const LoginPage = () => {
 
                     <Grid container item sx={{ margin: 2 }}>
                         <Grid item xs>
-                            <Link href="#" variant="body2">
+                            <Link href="/forgot-password/" variant="body2">
                                 Forgot password?
                             </Link>
                         </Grid>
