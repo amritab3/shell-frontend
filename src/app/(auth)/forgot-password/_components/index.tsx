@@ -1,86 +1,109 @@
 'use client';
 
-import Container from '@mui/material/Container';
-import { Box, Typography } from '@mui/material';
-import EmailIcon from '@mui/icons-material/Email';
+import React from 'react';
 
-import Button from '@/components/Button';
-import Input from '@/components/Input';
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 
-const PasswordResetForm = () => {
+import PersonIcon from '@mui/icons-material/Person';
+import Grid from '@mui/material/Grid';
+import * as Yup from 'yup';
+
+import FormInput from '@/components/Form/FormInput';
+import FormButton from '@/components/Form/FormButton';
+import CustomForm from '@/components/Form';
+import { setForgotPasswordEmail } from '@/redux/features/userSlice';
+import { openToast } from '@/redux/features/toastSlice';
+import URLS from '@/utils/urls';
+
+const validationSchema = Yup.object({
+    email: Yup.string()
+        .email('Invalid email format')
+        .required('Email is required'),
+});
+
+const ForgotPasswordPage = () => {
+    const router = useRouter();
+    const dispatch = useDispatch();
+
+    const initialValues = {
+        email: '',
+    };
+
+    const handleSubmit = async (values: any, actions: any) => {
+        const response = await fetch(URLS.GENERATE_FORGOT_PASSWORD_OTP, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+
+            console.log('response', data);
+            dispatch(setForgotPasswordEmail(values));
+            dispatch(
+                openToast({
+                    message: 'OTP generated successfully',
+                    severity: 'success',
+                }),
+            );
+
+            actions.setSubmitting(false);
+            actions.resetForm(initialValues);
+            router.push('forgot-password/verify-otp');
+        } else {
+            dispatch(
+                openToast({
+                    message: 'OTP generation failed',
+                    severity: 'error',
+                }),
+            );
+            actions.setSubmitting(false);
+        }
+    };
+
     return (
-        <Container
-            component="main"
-            sx={{
-                height: '100vh',
-                width: '100%',
-                margin: 0,
-                padding: 0,
-                position: 'absolute',
-                left: '14%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
+        <Grid
+            container
+            item
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
         >
-            <Box
-                sx={{
-                    width: '60%',
-                    boxShadow: 3,
-                    borderRadius: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    pb: 3,
-                }}
+            <CustomForm
+                title="Forgot Password"
+                initialValues={initialValues}
+                submitHandler={handleSubmit}
+                validationSchema={validationSchema}
+                showBoxShadow
             >
-                <Typography
-                    component="h1"
-                    variant="h4"
+                <Grid
+                    container
+                    item
                     sx={{
-                        bgcolor: 'background.formTitleBg',
-                        color: 'text.onPrimaryBg',
-                        width: '100%',
-                        borderTopLeftRadius: 3,
-                        borderTopRightRadius: 3,
-                        textAlign: 'center',
-                        height: '50px',
-                        lineHeight: '50px',
+                        width: '400px',
                     }}
                 >
-                    Forgot Password
-                </Typography>
+                    <Grid container item sx={{ margin: 2 }}>
+                        <FormInput
+                            variant="standard"
+                            label="Email"
+                            type="text"
+                            name="email"
+                            StartIcon={PersonIcon}
+                        />
 
-                <Typography
-                    variant="h6"
-                    sx={{
-                        my: 2,
-                    }}
-                >
-                    Enter your email below to receive your password reset
-                    instruction
-                </Typography>
-
-                <Box
-                    component="form"
-                    sx={{
-                        marginTop: 3,
-                        width: '90%',
-                        px: 5,
-                    }}
-                >
-                    <Input
-                        variant="standard"
-                        label="Enter your email address here"
-                        name="email"
-                        StartIcon={EmailIcon}
-                    />
-
-                    <Button variant="outlined" type="submit" label="Send" />
-                </Box>
-            </Box>
-        </Container>
+                        <FormButton
+                            variant="contained"
+                            type="submit"
+                            label="Generate OTP"
+                        />
+                    </Grid>
+                </Grid>
+            </CustomForm>
+        </Grid>
     );
 };
 
-export default PasswordResetForm;
+export default ForgotPasswordPage;

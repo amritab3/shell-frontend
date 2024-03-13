@@ -3,61 +3,60 @@
 import React from 'react';
 
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import PersonIcon from '@mui/icons-material/Person';
-import LockIcon from '@mui/icons-material/Lock';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import * as Yup from 'yup';
 
 import FormInput from '@/components/Form/FormInput';
 import FormButton from '@/components/Form/FormButton';
 import CustomForm from '@/components/Form';
-import { RootState } from '@/redux/store';
-import { login } from '@/redux/features/userSlice';
 import { openToast } from '@/redux/features/toastSlice';
 import URLS from '@/utils/urls';
+import { RootState } from '@/redux/store';
 
 const validationSchema = Yup.object({
-    email: Yup.string()
-        .email('Invalid email format')
-        .required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    otp_code: Yup.string().required('OTP code is required').length(6),
 });
 
-const LoginPage = () => {
+const VerifyOTPPage = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
+    const forgotPasswordEmail = useSelector(
+        (state: RootState) => state.user.forgotPasswordEmail,
+    );
+
     const initialValues = {
-        email: '',
-        password: '',
+        otp_code: '',
+        email: forgotPasswordEmail,
     };
 
     const handleSubmit = async (values: any, actions: any) => {
-        const response = await fetch(URLS.USER_LOGIN_URL, {
+        const response = await fetch(URLS.VERIFY_FORGOT_PASSWORD_OTP, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values),
         });
 
         if (response.ok) {
-            const data = await response.json();
-            dispatch(login(data));
             dispatch(
                 openToast({
-                    message: 'User Login Successful',
+                    message: 'OTP verified',
                     severity: 'success',
                 }),
             );
 
             actions.setSubmitting(false);
             actions.resetForm(initialValues);
-            router.push('/');
+            router.push('/forgot-password/new-password');
         } else {
             dispatch(
-                openToast({ message: 'User Login Failed', severity: 'error' }),
+                openToast({
+                    message: 'OTP verification failed',
+                    severity: 'error',
+                }),
             );
             actions.setSubmitting(false);
         }
@@ -72,7 +71,7 @@ const LoginPage = () => {
             justifyContent="center"
         >
             <CustomForm
-                title="Login"
+                title="Verify OTP"
                 initialValues={initialValues}
                 submitHandler={handleSubmit}
                 validationSchema={validationSchema}
@@ -82,43 +81,23 @@ const LoginPage = () => {
                     container
                     item
                     sx={{
-                        width: '500px',
+                        width: '400px',
                     }}
                 >
                     <Grid container item sx={{ margin: 2 }}>
                         <FormInput
                             variant="standard"
-                            label="Email"
+                            label="OTP Code"
                             type="text"
-                            name="email"
+                            name="otp_code"
                             StartIcon={PersonIcon}
-                        />
-                        <FormInput
-                            variant="standard"
-                            label="Password"
-                            type="password"
-                            name="password"
-                            StartIcon={LockIcon}
                         />
 
                         <FormButton
                             variant="contained"
                             type="submit"
-                            label="Log In"
+                            label="Verify OTP"
                         />
-                    </Grid>
-
-                    <Grid container item sx={{ margin: 2 }}>
-                        <Grid item xs>
-                            <Link href="/forgot-password/" variant="body2">
-                                Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="/register/" variant="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
                     </Grid>
                 </Grid>
             </CustomForm>
@@ -126,4 +105,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default VerifyOTPPage;
