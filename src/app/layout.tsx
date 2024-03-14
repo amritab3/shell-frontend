@@ -33,13 +33,14 @@ export default function RootLayout({
                                 height: '100vh',
                                 flexGrow: 1,
                             }}
-                            spacing={2}
                         >
-                            <Grid item xs={12}>
+                            <Grid item xs={12} alignSelf="flex-start">
                                 <Header />
                             </Grid>
-                            <Grid item xs={12}>{children}</Grid>
                             <Grid item xs={12}>
+                                {children}
+                            </Grid>
+                            <Grid item xs={12} alignSelf="flex-end">
                                 <Footer />
                             </Grid>
                         </Grid>

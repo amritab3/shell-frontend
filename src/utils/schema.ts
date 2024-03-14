@@ -8,4 +8,5 @@ export interface Product {
 export interface ProductCardSliderType {
     products: Array<Product>;
     autoPlay: boolean;
+    title: string;
 }
