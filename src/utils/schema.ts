@@ -4,3 +4,8 @@ export interface Product {
     productName: string;
     productPrice: string;
 }
+
+export interface ProductCardSliderType {
+    products: Array<Product>;
+    autoPlay: boolean;
+}
