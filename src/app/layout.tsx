@@ -31,15 +31,15 @@ export default function RootLayout({
                             container
                             sx={{
                                 height: '100vh',
+                                flexGrow: 1,
                             }}
-                            flexDirection="column"
-                            justifyContent="space-between"
+                            spacing={2}
                         >
-                            <Grid item>
+                            <Grid item xs={12}>
                                 <Header />
                             </Grid>
-                            <Grid item>{children}</Grid>
-                            <Grid item>
+                            <Grid item xs={12}>{children}</Grid>
+                            <Grid item xs={12}>
                                 <Footer />
                             </Grid>
                         </Grid>
