@@ -1,0 +1,64 @@
+'use client';
+
+import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeOptions, ThemeProvider } from '@mui/material/styles';
+import { Roboto } from 'next/font/google';
+import { NextAppDirEmotionCacheProvider } from './EmotionCache';
+
+import { TypeBackground, TypeText } from '@mui/material/styles';
+
+interface MyTypeBackground extends TypeBackground {
+    formTitleBg: string;
+}
+
+interface MyTypeText extends TypeText {
+    onPrimaryBg: string;
+}
+
+const backgroundColors = {
+    default: '#f0f8ff',
+    formTitleBg: '#E65540',
+} as MyTypeBackground;
+
+const textColors = {
+    primary: '#300000',
+    onPrimaryBg: '#f0f8ff',
+} as MyTypeText;
+
+const roboto = Roboto({
+    weight: ['300', '400', '500', '700'],
+    style: ['normal', 'italic'],
+    subsets: ['latin'],
+});
+
+const themeOptions: ThemeOptions = {
+    typography: {
+        fontSize: 12,
+        fontFamily: roboto.style.fontFamily,
+    },
+    palette: {
+        background: backgroundColors,
+        primary: {
+            main: '#E65540',
+        },
+        text: textColors,
+    },
+};
+
+const theme = createTheme(themeOptions);
+
+export default function ThemeRegistry({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                {children}
+            </ThemeProvider>
+        </NextAppDirEmotionCacheProvider>
+    );
+}
