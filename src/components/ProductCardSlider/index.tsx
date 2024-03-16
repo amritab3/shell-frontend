@@ -1,11 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { ProductCardSliderType } from '@/utils/schema';
-import { Grid, IconButton, Link, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import ProductCard from '@/components/Card/ProductCard';
 import Button from '@/components/Button';
@@ -16,64 +19,37 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
     //     throw new Error("")
     // }
 
-    const sleep = (ms = 0) => {
-        return new Promise(resolve => setTimeout(resolve, ms));
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        autoplay: autoPlay,
+        autoplaySpeed: 3000,
+
+        // nextArrow: <ArrowForwardIosIcon />,
+        // prevArrow: <ArrowBackIosIcon />,
+        // responsive: [
+        //     {
+        //         breakpoint: 1024,
+        //         settings: {
+        //             slidesToShow: 2,
+        //             slidesToScroll: 1,
+        //             infinite: true,
+        //             dots: true,
+        //         },
+        //     },
+        //     {
+        //         breakpoint: 600,
+        //         settings: {
+        //             slidesToShow: 1,
+        //             slidesToScroll: 1,
+        //             initialSlide: 1,
+        //         },
+        //     },
+        // ],
     };
-
-    const keys = Array.from(Array(products.length).keys());
-
-    const [items, setItems] = React.useState(keys);
-    const [isTicking, setIsTicking] = React.useState(false);
-    const [activeIdx, setActiveIdx] = React.useState(0);
-    const bigLength = items.length;
-    console.log('Items: ', items);
-
-    const createItem = (idx: number) => {
-        const item = products[idx];
-
-        return item;
-    };
-
-    interface CarouselSlideItemProps {
-        idx: number;
-        pos: number;
-        activeIdx: number;
-    }
-
-    const CarouselSlideItem = (props: CarouselSlideItemProps) => {
-        const { idx } = props;
-        const item = createItem(idx);
-
-        return <ProductCard product={item} />;
-    };
-
-    const prevClick = (jump = 1) => {
-        if (!isTicking) {
-            setIsTicking(true);
-            setItems(prev => {
-                return prev.map((_, i) => prev[(i + jump) % bigLength]);
-            });
-        }
-    };
-
-    const nextClick = (jump = 1) => {
-        if (!isTicking) {
-            setIsTicking(true);
-            setItems(prev => {
-                return prev.map(
-                    (_, i) => prev[(i - jump + bigLength) % bigLength],
-                );
-            });
-        }
-    };
-
-    React.useEffect(() => {
-        if (isTicking) sleep(300).then(() => setIsTicking(false));
-    }, [isTicking]);
-
-    React.useEffect(() => {
-        setActiveIdx((length - (items[0] % length)) % length) // prettier-ignore
-    }, [items]);
 
     return (
         <Grid
@@ -81,45 +57,31 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
             item
             sx={{ flexGrow: 1 }}
             justifyContent="center"
-            alignItems="center"
             spacing={2}
         >
-            <Grid item xs={12}>
+            <Grid item>
                 <Typography variant="h4" textAlign="initial">
                     {title}
                 </Typography>
             </Grid>
 
-            <Grid container item xs={12} sx={{ margin: 1 }}>
-                <IconButton
-                    sx={{ borderRadius: 0 }}
-                    onClick={() => prevClick()}
-                >
-                    <ArrowBackIosIcon />
-                </IconButton>
-
-                <Grid item container>
-                    {items.map((pos, index) => {
+            <Grid
+                container
+                item
+                xs={12}
+                sx={{ display: 'inline-block', margin: 1 }}
+                justifyContent="center"
+            >
+                <Slider {...settings}>
+                    {products.map(product => {
                         return (
-                            <CarouselSlideItem
-                                key={index}
-                                idx={index}
-                                pos={pos}
-                                activeIdx={activeIdx}
-                            />
+                            <ProductCard key={product.id} product={product} />
                         );
                     })}
-                </Grid>
-
-                <IconButton
-                    sx={{ borderRadius: 0 }}
-                    onClick={() => nextClick()}
-                >
-                    <ArrowForwardIosIcon />
-                </IconButton>
+                </Slider>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item>
                 <Button label="View More" variant="outlined" />
             </Grid>
         </Grid>
