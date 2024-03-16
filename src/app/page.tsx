@@ -33,8 +33,15 @@ export default function Home() {
             productName: 'Floral Dress',
             productPrice: '2300',
         },
+        {
+            id: 5,
+            imageUrl:
+                'https://mode23nepal.com/image/catalog/Product/Feb%20sweatshirt%20+%20Zip/DSC00356.jpg',
+            productName: 'Floral Dress',
+            productPrice: '2300',
+        },
         // {
-        //     id: 5,
+        //     id: 6,
         //     imageUrl:
         //         'https://mode23nepal.com/image/catalog/Product/Feb%20sweatshirt%20+%20Zip/DSC00356.jpg',
         //     productName: 'Floral Dress',
