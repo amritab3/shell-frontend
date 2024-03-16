@@ -40,31 +40,23 @@ export default function Home() {
             productName: 'Floral Dress',
             productPrice: '2300',
         },
-        // {
-        //     id: 6,
-        //     imageUrl:
-        //         'https://mode23nepal.com/image/catalog/Product/Feb%20sweatshirt%20+%20Zip/DSC00356.jpg',
-        //     productName: 'Floral Dress',
-        //     productPrice: '2300',
-        // },
+        {
+            id: 6,
+            imageUrl:
+                'https://mode23nepal.com/image/catalog/Product/Feb%20sweatshirt%20+%20Zip/DSC00356.jpg',
+            productName: 'Floral Dress',
+            productPrice: '2300',
+        },
     ];
 
     return (
         <Grid container item justifyContent="center" gap={2}>
             <Grid item sx={{ width: '95%', margin: 2 }}>
-                <ProductCardSlider
-                    title="New Arrivals"
-                    products={products}
-                    autoPlay
-                />
+                <ProductCardSlider title="New Arrivals" products={products} />
             </Grid>
 
             <Grid item sx={{ width: '95%', margin: 2 }}>
-                <ProductCardSlider
-                    title="Men's Wear"
-                    products={products}
-                    autoPlay
-                />
+                <ProductCardSlider title="Men's Wear" products={products} />
             </Grid>
         </Grid>
     );
