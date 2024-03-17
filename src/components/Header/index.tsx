@@ -208,6 +208,7 @@ const Header = () => {
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
+                            disableScrollLock={true}
                             anchorOrigin={{
                                 vertical: 'top',
                                 horizontal: 'right',
