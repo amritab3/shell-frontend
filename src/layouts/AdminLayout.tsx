@@ -18,20 +18,16 @@ export default function RootAdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Grid
-          container
-          sx={{
-            height: "100vh",
-            flexGrow: 1,
-          }}
-        >
-          <Grid item xs={12}>
-            {children}
-          </Grid>
-        </Grid>
-      </body>
-    </html>
+    <Grid
+      container
+      sx={{
+        height: "100vh",
+        flexGrow: 1,
+      }}
+    >
+      <Grid item xs={12}>
+        {children}
+      </Grid>
+    </Grid>
   );
 }

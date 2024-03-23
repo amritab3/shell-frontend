@@ -15,10 +15,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <RootAdminLayout>{children}</RootAdminLayout>
-      </body>
-    </html>
+    <section>
+      <RootAdminLayout>{children}</RootAdminLayout>
+    </section>
   );
 }
