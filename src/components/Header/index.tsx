@@ -20,6 +20,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Link } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
+import Badge from "@mui/material/Badge";
 
 import { RootState } from "@/redux/store";
 import { logout } from "@/redux/features/userSlice";
@@ -178,8 +179,10 @@ const Header = () => {
               display: { xs: "none", md: "flex" },
             }}
           >
-            <IconButton sx={{ p: 0, color: "white" }}>
-              <ShoppingCartOutlinedIcon />
+            <IconButton color="inherit">
+              <Badge badgeContent={5}>
+                <ShoppingCartOutlinedIcon />
+              </Badge>
             </IconButton>
           </Box>
 
