@@ -27,23 +27,7 @@ export default function RootLayout({
             <body className={inter.className}>
                 <ReduxProvider>
                     <ThemeRegistry>
-                        <Grid
-                            container
-                            sx={{
-                                height: '100vh',
-                                flexGrow: 1,
-                            }}
-                        >
-                            <Grid item xs={12} alignSelf="flex-start">
-                                <Header />
-                            </Grid>
-                            <Grid item xs={12}>
-                                {children}
-                            </Grid>
-                            <Grid item xs={12} alignSelf="flex-end">
-                                <Footer />
-                            </Grid>
-                        </Grid>
+                        {children}
                         <Toast />
                     </ThemeRegistry>
                 </ReduxProvider>
