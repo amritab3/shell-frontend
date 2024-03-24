@@ -33,9 +33,10 @@ const navBarItems = [
   { label: "Thrift", path: "/products/thrift/" },
   { label: "Contact", path: "/contact/" },
 ];
+
 const settings = [
-  { label: "Profile", path: "/profile/" },
-  { label: "Dashboard", path: "/dashboard/" },
+  { label: "Profile", path: "/profile/", renderAfterLogin: true },
+  { label: "Dashboard", path: "/dashboard/", renderAfterLogin: true },
 ];
 
 const Header = () => {
@@ -193,6 +194,7 @@ const Header = () => {
                   alt="avatar"
                   src="https://www.w3schools.com/howto/img_avatar2.png"
                   onClick={handleOpenUserMenu}
+                  sx={{ cursor: "pointer" }}
                 />
               ) : (
                 <IconButton
@@ -220,17 +222,31 @@ const Header = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting.label}
-                  onClick={() => {
-                    handleCloseUserMenu();
-                    router.push(setting.path);
-                  }}
-                >
-                  <Typography>{setting.label}</Typography>
-                </MenuItem>
-              ))}
+              {settings.map((setting) => {
+                return setting.renderAfterLogin ? (
+                  isLoggedIn ? (
+                    <MenuItem
+                      key={setting.label}
+                      onClick={() => {
+                        handleCloseUserMenu();
+                        router.push(setting.path);
+                      }}
+                    >
+                      <Typography>{setting.label}</Typography>
+                    </MenuItem>
+                  ) : null
+                ) : (
+                  <MenuItem
+                    key={setting.label}
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      router.push(setting.path);
+                    }}
+                  >
+                    <Typography>{setting.label}</Typography>
+                  </MenuItem>
+                );
+              })}
               {isLoggedIn ? (
                 <MenuItem onClick={handleLogout}>
                   <Typography textAlign="center">Logout</Typography>
