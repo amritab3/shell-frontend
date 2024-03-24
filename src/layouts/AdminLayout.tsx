@@ -93,9 +93,10 @@ export default function RootAdminLayout({
       sx={{
         height: "100vh",
         flexGrow: 1,
+        width: "100%",
       }}
     >
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", width: "100%" }}>
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
@@ -125,6 +126,7 @@ export default function RootAdminLayout({
             </Typography>
           </Toolbar>
         </AppBar>
+
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
@@ -145,29 +147,29 @@ export default function RootAdminLayout({
             {secondaryListItems}
           </List>
         </Drawer>
+
         <Box
           component="main"
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
           }}
         >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
+          <Toolbar sx={{ mb: 2 }} />
+          <Container sx={{ mt: 3, mb: 3, height: "90vh" }}>
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              spacing={3}
+              sx={{ height: "100%" }}
+            >
               {children}
             </Grid>
           </Container>
         </Box>
       </Box>
-      <Grid item xs={12}>
-        {children}
-      </Grid>
     </Grid>
   );
 }
