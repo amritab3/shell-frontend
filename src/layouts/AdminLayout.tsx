@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import Grid from "@mui/material/Grid";
@@ -19,14 +17,9 @@ import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import { Typography } from "@mui/material";
 
-import { MainListItems, secondaryListItems } from "./listItems";
+import { MainListItems, SecondaryListItems } from "./listItems";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "An eCommerce platform",
-};
 
 const drawerWidth: number = 240;
 
@@ -144,7 +137,7 @@ export default function RootAdminLayout({
           <List component="nav">
             <MainListItems />
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            <SecondaryListItems />
           </List>
         </Drawer>
 
