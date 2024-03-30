@@ -10,3 +10,9 @@ export interface ProductCardSliderType {
     autoPlay?: boolean;
     title: string;
 }
+
+export interface BannerContent {
+    id: number;
+    imageUrl: string;
+    redirectUrl: string;
+}

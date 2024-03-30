@@ -1,9 +1,32 @@
 import { Grid } from '@mui/material';
 
-import { Product } from '@/utils/schema';
+import { Product, BannerContent } from '@/utils/schema';
 import ProductCardSlider from '@/components/ProductCardSlider';
+import WebsiteBanner from '@/components/Banner';
 
 export default function Home() {
+    const bannerContents: Array<BannerContent> = [
+        {
+            id: 1,
+            imageUrl:
+                'https://images.pexels.com/photos/7679444/pexels-photo-7679444.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            redirectUrl: ""
+        },
+        {
+            id: 2,
+            imageUrl:
+                'https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            redirectUrl: ""
+            
+        },
+        {
+            id: 3,
+            imageUrl:
+                'https://images.pexels.com/photos/5418890/pexels-photo-5418890.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            redirectUrl: ""
+            
+        },
+    ]
     const products: Array<Product> = [
         {
             id: 1,
@@ -51,6 +74,10 @@ export default function Home() {
 
     return (
         <Grid container item justifyContent="center" gap={2}>
+            <Grid item sx={{ width: '95%', margin: 2 }}>
+                <WebsiteBanner bannerContents={bannerContents} />
+            </Grid>
+
             <Grid item sx={{ width: '95%', margin: 2 }}>
                 <ProductCardSlider title="New Arrivals" products={products} />
             </Grid>
