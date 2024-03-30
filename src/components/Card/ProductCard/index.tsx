@@ -19,7 +19,7 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
 
     return (
         <Card
-            sx={{ width: 300, borderRadius: 0 }}
+            sx={{ width: 350, borderRadius: 0 }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
@@ -34,7 +34,7 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
                     >
                         <CardMedia
                             component="img"
-                            height="350"
+                            height="400"
                             image={product.imageUrl}
                             alt="dress"
                             sx={{

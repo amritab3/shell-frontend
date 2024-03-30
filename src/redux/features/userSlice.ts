@@ -12,6 +12,7 @@ export interface UserDetails {
   access_token: string;
   refresh_token: string;
   loggedIn: boolean;
+
   userID: Number;
   userEmail: string;
   isAdmin: boolean;
@@ -25,6 +26,7 @@ const initialState: UserDetails = {
   access_token: "",
   refresh_token: "",
   loggedIn: false,
+
   userID: 0,
   userEmail: "",
   isAdmin: false,
