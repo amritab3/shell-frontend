@@ -16,6 +16,7 @@ export default function WebsiteBanner(props: CustomBannerProps) {
     const { bannerContents, ...rest } = props;
 
     const settings = {
+        arrows: false,
         dots: false,
         infinite: true,
         slidesToShow: 1,
