@@ -36,7 +36,12 @@ const navBarItems = [
 
 const settings = [
   { label: "Profile", path: "/profile/", renderAfterLogin: true },
-  { label: "Dashboard", path: "/dashboard/", renderAfterLogin: true },
+  {
+    label: "Dashboard",
+    path: "/dashboard/",
+    renderAfterLogin: true,
+    requireAdminRole: true,
+  },
 ];
 
 const Header = () => {
@@ -65,6 +70,8 @@ const Header = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
+  const isAdmin = useSelector((state: RootState) => state.user.isAdmin);
+  const isShopAdmin = useSelector((state: RootState) => state.user.isShopAdmin);
 
   const handleLogout = () => {
     handleCloseUserMenu();
@@ -225,15 +232,29 @@ const Header = () => {
               {settings.map((setting) => {
                 return setting.renderAfterLogin ? (
                   isLoggedIn ? (
-                    <MenuItem
-                      key={setting.label}
-                      onClick={() => {
-                        handleCloseUserMenu();
-                        router.push(setting.path);
-                      }}
-                    >
-                      <Typography>{setting.label}</Typography>
-                    </MenuItem>
+                    setting.requireAdminRole ? (
+                      isAdmin || isShopAdmin ? (
+                        <MenuItem
+                          key={setting.label}
+                          onClick={() => {
+                            handleCloseUserMenu();
+                            router.push(setting.path);
+                          }}
+                        >
+                          <Typography>{setting.label}</Typography>
+                        </MenuItem>
+                      ) : null
+                    ) : (
+                      <MenuItem
+                        key={setting.label}
+                        onClick={() => {
+                          handleCloseUserMenu();
+                          router.push(setting.path);
+                        }}
+                      >
+                        <Typography>{setting.label}</Typography>
+                      </MenuItem>
+                    )
                   ) : null
                 ) : (
                   <MenuItem
