@@ -4,8 +4,8 @@ import React from 'react';
 
 import { ProductCardSliderType } from '@/utils/schema';
 import { Grid, Typography } from '@mui/material';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import EastIcon from '@mui/icons-material/East';
+import WestIcon from '@mui/icons-material/West';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -16,9 +16,28 @@ import Button from '@/components/Button';
 
 const ProductCardSlider = (props: ProductCardSliderType) => {
     const { products, autoPlay, title } = props;
-    // if (!products || !products.length) {
-    //     throw new Error("")
-    // }
+
+    function NextArrow(props: any) {
+        const { className, style, onClick } = props;
+        return (
+          <EastIcon
+            className={className}
+            style={{ ...style, display: "block", color: "black", height: "50px", width: "40px" }}
+            onClick={onClick}
+          />
+        );
+      }
+      
+      function PrevArrow(props: any) {
+        const { className, style, onClick } = props;
+        return (
+          <WestIcon
+            className={className}
+            style={{ ...style, display: "block", color: "black", height: "50px", width: "40px"  }}
+            onClick={onClick}
+          />
+        );
+      }
 
     const settings = {
         dots: true,
@@ -28,9 +47,8 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
         slidesToScroll: 1,
         autoplay: autoPlay,
         autoplaySpeed: 3000,
-
-        // nextArrow: <ArrowForwardIosIcon />,
-        // prevArrow: <ArrowBackIosIcon />,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />
         // responsive: [
         //     {
         //         breakpoint: 1024,
@@ -82,7 +100,7 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
                 </Slider>
             </Grid>
 
-            <Grid item>
+            <Grid item sx={{ mt: 5 }}>
                 <Button label="View More" variant="outlined" />
             </Grid>
         </Grid>
