@@ -18,6 +18,7 @@ import List from "@mui/material/List";
 import { Typography } from "@mui/material";
 
 import { MainListItems, SecondaryListItems } from "./listItems";
+import withAdminRole from "@/hoc/withAdminRole";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -71,11 +72,7 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-export default function RootAdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function RootAdminLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -166,3 +163,5 @@ export default function RootAdminLayout({
     </Grid>
   );
 }
+
+export default withAdminRole(RootAdminLayout);
