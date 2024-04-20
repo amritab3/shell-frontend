@@ -11,6 +11,8 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockIcon from "@mui/icons-material/Lock";
+import Typography from "@mui/material/Typography";
+import UploadIcon from "@mui/icons-material/Upload";
 
 import withAuth from "@/hoc/withAuth";
 import FormInput from "@/components/Form/FormInput";
@@ -19,6 +21,8 @@ import { RootState } from "@/redux/store";
 import URLS from "@/utils/urls";
 import { removeForgotPasswordEmail } from "@/redux/features/userSlice";
 import { openToast } from "@/redux/features/toastSlice";
+import Button from "@/components/Button";
+import AddressCard from "@/components/Card/AddressCard";
 
 function a11yProps(index: number) {
   return {
@@ -140,106 +144,24 @@ const UserProfile = (props: any) => {
     <Box
       sx={{
         flexGrow: 1,
-        // bgcolor: "background.paper",
         display: "flex",
+        width: "70%",
+        justifyContent: "center",
       }}
     >
       <Tabs
-        orientation="vertical"
         value={value}
         onChange={handleChange}
         aria-label="User Profile Tabs"
-        sx={{ borderRight: 1, borderColor: "divider" }}
+        variant="fullWidth"
+        sx={{ width: "100%" }}
+        centered
       >
         <Tab label="General Information" {...a11yProps(0)} />
         <Tab label="Password" {...a11yProps(1)} />
         <Tab label="Addresses" {...a11yProps(2)} />
         <Tab label="Orders" {...a11yProps(3)} />
       </Tabs>
-
-      <Grid container sx={{ p: 3 }}>
-        <Grid
-          container
-          item
-          xs={12}
-          hidden={value !== 0}
-          sx={{ display: value === 0 ? "flex" : "none" }}
-        >
-          <Grid item xs={2}>
-            <Box
-              component="img"
-              src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
-              sx={{
-                height: "auto",
-                width: "auto",
-                maxHeight: { xs: 90, md: 130, lg: 180 },
-                // maxWidth: { xs: 350, md: 250, lg: 1443 },
-              }}
-            />
-          </Grid>
-          <Grid item xs={10}>
-            Other Info One
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          item
-          xs={12}
-          hidden={value !== 1}
-          sx={{ display: value === 1 ? "flex" : "none" }}
-        >
-          <ChangePassword />
-        </Grid>
-
-        <Grid
-          container
-          item
-          xs={12}
-          hidden={value !== 2}
-          sx={{ display: value === 2 ? "flex" : "none" }}
-        >
-          <Grid item xs={2}>
-            <Box
-              component="img"
-              src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
-              sx={{
-                height: "auto",
-                width: "auto",
-                maxHeight: { xs: 90, md: 130, lg: 180 },
-                // maxWidth: { xs: 350, md: 250, lg: 1443 },
-              }}
-            />
-          </Grid>
-          <Grid item xs={10}>
-            Other Info Three
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          item
-          xs={12}
-          hidden={value !== 3}
-          sx={{ display: value === 3 ? "flex" : "none" }}
-        >
-          <Grid item xs={2}>
-            <Box
-              component="img"
-              src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
-              sx={{
-                height: "auto",
-                width: "auto",
-                maxHeight: { xs: 90, md: 130, lg: 180 },
-                // maxWidth: { xs: 350, md: 250, lg: 1443 },
-              }}
-            />
-          </Grid>
-          <Grid item xs={10}>
-            Other Info Four
-          </Grid>
-        </Grid>
-      </Grid>
     </Box>
   );
 };
