@@ -32,8 +32,8 @@ const ProductDetail = () => {
 
   const productDetails = {
     imageUrl:
-      "https://mode23nepal.com/image/catalog/Product/Spring%20godawari%202024/DSC05817%20(2).jpg",
-    name: "EYANA VINTAGE FLORAL SHIRT",
+      "https://static.zara.net/assets/public/1eec/f89d/8d444af59363/fb6a65279c57/04043049711-p/04043049711-p.jpg?ts=1711021465352&w=563",
+    name: "DRESS",
     price: "2650",
     styles: "Vintage, Adorable",
     color: "Creamy",
@@ -76,7 +76,7 @@ const ProductDetail = () => {
             setValue(newValue);
           }}
         />
-        <Box sx={{ width: "100%", maxWidth: 500, mt: 4 }}>
+        <Box sx={{ width: "100%", maxWidth: 500, mt: 5 }}>
           <Typography variant="h6" gutterBottom>
             {productDetails.name}
           </Typography>
@@ -122,6 +122,7 @@ const ProductDetail = () => {
                 width: itemInfoWidth,
                 fontSize: "1.1rem",
                 fontWeight: "bold",
+                mt: 4,
               }}
             >
               Size
@@ -144,7 +145,7 @@ const ProductDetail = () => {
             </Grid>
           </Grid>
 
-          <Grid container item sx={{ mt: 2, mb: 2 }} gap={1}>
+          <Grid container item sx={{ mt: 4, mb: 2 }} gap={1}>
             <Button
               label="-"
               variant="outlined"
@@ -155,7 +156,7 @@ const ProductDetail = () => {
               variant="outlined"
               value={numberOfItems}
               size="small"
-              sx={{ width: "60px", "& input": { textAlign: "center" } }}
+              sx={{ width: "70px", "& input": { textAlign: "center" } }}
             />
             <Button
               label="+"
@@ -165,7 +166,7 @@ const ProductDetail = () => {
             />
           </Grid>
 
-          <Grid container item sx={{ mt: 2 }}>
+          <Grid container item sx={{ mt: 6 }}>
             {productDetails.availability ? (
               <Button label="Add to Cart" variant="outlined" />
             ) : (
@@ -174,6 +175,18 @@ const ProductDetail = () => {
           </Grid>
         </Box>
       </Grid>
+      <Grid container alignItems="center" justifyContent="center" sx={{ mt: 6 }}>
+        <Grid item sx={{ justifyContent: "center" }}>
+          <Typography variant="h6" component="h2">Reviews</Typography>
+          <Typography variant="subtitle1" component="h2">Write comments here</Typography>
+          <Typography variant="subtitle1" component="h2" sx={{ mt: 1 }}>Please login to review</Typography>
+          <Typography variant="subtitle2" component="h2" sx={{ mt: 2 }}>There are no reviews for this product.</Typography>
+
+
+
+        </Grid>
+      </Grid>
+
     </Grid>
   );
 };
