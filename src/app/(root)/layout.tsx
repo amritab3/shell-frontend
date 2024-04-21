@@ -9,11 +9,7 @@ export const metadata: Metadata = {
 };
 
 const NavLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <section>
-      <DefaultLayout>{children}</DefaultLayout>
-    </section>
-  );
+  return <DefaultLayout>{children}</DefaultLayout>;
 };
 
 export default NavLayout;
