@@ -20,24 +20,24 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
     function NextArrow(props: any) {
         const { className, style, onClick } = props;
         return (
-          <EastIcon
-            className={className}
-            style={{ ...style, display: "block", color: "black", height: "50px", width: "40px" }}
-            onClick={onClick}
-          />
+            <EastIcon
+                className={className}
+                style={{ ...style, display: "block", color: "black", height: "50px", width: "40px" }}
+                onClick={onClick}
+            />
         );
-      }
-      
-      function PrevArrow(props: any) {
+    }
+
+    function PrevArrow(props: any) {
         const { className, style, onClick } = props;
         return (
-          <WestIcon
-            className={className}
-            style={{ ...style, display: "block", color: "black", height: "50px", width: "40px"  }}
-            onClick={onClick}
-          />
+            <WestIcon
+                className={className}
+                style={{ ...style, display: "block", color: "black", height: "50px", width: "40px" }}
+                onClick={onClick}
+            />
         );
-      }
+    }
 
     const settings = {
         dots: true,

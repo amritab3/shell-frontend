@@ -17,14 +17,14 @@ export default function Home() {
             imageUrl:
                 'https://static.zara.net/photos///contents/mkt/spots/ss24-north-woman-dresses/subhome-xmedia-13//w/1920/IMAGE-landscape-fill-6d47abd7-4a4e-4580-b8d4-fc1b9d1970fc-default_0.jpg?ts=1711560554796',
             redirectUrl: ""
-            
+
         },
         {
             id: 3,
             imageUrl:
                 'https://static.zara.net/photos///contents/mkt/spots/ss24-north-woman-shoes/subhome-xmedia-13-2//w/1920/IMAGE-landscape-fill-735480c8-6d15-4139-bc45-8c96bb41dc17-default_0.jpg?ts=1711557494527',
             redirectUrl: ""
-            
+
         },
     ]
     const products: Array<Product> = [
@@ -85,7 +85,7 @@ export default function Home() {
             <Grid item sx={{ width: '95%', margin: 2 }}>
                 <ProductCardSlider title="Men's Wear" products={products} />
             </Grid>
-            
+
             <Grid item sx={{ width: '95%', margin: 2 }}>
                 <ProductCardSlider title="Women's Wear" products={products} />
             </Grid>
