@@ -175,14 +175,12 @@ const ProductDetail = () => {
           </Grid>
         </Box>
       </Grid>
-      <Grid container alignItems="center" justifyContent="center" sx={{ mt: 6 }}>
-        <Grid item sx={{ justifyContent: "center" }}>
+      <Grid container sx={{ mt: 6 }}>
+        <Grid item sx={{ marginLeft: 10}}>
           <Typography variant="h6" component="h2">Reviews</Typography>
           <Typography variant="subtitle1" component="h2">Write comments here</Typography>
           <Typography variant="subtitle1" component="h2" sx={{ mt: 1 }}>Please login to review</Typography>
           <Typography variant="subtitle2" component="h2" sx={{ mt: 2 }}>There are no reviews for this product.</Typography>
-
-
 
         </Grid>
       </Grid>
