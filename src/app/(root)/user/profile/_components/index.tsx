@@ -143,25 +143,36 @@ const UserProfile = (props: any) => {
   return (
     <Box
       sx={{
-        flexGrow: 1,
-        display: "flex",
-        width: "70%",
-        justifyContent: "center",
+        width: "100%",
       }}
     >
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        aria-label="User Profile Tabs"
-        variant="fullWidth"
-        sx={{ width: "100%" }}
-        centered
+      <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="User Profile Tabs"
+          variant="fullWidth"
+          sx={{ width: "100%" }}
+          centered
+        >
+          <Tab label="General Information" {...a11yProps(0)} />
+          <Tab label="Password" {...a11yProps(1)} />
+          <Tab label="Addresses" {...a11yProps(2)} />
+          <Tab label="Orders" {...a11yProps(3)} />
+        </Tabs>
+      </Box>
+      <div
+        role="tabpanel"
+        hidden={value !== 1}
+        id={`simple-tabpanel-1`}
+        aria-labelledby={`simple-tab-1`}
       >
-        <Tab label="General Information" {...a11yProps(0)} />
-        <Tab label="Password" {...a11yProps(1)} />
-        <Tab label="Addresses" {...a11yProps(2)} />
-        <Tab label="Orders" {...a11yProps(3)} />
-      </Tabs>
+        {value === 1 && (
+          <Box sx={{ p: 3 }}>
+            <ChangePassword />
+          </Box>
+        )}
+      </div>
     </Box>
   );
 };
