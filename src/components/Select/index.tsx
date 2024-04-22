@@ -23,7 +23,7 @@ export default function Select(props: CustomSelectProps) {
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-      <InputLabel>Age</InputLabel>
+      <InputLabel>{label}</InputLabel>
       <MuiSelect
         id={id}
         value={selectedValue}

@@ -115,7 +115,7 @@ const MenProducts = () => {
             color="inherit"
             href="/"
           >
-            <HomeIcon sx={{ mr: 0.5 }} fontSize="small" />
+            <HomeIcon color="primary" sx={{ mr: 0.5 }} fontSize="small" />
             Home
           </Link>
           <Typography
