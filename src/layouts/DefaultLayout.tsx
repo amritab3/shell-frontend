@@ -16,18 +16,17 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
     <section>
       <Grid
         container
-        sx={{
-          height: "100vh",
-          flexGrow: 1,
-        }}
+        direction="column"
+        alignItems="stretch"
+        style={{ minHeight: "100vh" }}
       >
-        <Grid item xs={12} alignSelf="flex-start">
+        <Grid container item sx={{ mb: 2, position: "relative" }}>
           <Header />
         </Grid>
-        <Grid item xs={12}>
+        <Grid container item>
           {children}
         </Grid>
-        <Grid item xs={12} alignSelf="flex-end">
+        <Grid container item sx={{ mt: "auto" }}>
           <Footer />
         </Grid>
       </Grid>

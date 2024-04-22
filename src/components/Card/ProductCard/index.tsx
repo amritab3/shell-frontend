@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Card, { CardProps } from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -16,6 +17,7 @@ interface CustomCardProps {
 export default function ProductCard(props: CustomCardProps & CardProps) {
     const { product, ...rest } = props;
     const [isHovered, setIsHovered] = useState(false);
+    const router = useRouter();
 
     return (
         <Card
@@ -26,6 +28,7 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
             <Grid container direction="column" sx={{ position: 'relative' }}>
                 <Grid item>
                     <CardActionArea
+                        onClick={() => router.push(`/products/instore/${product.id}`)}
                         sx={{
                             overflow: 'hidden',
                             borderRadius: 0,
