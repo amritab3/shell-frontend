@@ -23,6 +23,7 @@ import { removeForgotPasswordEmail } from "@/redux/features/userSlice";
 import { openToast } from "@/redux/features/toastSlice";
 import Button from "@/components/Button";
 import AddressCard from "@/components/Card/AddressCard";
+import { UserAddress } from "@/utils/schema";
 
 function a11yProps(index: number) {
   return {
@@ -134,6 +135,55 @@ const ChangePassword = () => {
   );
 };
 
+const UserAddresses = () => {
+  const addresses: Array<UserAddress> = [
+    {
+      id: 1,
+      province: "Lumbini",
+      district: "Dang",
+      localLevel: "Tulsipur",
+      wardNo: "17",
+      tole: "Baghausi",
+    },
+    {
+      id: 2,
+      province: "Lumbini",
+      district: "Dang",
+      localLevel: "Tulsipur",
+      wardNo: "17",
+      tole: "Baghausi",
+    },
+    {
+      id: 3,
+      province: "Lumbini",
+      district: "Dang",
+      localLevel: "Tulsipur",
+      wardNo: "17",
+      tole: "Baghausi",
+    },
+    {
+      id: 4,
+      province: "Lumbini",
+      district: "Dang",
+      localLevel: "Tulsipur",
+      wardNo: "17",
+      tole: "Baghausi",
+    },
+  ];
+  return (
+    <Grid container gap={2}>
+      <Grid item xs={12}>
+        <Button label="Add New Address" variant="contained" />
+      </Grid>
+      <Grid container item gap={2} justifyContent="space-evenly">
+        {addresses.map((address) => {
+          return <AddressCard key={address.id} address={address} />;
+        })}
+      </Grid>
+    </Grid>
+  );
+};
+
 const UserProfile = (props: any) => {
   const [value, setValue] = React.useState(0);
 
@@ -144,6 +194,7 @@ const UserProfile = (props: any) => {
     <Box
       sx={{
         width: "100%",
+        pt: 8,
       }}
     >
       <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
@@ -163,6 +214,25 @@ const UserProfile = (props: any) => {
       </Box>
       <div
         role="tabpanel"
+        hidden={value !== 0}
+        id={`simple-tabpanel-0`}
+        aria-labelledby={`simple-tab-0`}
+      >
+        {value === 0 && (
+          <Box sx={{ p: 3 }}>
+            <Grid container>
+              <Grid item>
+                <Box component="img" />
+                <Button label="Upload New" variant="outlined" />
+              </Grid>
+              <Grid item></Grid>
+            </Grid>
+          </Box>
+        )}
+      </div>
+
+      <div
+        role="tabpanel"
         hidden={value !== 1}
         id={`simple-tabpanel-1`}
         aria-labelledby={`simple-tab-1`}
@@ -170,6 +240,19 @@ const UserProfile = (props: any) => {
         {value === 1 && (
           <Box sx={{ p: 3 }}>
             <ChangePassword />
+          </Box>
+        )}
+      </div>
+
+      <div
+        role="tabpanel"
+        hidden={value !== 2}
+        id={`simple-tabpanel-2`}
+        aria-labelledby={`simple-tab-2`}
+      >
+        {value === 2 && (
+          <Box sx={{ p: 3 }}>
+            <UserAddresses />
           </Box>
         )}
       </div>

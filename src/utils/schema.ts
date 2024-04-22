@@ -6,6 +6,7 @@ export interface Product {
 }
 
 export interface UserAddress {
+  id: number;
   province: string;
   district: string;
   localLevel: string;

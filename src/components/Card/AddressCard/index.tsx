@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Card, { CardProps } from "@mui/material/Card";
+import Card, { CardProps, CardOwnProps } from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Grid } from "@mui/material";
@@ -11,7 +11,9 @@ interface CustomAddressCardProps {
   address: UserAddress;
 }
 
-export default function AddressCard(props: CustomAddressCardProps & CardProps) {
+export default function AddressCard(
+  props: CustomAddressCardProps & CardProps & CardOwnProps,
+) {
   const { address, ...rest } = props;
   const [isHovered, setIsHovered] = useState(false);
 
@@ -20,6 +22,7 @@ export default function AddressCard(props: CustomAddressCardProps & CardProps) {
       sx={{ width: 350, borderRadius: 0 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      {...rest}
     >
       <Grid container direction="column" sx={{ position: "relative" }}>
         <Grid item>
