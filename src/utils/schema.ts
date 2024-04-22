@@ -1,3 +1,5 @@
+import { MenuItemProps } from "@mui/material/MenuItem";
+
 export interface Product {
   id: number;
   imageUrl: string;
@@ -23,4 +25,8 @@ export interface BannerContent {
   id: number;
   imageUrl: string;
   redirectUrl: string;
+}
+
+export interface SelectItemType extends MenuItemProps {
+  label: string;
 }
