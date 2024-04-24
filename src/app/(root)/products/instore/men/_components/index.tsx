@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import router from "next/router";
+import React, { useEffect, useState } from "react";
 
 import { Grid, Divider } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -15,72 +14,7 @@ import { Product, SelectItemType } from "@/utils/schema";
 import ProductCard from "@/components/Card/ProductCard";
 import Button from "@/components/Button";
 import Select from "@/components/Select";
-
-const products: Array<Product> = [
-  {
-    id: 1,
-    imageUrl:
-      "https://static.zara.net/assets/public/1eec/f89d/8d444af59363/fb6a65279c57/04043049711-p/04043049711-p.jpg?ts=1711021465352&w=563",
-    productName: "Floral Dress",
-    productPrice: "2300",
-  },
-  {
-    id: 2,
-    imageUrl:
-      "https://static.zara.net/assets/public/e183/9b45/b23c4299a2e7/bfd49a6de5b6/04661318250-a2/04661318250-a2.jpg?ts=1711034076959&w=563",
-    productName: "Floral Dress",
-    productPrice: "2300",
-  },
-  {
-    id: 3,
-    imageUrl:
-      "https://static.zara.net/assets/public/4c11/32d5/bbe541b5a4c3/d8e288844546/05854025712-p/05854025712-p.jpg?ts=1710435725117&w=563",
-    productName: "Floral Dress",
-    productPrice: "2300",
-  },
-  {
-    id: 4,
-    imageUrl:
-      "https://static.zara.net/assets/public/c29c/f5db/967040f996bc/185cc2fe26c1/03992466822-p/03992466822-p.jpg?ts=1711442578008&w=364",
-    productName: "Floral Dress",
-    productPrice: "2300",
-  },
-  {
-    id: 5,
-    imageUrl:
-      "https://static.zara.net/assets/public/54a3/d631/c1c24f0c87a0/47823813eafe/05755430712-p/05755430712-p.jpg?ts=1711383520850&w=364",
-    productName: "Floral Dress",
-    productPrice: "2300",
-  },
-  {
-    id: 6,
-    imageUrl:
-      "https://mode23nepal.com/image/catalog/Product/Feb%20sweatshirt%20+%20Zip/DSC00356.jpg",
-    productName: "Floral Dress",
-    productPrice: "2300",
-  },
-  {
-    id: 7,
-    imageUrl:
-      "https://mode23nepal.com/image/cache/catalog/Product/COOFY/DSC04560-700x1098.jpg",
-    productName: "Floral Dress",
-    productPrice: "2300",
-  },
-  {
-    id: 8,
-    imageUrl:
-      "https://mode23nepal.com/image/cache/catalog/Product/COOFY/DSC04936-700x1098.jpg",
-    productName: "Floral Dress",
-    productPrice: "2300",
-  },
-  {
-    id: 9,
-    imageUrl:
-      "https://mode23nepal.com/image/catalog/Product/Feb%20sweatshirt%20+%20Zip/DSC00356.jpg",
-    productName: "Floral Dress",
-    productPrice: "2300",
-  },
-];
+import URLS from "@/utils/urls";
 
 const sortSelectItems: Array<SelectItemType> = [
   {
@@ -98,6 +32,22 @@ const sortSelectItems: Array<SelectItemType> = [
 ];
 
 const MenProducts = () => {
+  const [products, setProducts] = useState<Array<Product>>([]);
+
+  useEffect(() => {
+    fetch(URLS.LIST_PRODUCTS, {
+      method: "GET",
+    })
+      .then(async (response) => {
+        const data: Array<Product> = await response.json();
+        console.log("Data: ", data);
+        setProducts(data);
+      })
+      .catch((error) => {
+        console.log("Error while fetching men products", error);
+      });
+  }, []);
+
   return (
     <Grid
       container
