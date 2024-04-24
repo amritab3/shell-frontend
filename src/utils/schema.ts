@@ -1,10 +1,23 @@
 import { MenuItemProps } from "@mui/material/MenuItem";
 
+export interface ProductSize {
+  id: number;
+  size: string;
+  size_inventory: string;
+}
 export interface Product {
   id: number;
   imageUrl: string;
-  productName: string;
-  productPrice: string;
+  name: string;
+  description: string;
+  price: string;
+  inventory: number;
+  color: string;
+  style: string;
+  material: string;
+  category: string;
+  gender: string;
+  sizes: Array<ProductSize>;
 }
 
 export interface UserAddress {
