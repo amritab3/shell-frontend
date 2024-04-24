@@ -40,7 +40,6 @@ const MenProducts = () => {
     })
       .then(async (response) => {
         const data: Array<Product> = await response.json();
-        console.log("Data: ", data);
         setProducts(data);
       })
       .catch((error) => {
