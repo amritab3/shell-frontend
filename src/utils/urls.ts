@@ -7,7 +7,7 @@ const URLS = {
   VERIFY_FORGOT_PASSWORD_OTP: `${BASE_URL}/auth/verify-otp/`,
   UPDATE_PASSWORD: `${BASE_URL}/auth/update-password/`,
 
-  LIST_PRODUCTS: `${BASE_URL}/products/`,
+  LIST_PRODUCTS: `${BASE_URL}/products`,
 };
 
 export default URLS;

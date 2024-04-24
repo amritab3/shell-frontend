@@ -1,20 +1,35 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
-import NotFound from "@/components/404";
 import { Box, Grid, Typography, TextField } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import Button from "@/components/Button";
-import Input from "@/components/Input";
+import { Product } from "@/utils/schema";
+import URLS from "@/utils/urls";
 
 const itemInfoWidth: string = "100px";
 
 const ProductDetail = () => {
   const params = useParams();
-  const [value, setValue] = React.useState<number | null>(0);
+  const [ratingValue, setRatingValue] = React.useState<number | null>(0);
   const [numberOfItems, setNumberOfItems] = React.useState(0);
+  const [product, setProduct] = useState<Product>({
+    category: "Category for awesome product",
+    color: "Awesome Color",
+    description: "Awesome product description",
+    gender: "Men",
+    id: 0,
+    imageUrl:
+      "https://static.zara.net/assets/public/1eec/f89d/8d444af59363/fb6a65279c57/04043049711-p/04043049711-p.jpg?ts=1711021465352&w=563",
+    inventory: 0,
+    material: "N/A",
+    name: "Awesome Product",
+    price: 0,
+    sizes: [{ size: "N/A", size_inventory: 0 }],
+    style: "Cool",
+  });
 
   const incrementItemCount = () => {
     const newNumberOfItems = numberOfItems + 1;
@@ -30,22 +45,16 @@ const ProductDetail = () => {
     setNumberOfItems(newNumberOfItems);
   };
 
-  const productDetails = {
-    imageUrl:
-      "https://static.zara.net/assets/public/1eec/f89d/8d444af59363/fb6a65279c57/04043049711-p/04043049711-p.jpg?ts=1711021465352&w=563",
-    name: "DRESS",
-    price: "2650",
-    styles: "Vintage, Adorable",
-    color: "Creamy",
-    availability: true,
-    numberOfStocks: "15",
-    material: "Linen",
-    sizes: { S: 5, M: 5, L: 5, XL: 0 },
-  };
-
   useEffect(() => {
     //fetch product data here
-    console.log("Product ID: ", params.id);
+    fetch(`${URLS.LIST_PRODUCTS}/${params.id}`)
+      .then(async (response) => {
+        const data: Product = await response.json();
+        setProduct(data);
+      })
+      .catch((error) => {
+        console.log("Error while fetching a product.", error);
+      });
   }, []);
 
   return (
@@ -61,8 +70,8 @@ const ProductDetail = () => {
             // maxHeight: { xs: 233, md: 167 },
             // maxWidth: { xs: 350, md: 250 },
           }}
-          alt="The house from the offer."
-          src={productDetails.imageUrl}
+          alt={product.name}
+          src={product.imageUrl}
         />
       </Grid>
       <Grid item xs={8}>
@@ -71,17 +80,17 @@ const ProductDetail = () => {
         </Typography>
         <Rating
           name="product-rating"
-          value={value}
+          value={ratingValue}
           onChange={(event, newValue) => {
-            setValue(newValue);
+            setRatingValue(newValue);
           }}
         />
         <Box sx={{ width: "100%", maxWidth: 500, mt: 5 }}>
           <Typography variant="h6" gutterBottom>
-            {productDetails.name}
+            {product.name}
           </Typography>
           <Typography variant="h6" gutterBottom>
-            Rs. {productDetails.price}
+            Rs. {product.price}
           </Typography>
           <Grid container item xs={6}>
             <Typography
@@ -91,7 +100,7 @@ const ProductDetail = () => {
             >
               Style
             </Typography>
-            <Typography>: {productDetails.styles}</Typography>
+            <Typography>: {product.style}</Typography>
           </Grid>
           <Grid container item xs={6}>
             <Typography
@@ -101,7 +110,7 @@ const ProductDetail = () => {
             >
               Color
             </Typography>
-            <Typography>: {productDetails.color}</Typography>
+            <Typography>: {product.color}</Typography>
           </Grid>
           <Grid container item xs={6}>
             <Typography
@@ -111,7 +120,7 @@ const ProductDetail = () => {
             >
               Fabric
             </Typography>
-            <Typography>: {productDetails.material}</Typography>
+            <Typography>: {product.material}</Typography>
           </Grid>
 
           <Grid container item xs={7}>
@@ -128,17 +137,14 @@ const ProductDetail = () => {
               Size
             </Typography>
             <Grid container item xs={12}>
-              {Object.keys(productDetails.sizes).map((size: string) => {
-                const numberOfStocks: number = productDetails.sizes[size];
+              {product.sizes.map((productSize) => {
                 return (
                   <Button
-                    key={size}
-                    disabled={
-                      !productDetails.availability || numberOfStocks <= 0
-                    }
-                    label={size}
+                    key={productSize.size}
+                    label={productSize.size}
                     variant="outlined"
                     sx={{ m: 1 }}
+                    disabled={productSize.size_inventory <= 0}
                   />
                 );
               })}
@@ -167,7 +173,7 @@ const ProductDetail = () => {
           </Grid>
 
           <Grid container item sx={{ mt: 6 }}>
-            {productDetails.availability ? (
+            {product.inventory > 0 ? (
               <Button label="Add to Cart" variant="outlined" />
             ) : (
               <Button label="Out of Stock" disabled variant="outlined" />
@@ -176,15 +182,21 @@ const ProductDetail = () => {
         </Box>
       </Grid>
       <Grid container sx={{ mt: 6 }}>
-        <Grid item sx={{ marginLeft: 10}}>
-          <Typography variant="h6" component="h2">Reviews</Typography>
-          <Typography variant="subtitle1" component="h2">Write comments here</Typography>
-          <Typography variant="subtitle1" component="h2" sx={{ mt: 1 }}>Please login to review</Typography>
-          <Typography variant="subtitle2" component="h2" sx={{ mt: 2 }}>There are no reviews for this product.</Typography>
-
+        <Grid item sx={{ marginLeft: 10 }}>
+          <Typography variant="h6" component="h2">
+            Reviews
+          </Typography>
+          <Typography variant="subtitle1" component="h2">
+            Write comments here
+          </Typography>
+          <Typography variant="subtitle1" component="h2" sx={{ mt: 1 }}>
+            Please login to review
+          </Typography>
+          <Typography variant="subtitle2" component="h2" sx={{ mt: 2 }}>
+            There are no reviews for this product.
+          </Typography>
         </Grid>
       </Grid>
-
     </Grid>
   );
 };

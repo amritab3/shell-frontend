@@ -1,16 +1,16 @@
 import { MenuItemProps } from "@mui/material/MenuItem";
 
 export interface ProductSize {
-  id: number;
+  id?: number;
   size: string;
-  size_inventory: string;
+  size_inventory: number;
 }
 export interface Product {
   id: number;
   imageUrl: string;
   name: string;
   description: string;
-  price: string;
+  price: number;
   inventory: number;
   color: string;
   style: string;
