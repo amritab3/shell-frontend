@@ -1,8 +1,23 @@
+import { MenuItemProps } from "@mui/material/MenuItem";
+
+export interface ProductSize {
+  id?: number;
+  size: string;
+  size_inventory: number;
+}
 export interface Product {
   id: number;
   imageUrl: string;
-  productName: string;
-  productPrice: string;
+  name: string;
+  description: string;
+  price: number;
+  inventory: number;
+  color: string;
+  style: string;
+  material: string;
+  category: string;
+  gender: string;
+  sizes: Array<ProductSize>;
 }
 
 export interface UserAddress {
@@ -23,4 +38,8 @@ export interface BannerContent {
   id: number;
   imageUrl: string;
   redirectUrl: string;
+}
+
+export interface SelectItemType extends MenuItemProps {
+  label: string;
 }
