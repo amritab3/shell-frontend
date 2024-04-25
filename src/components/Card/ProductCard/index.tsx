@@ -38,7 +38,7 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
             <CardMedia
               component="img"
               height="400"
-              image={product.imageUrl}
+              image={product.images[0].image}
               alt={product.name}
               sx={{
                 transform: isHovered ? "scale(1.1)" : "none", // Updated to 'none' on the server

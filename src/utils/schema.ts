@@ -5,6 +5,11 @@ export interface ProductSize {
   size: string;
   size_inventory: number;
 }
+
+export interface ProductImage {
+  id: number;
+  image: string;
+}
 export interface Product {
   id: number;
   imageUrl: string;
@@ -18,6 +23,7 @@ export interface Product {
   category: string;
   gender: string;
   sizes: Array<ProductSize>;
+  images: Array<ProductImage>;
 }
 
 export interface UserAddress {
