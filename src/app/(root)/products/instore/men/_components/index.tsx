@@ -57,8 +57,8 @@ const MenProducts = () => {
       marginY={5}
       marginX={8}
     >
-      <Grid item container marginRight={3} marginLeft={4}>
-        <Grid item xs={12}>
+      <Grid item container>
+        <Grid item xs={12} marginBottom={2}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link
               underline="hover"
@@ -128,7 +128,7 @@ const MenProducts = () => {
         </Grid>
       </Grid>
 
-      <Grid container item xs={12} spacing={4} justifyContent="space-between">
+      <Grid container item xs={12} spacing={4} justifyContent="flex-start">
         {products.map((product) => {
           return (
             <Grid
