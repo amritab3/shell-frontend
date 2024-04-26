@@ -35,7 +35,7 @@ const MenProducts = () => {
   const [products, setProducts] = useState<Array<Product>>([]);
 
   useEffect(() => {
-    fetch(URLS.LIST_PRODUCTS, {
+    fetch(URLS.LIST_MEN_PRODUCTS, {
       method: "GET",
     })
       .then(async (response) => {
