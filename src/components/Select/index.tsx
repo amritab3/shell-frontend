@@ -29,6 +29,7 @@ export default function Select(props: CustomSelectProps) {
         value={selectedValue}
         label={label}
         onChange={handleChange}
+        inputProps={{ MenuProps: { disableScrollLock: true } }}
       >
         <MenuItem value="">
           <em>None</em>
