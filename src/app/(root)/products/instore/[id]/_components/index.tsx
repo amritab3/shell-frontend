@@ -21,14 +21,13 @@ const ProductDetail = () => {
     description: "Awesome product description",
     gender: "Men",
     id: 0,
-    imageUrl:
-      "https://static.zara.net/assets/public/1eec/f89d/8d444af59363/fb6a65279c57/04043049711-p/04043049711-p.jpg?ts=1711021465352&w=563",
     inventory: 0,
     material: "N/A",
     name: "Awesome Product",
     price: 0,
     sizes: [{ size: "N/A", size_inventory: 0 }],
     style: "Cool",
+    images: [{ image: "" }],
   });
 
   const incrementItemCount = () => {
@@ -71,7 +70,7 @@ const ProductDetail = () => {
             // maxWidth: { xs: 350, md: 250 },
           }}
           alt={product.name}
-          src={product.imageUrl}
+          src={product.images[0].image}
         />
       </Grid>
       <Grid item xs={8}>

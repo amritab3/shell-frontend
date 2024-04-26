@@ -7,12 +7,11 @@ export interface ProductSize {
 }
 
 export interface ProductImage {
-  id: number;
+  id?: number;
   image: string;
 }
 export interface Product {
   id: number;
-  imageUrl: string;
   name: string;
   description: string;
   price: number;
