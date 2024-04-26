@@ -13,6 +13,7 @@ export default function Home() {
   const [products, setProducts] = useState<Array<Product>>([]);
   const [menProducts, setMenProducts] = useState<Array<Product>>([]);
   const [womenProducts, setWomenProducts] = useState<Array<Product>>([]);
+  const [kidsProducts, setKidsProducts] = useState<Array<Product>>([]);
 
   const bannerContents: Array<BannerContent> = [
     {
@@ -68,6 +69,17 @@ export default function Home() {
       .catch((error) => {
         console.log("Error while fetching women products", error);
       });
+
+    fetch(URLS.LIST_KIDS_PRODUCTS, {
+      method: "GET",
+    })
+      .then(async (response) => {
+        const data: Array<Product> = await response.json();
+        setKidsProducts(data);
+      })
+      .catch((error) => {
+        console.log("Error while fetching kids products", error);
+      });
   }, []);
 
   return (
@@ -89,7 +101,7 @@ export default function Home() {
       </Grid>
 
       <Grid item sx={{ width: "95%", margin: 2 }}>
-        <ProductCardSlider title="Kid's Wear" products={products} />
+        <ProductCardSlider title="Kid's Wear" products={kidsProducts} />
       </Grid>
     </Grid>
   );
