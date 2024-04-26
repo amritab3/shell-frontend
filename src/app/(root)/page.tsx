@@ -83,24 +83,38 @@ export default function Home() {
   }, []);
 
   return (
-    <Grid container item justifyContent="center" gap={2}>
-      <Grid item sx={{ width: "95%", margin: 2 }}>
+    <Grid container item xs={12} justifyContent="center" alignItems="center">
+      <Grid
+        item
+        xs={11}
+        sx={{
+          height: {
+            xs: "26vh",
+            sm: "33vh",
+            md: "35vh",
+            lg: "70vh",
+            xl: "90vh",
+          },
+          mt: { xs: 1, sm: 0, lg: 3 },
+          mb: 4,
+        }}
+      >
         <WebsiteBanner bannerContents={bannerContents} />
       </Grid>
 
-      <Grid item sx={{ width: "95%", margin: 2 }}>
+      <Grid item xs={11} sx={{ mb: 4 }}>
         <ProductCardSlider title="New Arrivals" products={products} />
       </Grid>
 
-      <Grid item sx={{ width: "95%", margin: 2 }}>
+      <Grid item xs={11} sx={{ mb: 4 }}>
         <ProductCardSlider title="Men's Wear" products={menProducts} />
       </Grid>
 
-      <Grid item sx={{ width: "95%", margin: 2 }}>
+      <Grid item xs={11} sx={{ mb: 4 }}>
         <ProductCardSlider title="Women's Wear" products={womenProducts} />
       </Grid>
 
-      <Grid item sx={{ width: "95%", margin: 2 }}>
+      <Grid item xs={11} sx={{ mb: 4 }}>
         <ProductCardSlider title="Kid's Wear" products={kidsProducts} />
       </Grid>
     </Grid>
