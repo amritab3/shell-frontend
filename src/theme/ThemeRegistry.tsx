@@ -1,64 +1,85 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeOptions, ThemeProvider } from '@mui/material/styles';
-import { Roboto } from 'next/font/google';
-import { NextAppDirEmotionCacheProvider } from './EmotionCache';
+import * as React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme, ThemeOptions, ThemeProvider } from "@mui/material/styles";
+import { Roboto } from "next/font/google";
+import { NextAppDirEmotionCacheProvider } from "./EmotionCache";
 
-import { TypeBackground, TypeText } from '@mui/material/styles';
+import { TypeBackground, TypeText } from "@mui/material/styles";
 
 interface MyTypeBackground extends TypeBackground {
-    formTitleBg: string;
+  formTitleBg: string;
 }
 
 interface MyTypeText extends TypeText {
-    onPrimaryBg: string;
+  onPrimaryBg: string;
+}
+
+declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    xs: true; // removes the `xs` breakpoint
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+    xxl: true;
+  }
 }
 
 const backgroundColors = {
-    default: '#f0f8ff',
-    formTitleBg: '#E65540',
+  default: "#f0f8ff",
+  formTitleBg: "#E65540",
 } as MyTypeBackground;
 
 const textColors = {
-    primary: '#300000',
-    onPrimaryBg: '#f0f8ff',
+  primary: "#300000",
+  onPrimaryBg: "#f0f8ff",
 } as MyTypeText;
 
 const roboto = Roboto({
-    weight: ['300', '400', '500', '700'],
-    style: ['normal', 'italic'],
-    subsets: ['latin'],
+  weight: ["300", "400", "500", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
 });
 
 const themeOptions: ThemeOptions = {
-    typography: {
-        fontSize: 12,
-        fontFamily: roboto.style.fontFamily,
+  typography: {
+    fontSize: 12,
+    fontFamily: roboto.style.fontFamily,
+  },
+  palette: {
+    background: backgroundColors,
+    primary: {
+      main: "#E65540",
     },
-    palette: {
-        background: backgroundColors,
-        primary: {
-            main: '#E65540',
-        },
-        text: textColors,
+    text: textColors,
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+      xxl: 1800,
     },
+  },
 };
 
 const theme = createTheme(themeOptions);
 
 export default function ThemeRegistry({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                {children}
-            </ThemeProvider>
-        </NextAppDirEmotionCacheProvider>
-    );
+  return (
+    <NextAppDirEmotionCacheProvider options={{ key: "mui" }}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </NextAppDirEmotionCacheProvider>
+  );
 }

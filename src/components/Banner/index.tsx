@@ -37,7 +37,7 @@ export default function WebsiteBanner(props: CustomBannerProps) {
               sx={{
                 cursor: "pointer",
                 height: "auto",
-                maxHeight: { xs: 170, sm: 350, md: 460, xl: 550 },
+                maxHeight: { xs: 170, sm: 350, md: 460, xl: 550, xxl: 850 },
               }}
               src={bannerContent.imageUrl}
             />
