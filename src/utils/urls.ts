@@ -8,6 +8,9 @@ const URLS = {
   UPDATE_PASSWORD: `${BASE_URL}/auth/update-password/`,
 
   LIST_PRODUCTS: `${BASE_URL}/products`,
+  LIST_MEN_PRODUCTS: `${BASE_URL}/products/men/`,
+  LIST_WOMEN_PRODUCTS: `${BASE_URL}/products/women/`,
+  LIST_KIDS_PRODUCTS: `${BASE_URL}/products/kids/`,
 };
 
 export default URLS;
