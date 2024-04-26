@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import HomeIcon from "@mui/icons-material/Home";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'; import Rating from "@mui/material/Rating";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
@@ -59,20 +60,11 @@ const MenProducts = () => {
     >
       <Grid item container>
         <Grid item xs={12} marginBottom={2}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link
-              underline="hover"
-              sx={{ display: "flex", alignItems: "center" }}
-              color="inherit"
-              href="/"
-            >
+          <Breadcrumbs separator="|" aria-label="breadcrumb">
+            <Link underline="hover" sx={{ display: "flex", alignItems: "center" }} color="inherit" href="/">
               <HomeIcon color="primary" sx={{ mr: 0.5 }} fontSize="small" />
-              Home
             </Link>
-            <Typography
-              sx={{ display: "flex", alignItems: "center" }}
-              color="text.primary"
-            >
+            <Typography sx={{ display: "flex", alignItems: "center" }} color="text.primary">
               Men
             </Typography>
           </Breadcrumbs>
@@ -156,7 +148,7 @@ const MenProducts = () => {
           <Pagination count={10} color="primary" />
         </Stack>
       </Grid>
-    </Grid>
+    </Grid >
   );
 };
 

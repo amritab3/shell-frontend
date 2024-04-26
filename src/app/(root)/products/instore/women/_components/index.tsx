@@ -59,20 +59,11 @@ const WomenProducts = () => {
         >
             <Grid item container>
                 <Grid item xs={12} marginBottom={2}>
-                    <Breadcrumbs aria-label="breadcrumb">
-                        <Link
-                            underline="hover"
-                            sx={{ display: "flex", alignItems: "center" }}
-                            color="inherit"
-                            href="/"
-                        >
+                    <Breadcrumbs separator="|" aria-label="breadcrumb">
+                        <Link underline="hover" sx={{ display: "flex", alignItems: "center" }} color="inherit" href="/">
                             <HomeIcon color="primary" sx={{ mr: 0.5 }} fontSize="small" />
-                            Home
                         </Link>
-                        <Typography
-                            sx={{ display: "flex", alignItems: "center" }}
-                            color="text.primary"
-                        >
+                        <Typography sx={{ display: "flex", alignItems: "center" }} color="text.primary">
                             Women
                         </Typography>
                     </Breadcrumbs>
