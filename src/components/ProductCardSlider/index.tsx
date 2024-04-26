@@ -51,9 +51,11 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
     );
   }
 
+  console.log(title, products.length, products.length >= 3);
+
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -65,10 +67,10 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
       {
         breakpoint: 800,
         settings: {
+          infinite: false,
           slidesToShow: 1,
           slidesToScroll: 1,
           swipeToSlide: true,
-          infinite: true,
           dots: true,
           arrows: false,
         },
@@ -76,11 +78,11 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
       {
         breakpoint: 1350,
         settings: {
+          infinite: false,
           arrows: false,
           swipeToSlide: true,
           slidesToShow: 2,
           slidesToScroll: 1,
-          infinite: true,
           dots: true,
         },
       },
@@ -106,7 +108,7 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
         item
         xs={12}
         sx={{ display: "inline-block", margin: 1 }}
-        justifyContent="center"
+        justifyContent="flex-start"
       >
         <Slider {...settings}>
           {products.map((product) => {
