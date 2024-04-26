@@ -54,81 +54,89 @@ const MenProducts = () => {
       justifyContent="center"
       spacing={2}
       xs={12}
-      marginLeft={12}
+      marginY={5}
+      marginX={8}
     >
-      <Grid item xs={12}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link
-            underline="hover"
-            sx={{ display: "flex", alignItems: "center" }}
-            color="inherit"
-            href="/"
-          >
-            <HomeIcon color="primary" sx={{ mr: 0.5 }} fontSize="small" />
-            Home
-          </Link>
+      <Grid item container marginRight={3} marginLeft={4}>
+        <Grid item xs={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link
+              underline="hover"
+              sx={{ display: "flex", alignItems: "center" }}
+              color="inherit"
+              href="/"
+            >
+              <HomeIcon color="primary" sx={{ mr: 0.5 }} fontSize="small" />
+              Home
+            </Link>
+            <Typography
+              sx={{ display: "flex", alignItems: "center" }}
+              color="text.primary"
+            >
+              Men
+            </Typography>
+          </Breadcrumbs>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h4"> Men </Typography>
+          <Divider sx={{ marginY: 2 }} />
+        </Grid>
+        <Grid item container xs={12}>
           <Typography
-            sx={{ display: "flex", alignItems: "center" }}
-            color="text.primary"
+            variant="h6"
+            sx={{ fontWeight: "inherit", letterSpacing: 1 }}
           >
-            Men
+            {" "}
+            Refine Search{" "}
           </Typography>
-        </Breadcrumbs>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h4"> Men </Typography>
-        <Divider sx={{ marginY: 2, width: "93%" }} />
-      </Grid>
-      <Grid item container xs={12}>
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: "inherit", letterSpacing: 1 }}
+          <Grid container item spacing={2} sx={{ mt: "1px" }}>
+            <Grid item>
+              <Button label="Shirts" variant="outlined" />
+            </Grid>
+            <Grid item>
+              <Button label="Pants" variant="outlined" />
+            </Grid>
+            <Grid item>
+              <Button label="T-Shirts" variant="outlined" />
+            </Grid>
+            <Grid item>
+              <Button label="Jeans" variant="outlined" />
+            </Grid>
+            <Grid item>
+              <Button label="Jackets" variant="outlined" />
+            </Grid>
+            <Grid item>
+              <Button label="Sweater" variant="outlined" />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          item
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          marginY={2}
         >
-          {" "}
-          Refine Search{" "}
-        </Typography>
-        <Grid container item spacing={2} sx={{ mt: "1px" }}>
           <Grid item>
-            <Button label="Shirts" variant="outlined" />
+            <Select id="sortBy" label="Sort By" selectItems={sortSelectItems} />
           </Grid>
           <Grid item>
-            <Button label="Pants" variant="outlined" />
-          </Grid>
-          <Grid item>
-            <Button label="T-Shirts" variant="outlined" />
-          </Grid>
-          <Grid item>
-            <Button label="Jeans" variant="outlined" />
-          </Grid>
-          <Grid item>
-            <Button label="Jackets" variant="outlined" />
-          </Grid>
-          <Grid item>
-            <Button label="Sweater" variant="outlined" />
+            <Select id="sortBy" label="Sort By" selectItems={sortSelectItems} />
           </Grid>
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        item
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="center"
-        sx={{ mr: 10 }}
-      >
-        <Grid item>
-          <Select id="sortBy" label="Sort By" selectItems={sortSelectItems} />
-        </Grid>
-        <Grid item>
-          <Select id="sortBy" label="Sort By" selectItems={sortSelectItems} />
-        </Grid>
-      </Grid>
-
-      <Grid container item xs={12} direction="row" spacing={4}>
+      <Grid container item xs={12} spacing={4} justifyContent="space-between">
         {products.map((product) => {
           return (
-            <Grid item xs={4} key={product.id}>
+            <Grid
+              item
+              xs={3}
+              key={product.id}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
               <ProductCard product={product} />
             </Grid>
           );
