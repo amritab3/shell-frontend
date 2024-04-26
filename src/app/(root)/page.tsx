@@ -92,7 +92,7 @@ export default function Home() {
             xs: "26vh",
             sm: "33vh",
             md: "35vh",
-            lg: "70vh",
+            lg: "50vh",
             xl: "90vh",
           },
           mt: { xs: 1, sm: 0, lg: 3 },
