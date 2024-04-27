@@ -55,7 +55,7 @@ interface CustomTableProps {
 
 const Table = (props: CustomTableProps & TableProps) => {
   const { headCells, defaultSortBy, tableTitle, listUrl, ...rest } = props;
-  const [data, setData] = React.useState<Array<Record<string, any>>>([]);
+  const [data, setData] = React.useState<Array<any>>([]);
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>(defaultSortBy);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -282,17 +282,17 @@ const Table = (props: CustomTableProps & TableProps) => {
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(Number(row.id));
+                const isItemSelected = isSelected(Number(row["id"]));
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, Number(row.id))}
+                    onClick={(event) => handleClick(event, Number(row["id"]))}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.id}
+                    key={row["id"]}
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
