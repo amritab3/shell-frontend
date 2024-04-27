@@ -88,7 +88,7 @@ const GeneralInformation = () => {
                     width={100}
                     height={100} // Ensure equal width and height to make it circular
                     borderRadius="50%" // Make it circular
-                    src="https://mode23nepal.com/image/catalog/Product/check%20tops/DSC09670.jpg"
+                    src={userDetails.avatar}
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
@@ -125,7 +125,7 @@ const GeneralInformation = () => {
                   </Grid>
                   <Grid item>
                     <Typography variant="h6" gutterBottom>
-                      9819057663
+                      {userDetails.mobile_no}
                     </Typography>
                   </Grid>
                 </Grid>
