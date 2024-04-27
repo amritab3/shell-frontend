@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import MuiTable, { TableProps } from "@mui/material/Table";
 import MuiTableContainer from "@mui/material/TableContainer";
@@ -18,6 +19,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import Toolbar from "@mui/material/Toolbar";
 import { alpha } from "@mui/material/styles";
+
+import { RootState } from "@/redux/store";
+
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -44,19 +48,40 @@ function getComparator<Key extends keyof any>(
 }
 
 interface CustomTableProps {
-  data: Array<Record<string, any>>;
   headCells: Array<Record<string, any>>;
   defaultSortBy: string;
   tableTitle: string;
+  listUrl: string;
 }
 
 const Table = (props: CustomTableProps & TableProps) => {
-  const { data, headCells, defaultSortBy, tableTitle, ...rest } = props;
+  const { headCells, defaultSortBy, tableTitle, listUrl, ...rest } = props;
+  const [data, setData] = React.useState<Array<Record<string, any>>>([]);
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>(defaultSortBy);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const accessToken = useSelector(
+    (state: RootState) => state.user.access_token,
+  );
+
+  useEffect(() => {
+    fetch(listUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(async (response) => {
+        const responseData: Array<any> = await response.json();
+        setData(responseData);
+      })
+      .catch((error) => {
+        console.log("Error while fetching users", error);
+      });
+  }, []);
 
   interface EnhancedTableProps {
     numSelected: number;

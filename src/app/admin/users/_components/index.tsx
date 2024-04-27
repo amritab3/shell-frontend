@@ -35,33 +35,12 @@ const userTableHeadCells: UserTableHeadCell[] = [
 ];
 
 const UsersTable = () => {
-  const [userData, setUserData] = useState<Array<UserType>>([]);
-  const accessToken = useSelector(
-    (state: RootState) => state.user.access_token,
-  );
-
-  useEffect(() => {
-    fetch(URLS.LIST_USERS, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then(async (response) => {
-        const data: Array<UserType> = await response.json();
-        setUserData(data);
-      })
-      .catch((error) => {
-        console.log("Error while fetching users", error);
-      });
-  }, []);
-
   return (
     <Table
-      data={userData!}
       headCells={userTableHeadCells}
       defaultSortBy="first_name"
       tableTitle="Users"
+      listUrl={URLS.LIST_USERS}
     />
   );
 };
