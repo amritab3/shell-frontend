@@ -51,8 +51,6 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
     );
   }
 
-  console.log(title, products.length, products.length >= 3);
-
   const settings = {
     dots: true,
     infinite: false,
