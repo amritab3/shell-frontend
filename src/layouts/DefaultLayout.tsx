@@ -23,7 +23,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
         <Grid container item sx={{ mb: 2, position: "relative" }}>
           <Header />
         </Grid>
-        <Grid container item>
+        <Grid container item flex={1}>
           {children}
         </Grid>
         <Grid container item sx={{ mt: "auto" }}>
