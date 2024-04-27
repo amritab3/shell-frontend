@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -14,21 +14,27 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import PeopleIcon from "@mui/icons-material/People";
 import CategoryIcon from "@mui/icons-material/Category";
+
 import { logout } from "@/redux/features/userSlice";
 import { openToast } from "@/redux/features/toastSlice";
+import { RootState } from "@/redux/store";
+import { toggleAdminProductsCollapse } from "@/redux/features/miscSlice";
 
 export const MainListItems = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  const [openProducts, setOpenProducts] = React.useState(false);
+  const adminProductsCollapse = useSelector(
+    (state: RootState) => state.misc.adminProductsCollapse,
+  );
 
   const expandProducts = () => {
-    setOpenProducts(!openProducts);
+    dispatch(toggleAdminProductsCollapse());
   };
 
   return (
     <React.Fragment>
-      <ListItemButton onClick={() => router.push("/dashboard")}>
+      <ListItemButton onClick={() => router.push("/admin/dashboard")}>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
@@ -40,13 +46,13 @@ export const MainListItems = () => {
           <CategoryIcon />
         </ListItemIcon>
         <ListItemText primary="Products" />
-        {openProducts ? <ExpandLess /> : <ExpandMore />}
+        {adminProductsCollapse ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={openProducts} timeout="auto" unmountOnExit>
+      <Collapse in={adminProductsCollapse} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton
             sx={{ pl: 4 }}
-            onClick={() => router.push("/dashboard/products/instore")}
+            onClick={() => router.push("/admin/products/instore")}
           >
             <ListItemIcon>
               <InventoryIcon />
@@ -55,7 +61,7 @@ export const MainListItems = () => {
           </ListItemButton>
           <ListItemButton
             sx={{ pl: 4 }}
-            onClick={() => router.push("/dashboard/products/thrift")}
+            onClick={() => router.push("/admin/products/thrift")}
           >
             <ListItemIcon>
               <InventoryIcon />
@@ -65,7 +71,7 @@ export const MainListItems = () => {
         </List>
       </Collapse>
 
-      <ListItemButton onClick={() => router.push("/dashboard/users")}>
+      <ListItemButton onClick={() => router.push("/admin/users")}>
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>

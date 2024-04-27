@@ -38,7 +38,7 @@ const settings = [
   { label: "Profile", path: "/user/profile", renderAfterLogin: true },
   {
     label: "Dashboard",
-    path: "/dashboard/",
+    path: "/admin/dashboard/",
     renderAfterLogin: true,
     requireAdminRole: true,
   },
