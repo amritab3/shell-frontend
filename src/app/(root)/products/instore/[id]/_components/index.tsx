@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useSelector } from "react-redux";
+
+import { RootState } from "@/redux/store";
 
 import {
   Box,
@@ -40,6 +43,8 @@ const ProductDetail = () => {
     images: [{ image: "" }],
   });
 
+  const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
+
   const incrementItemCount = () => {
     const newNumberOfItems = numberOfItems + 1;
     setNumberOfItems(newNumberOfItems);
@@ -67,7 +72,7 @@ const ProductDetail = () => {
   }, []);
 
   return (
-    <Grid container item xs={12} sx={{ m: 4 }}>
+    <Grid container item direction="column" flex={1} gap={5}>
       <Grid container item>
         <Grid item xs={4}>
           <Box
@@ -222,17 +227,26 @@ const ProductDetail = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid container sx={{ mt: 6 }}>
-        <Grid item sx={{ marginLeft: 10 }}>
-          <Typography variant="h6" component="h2">
+      <Grid container justifyContent="center">
+        <Grid item sx={{ textAlign: "center" }}>
+          <Typography variant="h5" component="h2" fontWeight="bold">
             Reviews
           </Typography>
-          <Typography variant="subtitle1" component="h2">
+          <Typography variant="subtitle1" component="h2" letterSpacing={0.5}>
             Write comments here
           </Typography>
-          <Typography variant="subtitle1" component="h2" sx={{ mt: 1 }}>
-            Please login to review
-          </Typography>
+          {isLoggedIn ? (
+            <Typography>COMMENT FORM</Typography>
+          ) : (
+            <Typography
+              variant="subtitle1"
+              component="h2"
+              sx={{ mt: 1, letterSpacing: "0.5px" }}
+            >
+              Please <Link href="/login">login</Link> to review
+            </Typography>
+          )}
+
           <Typography variant="subtitle2" component="h2" sx={{ mt: 2 }}>
             There are no reviews for this product.
           </Typography>
