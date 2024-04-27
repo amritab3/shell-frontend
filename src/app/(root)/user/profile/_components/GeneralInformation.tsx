@@ -70,6 +70,7 @@ const GeneralInformation = () => {
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
         showBoxShadow
+        enableReinitialize={true}
       >
         {({ isSubmitting }) => (
           <Form>
