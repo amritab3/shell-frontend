@@ -67,10 +67,11 @@ interface CustomTableProps {
   data: Array<Record<string, any>>;
   headCells: Array<Record<string, any>>;
   defaultSortBy: string;
+  tableTitle: string;
 }
 
 const Table = (props: CustomTableProps & TableProps) => {
-  const { data, headCells, defaultSortBy, ...rest } = props;
+  const { data, headCells, defaultSortBy, tableTitle, ...rest } = props;
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>(defaultSortBy);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -178,7 +179,7 @@ const Table = (props: CustomTableProps & TableProps) => {
             id="tableTitle"
             component="div"
           >
-            Users
+            {tableTitle}
           </Typography>
         )}
         {numSelected > 0 ? (

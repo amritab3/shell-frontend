@@ -61,6 +61,7 @@ const UsersTable = () => {
       data={userData!}
       headCells={userTableHeadCells}
       defaultSortBy="first_name"
+      tableTitle="Users"
     />
   );
 };
