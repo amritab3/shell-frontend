@@ -11,7 +11,7 @@ import RootAdminLayout from "@/layouts/AdminLayout";
 const NotFoundPage = () => {
   const pathname = usePathname();
 
-  const dashboardRoute = pathname.startsWith("/dashboard");
+  const dashboardRoute = pathname.startsWith("/admin");
   return (
     <section>
       {dashboardRoute ? (
