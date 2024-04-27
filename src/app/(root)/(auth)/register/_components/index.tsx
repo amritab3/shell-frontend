@@ -78,7 +78,7 @@ const RegisterPage = () => {
         submitHandler={handleSubmit}
         validationSchema={validationSchema}
         showBoxShadow
-        sx={{ maxHeight: { xl: 350, xxl: 410 } }}
+        sx={{ maxHeight: { xl: 400, xxl: 410 } }}
       >
         <Grid
           container
