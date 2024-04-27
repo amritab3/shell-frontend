@@ -48,3 +48,10 @@ export interface BannerContent {
 export interface SelectItemType extends MenuItemProps {
   label: string;
 }
+
+export interface UserType {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+}

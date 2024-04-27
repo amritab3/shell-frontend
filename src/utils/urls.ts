@@ -11,6 +11,8 @@ const URLS = {
   LIST_MEN_PRODUCTS: `${BASE_URL}/products/men/`,
   LIST_WOMEN_PRODUCTS: `${BASE_URL}/products/women/`,
   LIST_KIDS_PRODUCTS: `${BASE_URL}/products/kids/`,
+
+  LIST_USERS: `${BASE_URL}/users/`,
 };
 
 export default URLS;
