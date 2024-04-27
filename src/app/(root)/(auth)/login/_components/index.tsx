@@ -14,10 +14,10 @@ import * as Yup from "yup";
 import FormInput from "@/components/Form/FormInput";
 import FormButton from "@/components/Form/FormButton";
 import CustomForm from "@/components/Form";
-import { RootState } from "@/redux/store";
-import { login } from "@/redux/features/userSlice";
+import { login, setAvatarUrl } from "@/redux/features/userSlice";
 import { openToast } from "@/redux/features/toastSlice";
 import URLS from "@/utils/urls";
+import { UserType } from "@/utils/schema";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -51,6 +51,22 @@ const LoginPage = () => {
           severity: "success",
         }),
       );
+
+      const userData = JSON.parse(data.user);
+
+      fetch(`${URLS.USER_URL}/${userData.id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${data.access}`,
+        },
+      })
+        .then(async (response) => {
+          const responseData: UserType = await response.json();
+          dispatch(setAvatarUrl(responseData.avatar));
+        })
+        .catch((error) => {
+          console.log("Error while fetching user details", error);
+        });
 
       actions.setSubmitting(false);
       actions.resetForm(initialValues);

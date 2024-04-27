@@ -71,6 +71,9 @@ const Header = () => {
   const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
   const isAdmin = useSelector((state: RootState) => state.user.isAdmin);
   const isShopAdmin = useSelector((state: RootState) => state.user.isShopAdmin);
+  const userAvatarUrl = useSelector(
+    (state: RootState) => state.user.userAvatarUrl,
+  );
 
   const handleLogout = () => {
     handleCloseUserMenu();
@@ -198,7 +201,7 @@ const Header = () => {
               {isLoggedIn ? (
                 <Avatar
                   alt="avatar"
-                  src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg"
+                  src={userAvatarUrl}
                   onClick={handleOpenUserMenu}
                   sx={{ cursor: "pointer" }}
                 />

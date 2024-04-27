@@ -18,6 +18,7 @@ export interface UserDetails {
   isAdmin: boolean;
   isShopAdmin: boolean;
   isCustomer: boolean;
+  userAvatarUrl: string;
 
   forgotPasswordEmail: string;
 }
@@ -32,6 +33,7 @@ const initialState: UserDetails = {
   isAdmin: false,
   isShopAdmin: false,
   isCustomer: false,
+  userAvatarUrl: "",
 
   forgotPasswordEmail: "",
 };
@@ -55,6 +57,9 @@ export const userSlice = createSlice({
         state.isCustomer = userData.roles.includes("Customer");
       }
     },
+    setAvatarUrl: (state, action) => {
+      state.userAvatarUrl = action.payload;
+    },
     logout: (state) => {
       return initialState;
     },
@@ -72,6 +77,7 @@ export const {
   logout,
   setForgotPasswordEmail,
   removeForgotPasswordEmail,
+  setAvatarUrl,
 } = userSlice.actions;
 
 export default userSlice.reducer;
