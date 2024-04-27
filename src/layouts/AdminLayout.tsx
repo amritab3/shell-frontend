@@ -112,7 +112,7 @@ function RootAdminLayout({ children }: { children: React.ReactNode }) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              Admin
             </Typography>
           </Toolbar>
         </AppBar>
@@ -147,16 +147,8 @@ function RootAdminLayout({ children }: { children: React.ReactNode }) {
           }}
         >
           <Toolbar sx={{ mb: 2 }} />
-          <Container sx={{ mt: 3, mb: 3, height: "90vh" }}>
-            <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              spacing={3}
-              sx={{ height: "100%" }}
-            >
-              {children}
-            </Grid>
+          <Container sx={{ mt: 10, mb: 3, height: "90vh" }}>
+            <Grid container>{children}</Grid>
           </Container>
         </Box>
       </Box>
