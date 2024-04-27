@@ -17,8 +17,6 @@ export default function withAdminRole(Component: any) {
     );
     const dispatch = useDispatch();
 
-    console.log(isLoggedIn, isAdmin, isShopAdmin);
-
     useEffect(() => {
       if (!isAdmin && !isShopAdmin) {
         dispatch(logout());
