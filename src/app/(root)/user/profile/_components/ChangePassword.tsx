@@ -85,16 +85,16 @@ const ChangePassword = () => {
                                 width: "400px",
                             }}
                         >
-                            <Grid container item sx={{ margin: 2 }}>
+                            <Grid container item>
                                 <FormInput
-                                    variant="standard"
+                                    variant="outlined"
                                     label="New Password"
                                     type="password"
                                     name="new_password"
                                     StartIcon={LockIcon}
                                 />
                                 <FormInput
-                                    variant="standard"
+                                    variant="outlined"
                                     label="Confirm New Password"
                                     type="password"
                                     name="confirm_new_password"
