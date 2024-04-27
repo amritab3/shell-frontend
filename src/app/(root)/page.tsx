@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-import { Grid } from "@mui/material";
+import { Grid, formLabelClasses } from "@mui/material";
 
 import { Product, BannerContent } from "@/utils/schema";
 import ProductCardSlider from "@/components/ProductCardSlider";
 import WebsiteBanner from "@/components/Banner";
 import URLS from "@/utils/urls";
+
 
 export default function Home() {
   const [products, setProducts] = useState<Array<Product>>([]);
@@ -100,20 +101,20 @@ export default function Home() {
         <WebsiteBanner bannerContents={bannerContents} />
       </Grid>
 
-      <Grid item xs={11} sx={{ mb: 4 }}>
-        <ProductCardSlider title="New Arrivals" products={products} />
+      <Grid item xs={11} sx={{ mb: 6 }}>
+        <ProductCardSlider title="New Arrivals" products={products} showViewMore={false} />
       </Grid>
 
       <Grid item xs={11} sx={{ mb: 4 }}>
-        <ProductCardSlider title="Men's Wear" products={menProducts} />
+        <ProductCardSlider title="Men's Wear" products={menProducts} showViewMore={true} />
       </Grid>
 
       <Grid item xs={11} sx={{ mb: 4 }}>
-        <ProductCardSlider title="Women's Wear" products={womenProducts} />
+        <ProductCardSlider title="Women's Wear" products={womenProducts} showViewMore={true} />
       </Grid>
 
       <Grid item xs={11} sx={{ mb: 4 }}>
-        <ProductCardSlider title="Kid's Wear" products={kidsProducts} />
+        <ProductCardSlider title="Kid's Wear" products={kidsProducts} showViewMore={true} />
       </Grid>
     </Grid>
   );

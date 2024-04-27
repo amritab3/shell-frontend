@@ -15,7 +15,7 @@ import ProductCard from "@/components/Card/ProductCard";
 import Button from "@/components/Button";
 
 const ProductCardSlider = (props: ProductCardSliderType) => {
-  const { products, autoPlay, title } = props;
+  const { products, autoPlay, title, showViewMore } = props;
 
   function NextArrow(props: any) {
     const { className, style, onClick } = props;
@@ -117,9 +117,11 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
         </Slider>
       </Grid>
 
-      <Grid item sx={{ mt: 5 }}>
-        <Button label="View More" variant="outlined" />
-      </Grid>
+      {showViewMore && (
+        <Grid item sx={{ mt: 5 }}>
+          <Button label="View More" variant="outlined" />
+        </Grid>
+      )}
     </Grid>
   );
 };
