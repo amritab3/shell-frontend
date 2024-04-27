@@ -22,7 +22,6 @@ import { alpha } from "@mui/material/styles";
 
 import { RootState } from "@/redux/store";
 
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -260,7 +259,8 @@ const Table = (props: CustomTableProps & TableProps) => {
 
   const visibleRows = React.useMemo(
     () =>
-      data
+      [].slice
+        .call(data)
         .sort(getComparator(order, orderBy))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [order, orderBy, page, rowsPerPage, data],
