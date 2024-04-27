@@ -95,8 +95,6 @@ export default function Home() {
             lg: "50vh",
             xl: "90vh",
           },
-          // mt: { xs: 1, sm: 0, lg: 3 },
-          // mb: 4,
         }}
       >
         <WebsiteBanner bannerContents={bannerContents} />

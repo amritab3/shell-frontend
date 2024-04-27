@@ -55,7 +55,6 @@ const MenProducts = () => {
       justifyContent="center"
       spacing={2}
       xs={12}
-      marginY={5}
       marginX={8}
     >
       <Grid item container>
