@@ -31,7 +31,6 @@ const navBarItems = [
   { label: "Women", path: "/products/instore/women/" },
   { label: "Kids", path: "/products/instore/kids/" },
   { label: "Thrift", path: "/products/thrift/" },
-  { label: "Contact", path: "/contact/" },
 ];
 
 const settings = [
