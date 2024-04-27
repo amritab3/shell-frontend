@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
-import MuiTable from "@mui/material/Table";
+import MuiTable, { TableProps } from "@mui/material/Table";
 import MuiTableContainer from "@mui/material/TableContainer";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -19,13 +19,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import Toolbar from "@mui/material/Toolbar";
 import { alpha } from "@mui/material/styles";
-
-interface HeadCell {
-  disablePadding: boolean;
-  id: string;
-  label: string;
-  numeric: boolean;
-}
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -70,58 +63,19 @@ function stableSort<T>(
   return stabilizedThis.map((el) => el[0]);
 }
 
-const Table = () => {
+interface CustomTableProps {
+  data: Array<Record<string, any>>;
+  headCells: Array<Record<string, any>>;
+  defaultSortBy: string;
+}
+
+const Table = (props: CustomTableProps & TableProps) => {
+  const { data, headCells, defaultSortBy, ...rest } = props;
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<string>("first_name");
+  const [orderBy, setOrderBy] = React.useState<string>(defaultSortBy);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const headCells: readonly HeadCell[] = [
-    {
-      id: "first_name",
-      disablePadding: true,
-      label: "First Name",
-      numeric: false,
-    },
-    {
-      id: "last_name",
-      disablePadding: true,
-      label: "Last Name",
-      numeric: false,
-    },
-    {
-      id: "email",
-      disablePadding: true,
-      label: "Email",
-      numeric: false,
-    },
-    {
-      id: "mobile_no",
-      disablePadding: true,
-      label: "Mobile Number",
-      numeric: false,
-    },
-  ];
-
-  type Data = Record<string, any>;
-
-  const data: Data[] = [
-    {
-      id: 1,
-      first_name: "Bishal",
-      last_name: "Adhikari",
-      email: "beeshal55@gmail.com",
-      mobile_no: "9863475028",
-    },
-    {
-      id: 2,
-      first_name: "Shelly",
-      last_name: "Bhattarai",
-      email: "shellybhattarai@gmail.com",
-      mobile_no: "9819057663",
-    },
-  ];
 
   interface EnhancedTableProps {
     numSelected: number;
@@ -131,7 +85,6 @@ const Table = () => {
     orderBy: string;
     rowCount: number;
   }
-
   function EnhancedTableHead(props: EnhancedTableProps) {
     const {
       onSelectAllClick,
@@ -305,7 +258,7 @@ const Table = () => {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage, data],
   );
 
   return (
