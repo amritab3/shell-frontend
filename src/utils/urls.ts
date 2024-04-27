@@ -6,6 +6,7 @@ const URLS = {
   GENERATE_FORGOT_PASSWORD_OTP: `${BASE_URL}/auth/generate-otp/`,
   VERIFY_FORGOT_PASSWORD_OTP: `${BASE_URL}/auth/verify-otp/`,
   UPDATE_PASSWORD: `${BASE_URL}/auth/update-password/`,
+  USER_URL: `${BASE_URL}/users`,
 
   LIST_PRODUCTS: `${BASE_URL}/products`,
   LIST_INSTORE_PRODUCTS: `${BASE_URL}/products/instore/`,
