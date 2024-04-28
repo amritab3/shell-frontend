@@ -6,6 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { RootState } from "@/redux/store";
 
+import { openToast } from "@/redux/features/toastSlice";
+
+
 import {
   Box,
   Grid,
@@ -47,6 +50,13 @@ const ProductDetail = () => {
         newNumberOfItems = selectedSize.size_inventory;
       }
       setNumberOfItems(newNumberOfItems);
+    } else {
+      dispatch(
+        openToast({
+          message: "Please select the size first.",
+          severity: "info",
+        }),
+      );
     }
   };
 
