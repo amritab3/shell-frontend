@@ -58,6 +58,7 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
           }}
         >
           <Button
+            onClick={() => router.push(`/products/instore/${product.id}`)}
             fullWidth
             label="Order Now"
             sx={{
