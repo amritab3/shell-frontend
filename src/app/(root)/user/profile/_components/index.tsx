@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import withAuth from "@/hoc/withAuth";
 import ChangePassword from "./ChangePassword";
 import GeneralInformation from "./GeneralInformation";
+import OrdersTable from "./Orders";
 
 function a11yProps(index: number) {
   return {
@@ -91,6 +92,27 @@ const UserProfile = (props: any) => {
           {value === 1 && (
             <Box sx={{ p: 3 }}>
               <ChangePassword />
+            </Box>
+          )}
+        </div>
+      ) : null}
+      {value === 3 ? (
+        <div
+          role="tabpanel"
+          hidden={value !== 3}
+          id={`simple-tabpanel-3`}
+          aria-labelledby={`simple-tab-3`}
+          style={{
+            flexGrow: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "100px",
+          }}
+        >
+          {value === 3 && (
+            <Box sx={{ p: 3 }}>
+              <OrdersTable />
             </Box>
           )}
         </div>
