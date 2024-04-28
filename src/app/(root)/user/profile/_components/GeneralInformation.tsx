@@ -44,7 +44,7 @@ const GeneralInformation = () => {
   };
 
   useEffect(() => {
-    fetch(`${URLS.USER_URL}/${loggedInUserId}`, {
+    fetch(`${URLS.USER_URL}/${loggedInUserId}/`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
