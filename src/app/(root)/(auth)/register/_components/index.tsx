@@ -20,7 +20,12 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
-  password: Yup.string().required("Password is required"),
+  password: Yup.string()
+    .required("Password is required.")
+    .min(6, "Password should be 6 characters minimum.")
+    .matches(/[a-zA-Z]/, "Password can only contain Latin letters.")
+    .matches(/[0-9]/, "Password must contain at least one number.")
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character."),
   confirmPassword: Yup.string()
     .required("Confirm password is required")
     .oneOf([Yup.ref("password")], "Passwords must match"),
@@ -58,7 +63,7 @@ const RegisterPage = () => {
       dispatch(
         openToast({
           message: "User Registration Failed",
-          severity: "success",
+          severity: "error",
         }),
       );
       actions.setSubmitting(false);
