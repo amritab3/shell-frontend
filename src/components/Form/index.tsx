@@ -14,7 +14,7 @@ interface CustomFormProps {
   validationSchema: Object;
   submitHandler: any;
   showBoxShadow?: boolean;
-  sx: Object;
+  sx?: Object;
 }
 
 const CustomForm = (props: CustomFormProps) => {
@@ -45,6 +45,7 @@ const CustomForm = (props: CustomFormProps) => {
         initialValues={initialValues}
         onSubmit={submitHandler}
         validationSchema={validationSchema}
+        enableReinitialize={true}
       >
         {({ isSubmitting }) => (
           <Form>
