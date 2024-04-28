@@ -8,6 +8,7 @@ const URLS = {
   UPDATE_PASSWORD: `${BASE_URL}/auth/update-password/`,
   USER_URL: `${BASE_URL}/users`,
 
+  PRODUCTS_URL: `${BASE_URL}/products`,
   LIST_PRODUCTS: `${BASE_URL}/products`,
   LIST_INSTORE_PRODUCTS: `${BASE_URL}/products/instore/`,
   LIST_THRIFT_PRODUCTS: `${BASE_URL}/products/thrift/`,

@@ -147,7 +147,7 @@ function RootAdminLayout({ children }: { children: React.ReactNode }) {
           }}
         >
           <Toolbar sx={{ mb: 2 }} />
-          <Container sx={{ mt: 10, mb: 3, height: "90vh" }}>
+          <Container>
             <Grid container>{children}</Grid>
           </Container>
         </Box>
