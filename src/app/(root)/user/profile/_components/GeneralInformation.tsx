@@ -36,6 +36,12 @@ const GeneralInformation = () => {
   const [userDetails, setUserDetails] = useState({} as UserType);
 
   const validationSchema = Yup.object({});
+  const initialValues = {
+    first_name: userDetails.first_name,
+    last_name: userDetails.last_name,
+    email: userDetails.email,
+    mobile_no: userDetails.mobile_no,
+  };
 
   useEffect(() => {
     fetch(`${URLS.USER_URL}/${loggedInUserId}`, {
@@ -54,7 +60,25 @@ const GeneralInformation = () => {
   }, []);
 
   const handleSubmit = async (values: any, actions: any) => {
-    console.log(values);
+    let formData = new FormData();
+    for (let key in values) {
+      formData.append(key, values[key]);
+    }
+
+    fetch(`${URLS.USER_URL}/${loggedInUserId}/`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: formData,
+    })
+      .then(async (response) => {
+        const responseData: UserType = await response.json();
+        setUserDetails(responseData);
+      })
+      .catch((error) => {
+        console.log("Error while fetching user details", error);
+      });
   };
 
   return (
@@ -66,7 +90,7 @@ const GeneralInformation = () => {
       justifyContent="center"
     >
       <Formik
-        initialValues={userDetails}
+        initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
         showBoxShadow
