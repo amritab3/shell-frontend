@@ -15,6 +15,7 @@ import {
 import userReducer from "@/redux/features/userSlice";
 import toastReducer from "./features/toastSlice";
 import miscReducer from "./features/miscSlice";
+import cartReducer from "./features/cartSlice";
 
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 const createNoopStorage = () => {
@@ -38,13 +39,14 @@ const storage =
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "misc"],
+  whitelist: ["user", "misc", "cart"],
 };
 
 const rootReducer = combineReducers({
   user: userReducer,
   toast: toastReducer,
   misc: miscReducer,
+  cart: cartReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

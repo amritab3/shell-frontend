@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { RootState } from "@/redux/store";
 
@@ -22,11 +22,14 @@ import Button from "@/components/Button";
 import { Product, ProductSize } from "@/utils/schema";
 import URLS from "@/utils/urls";
 import { objectExists } from "@/utils/Utils";
+import { CartItem } from "@/utils/schema";
+import { addToCart } from "@/redux/features/cartSlice";
 
 const itemInfoWidth: string = "100px";
 
 const ProductDetail = () => {
   const params = useParams();
+  const dispatch = useDispatch();
   const [ratingValue, setRatingValue] = React.useState<number | null>(0);
   const [numberOfItems, setNumberOfItems] = React.useState(0);
   const [product, setProduct] = useState({
@@ -69,7 +72,14 @@ const ProductDetail = () => {
   }, []);
 
   const handleAddToCart = () => {
-    console.log("Adding to the cart");
+    const cartItem: CartItem = {
+      productId: selectedSize.product!,
+      quantity: numberOfItems,
+      size: selectedSize.size,
+    };
+    dispatch(addToCart(cartItem));
+    setSelectedSize({} as ProductSize);
+    setNumberOfItems(0);
   };
 
   return (

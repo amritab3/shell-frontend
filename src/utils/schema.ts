@@ -4,6 +4,7 @@ export interface ProductSize {
   id?: number;
   size: string;
   size_inventory: number;
+  product?: number;
 }
 
 export interface ProductImage {
@@ -57,4 +58,10 @@ export interface UserType {
   last_name: string;
   mobile_no: string;
   avatar: string;
+}
+
+export interface CartItem {
+  productId: number;
+  quantity: number;
+  size: string;
 }

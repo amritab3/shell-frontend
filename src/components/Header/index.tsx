@@ -25,6 +25,7 @@ import Badge from "@mui/material/Badge";
 import { RootState } from "@/redux/store";
 import { logout } from "@/redux/features/userSlice";
 import { openToast } from "@/redux/features/toastSlice";
+import { clearCart } from "@/redux/features/cartSlice";
 
 const navBarItems = [
   { label: "Men", path: "/products/instore/men/" },
@@ -50,12 +51,19 @@ const Header = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
+  const [anchorElCart, setAnchorElCart] = React.useState<null | HTMLElement>(
+    null,
+  );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
+  };
+
+  const handleOpenCartMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElCart(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -66,6 +74,10 @@ const Header = () => {
     setAnchorElUser(null);
   };
 
+  const handleCloseCartMenu = () => {
+    setAnchorElCart(null);
+  };
+
   const router = useRouter();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
@@ -73,6 +85,9 @@ const Header = () => {
   const isShopAdmin = useSelector((state: RootState) => state.user.isShopAdmin);
   const userAvatarUrl = useSelector(
     (state: RootState) => state.user.userAvatarUrl,
+  );
+  const numberOfCartItems = useSelector(
+    (state: RootState) => state.cart.numberOfItems,
   );
 
   const handleLogout = () => {
@@ -189,11 +204,35 @@ const Header = () => {
               display: { xs: "none", md: "flex" },
             }}
           >
-            <IconButton color="inherit">
-              <Badge badgeContent={5}>
+            <IconButton color="inherit" onClick={handleOpenCartMenu}>
+              <Badge badgeContent={numberOfCartItems}>
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="cart-menu-appbar"
+              anchorEl={anchorElCart}
+              disableScrollLock={true}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElCart)}
+              onClose={handleCloseCartMenu}
+            >
+              <MenuItem>
+                <Typography>View Cart</Typography>
+              </MenuItem>
+              <MenuItem onClick={() => dispatch(clearCart())}>
+                <Typography>Clear Cart</Typography>
+              </MenuItem>
+            </Menu>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -216,7 +255,7 @@ const Header = () => {
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
-              id="menu-appbar"
+              id="user-menu-appbar"
               anchorEl={anchorElUser}
               disableScrollLock={true}
               anchorOrigin={{
