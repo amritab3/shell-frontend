@@ -19,8 +19,9 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TrendingFlatIcon from "@mui/icons-material/TrendingFlat";
 import Rating from "@mui/material/Rating";
 import Button from "@/components/Button";
-import { Product } from "@/utils/schema";
+import { Product, ProductSize } from "@/utils/schema";
 import URLS from "@/utils/urls";
+import { objectExists } from "@/utils/Utils";
 
 const itemInfoWidth: string = "100px";
 
@@ -28,26 +29,22 @@ const ProductDetail = () => {
   const params = useParams();
   const [ratingValue, setRatingValue] = React.useState<number | null>(0);
   const [numberOfItems, setNumberOfItems] = React.useState(0);
-  const [product, setProduct] = useState<Product>({
-    category: "Category for awesome product",
-    color: "Awesome Color",
-    description: "Awesome product description",
-    gender: "Men",
-    id: 0,
-    inventory: 0,
-    material: "N/A",
-    name: "Awesome Product",
-    price: 0,
-    sizes: [{ size: "N/A", size_inventory: 0 }],
-    style: "Cool",
-    images: [{ image: "" }],
-  });
+  const [product, setProduct] = useState({
+    images: [{}],
+    sizes: [{ size: "" }],
+  } as Product);
+  const [selectedSize, setSelectedSize] = useState({} as ProductSize);
 
   const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
 
   const incrementItemCount = () => {
-    const newNumberOfItems = numberOfItems + 1;
-    setNumberOfItems(newNumberOfItems);
+    if (objectExists(selectedSize)) {
+      let newNumberOfItems = numberOfItems + 1;
+      if (newNumberOfItems > selectedSize.size_inventory) {
+        newNumberOfItems = selectedSize.size_inventory;
+      }
+      setNumberOfItems(newNumberOfItems);
+    }
   };
 
   const decrementItemCount = () => {
@@ -70,6 +67,10 @@ const ProductDetail = () => {
         console.log("Error while fetching a product.", error);
       });
   }, []);
+
+  const handleAddToCart = () => {
+    console.log("Adding to the cart");
+  };
 
   return (
     <Grid container item direction="column" flex={1} gap={5}>
@@ -189,12 +190,30 @@ const ProductDetail = () => {
                   <Button
                     key={productSize.size}
                     label={productSize.size}
-                    variant="outlined"
+                    variant={
+                      productSize.size === selectedSize.size
+                        ? "contained"
+                        : "outlined"
+                    }
                     disabled={productSize.size_inventory <= 0}
+                    onClick={() => {
+                      if (productSize.size !== selectedSize.size) {
+                        setSelectedSize(productSize);
+                        setNumberOfItems(0);
+                      } else if (productSize.size === selectedSize.size) {
+                        setSelectedSize({} as ProductSize);
+                        setNumberOfItems(0);
+                      }
+                    }}
                   />
                 );
               })}
             </Grid>
+            {objectExists(selectedSize) && (
+              <Typography variant="subtitle1">
+                In Stock: {selectedSize.size_inventory}
+              </Typography>
+            )}
           </Grid>
 
           <Grid container item gap={2}>
@@ -220,7 +239,11 @@ const ProductDetail = () => {
 
           <Grid container item>
             {product.inventory > 0 ? (
-              <Button label="Add to Cart" variant="outlined" />
+              <Button
+                label="Add to Cart"
+                variant="outlined"
+                onClick={handleAddToCart}
+              />
             ) : (
               <Button label="Out of Stock" disabled variant="outlined" />
             )}
