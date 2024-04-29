@@ -40,16 +40,16 @@ const LoginPage = () => {
     defaultValues: initialValues,
   });
 
-  const onSubmit = async (data: IFormInput) => {
+  const onSubmit = async (formData: IFormInput) => {
     const response = await fetch(URLS.USER_LOGIN_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(formData),
     });
 
     if (response.ok) {
-      const data = await response.json();
-      dispatch(login(data));
+      const respData = await response.json();
+      dispatch(login(respData));
       dispatch(
         openToast({
           message: "User Login Successful",
@@ -57,12 +57,12 @@ const LoginPage = () => {
         }),
       );
 
-      const userData = JSON.parse(data.user);
+      const userData = JSON.parse(respData.user);
 
       fetch(`${URLS.USER_URL}/${userData.id}`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${data.access}`,
+          Authorization: `Bearer ${respData.access}`,
         },
       })
         .then(async (response) => {
