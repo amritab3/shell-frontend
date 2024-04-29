@@ -51,11 +51,11 @@ const RegisterPage = () => {
     defaultValues: initialValues,
   });
 
-  const onSubmit = async (data: IFormInput) => {
+  const onSubmit = async (formData: IFormInput) => {
     const response = await fetch(URLS.USER_REGISTER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(formData),
     });
 
     if (response.ok) {
@@ -105,7 +105,7 @@ const RegisterPage = () => {
               mb: 2,
             }}
           >
-            Login
+            Register
           </Typography>
         </Grid>
 
