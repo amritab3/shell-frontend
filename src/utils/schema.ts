@@ -12,11 +12,11 @@ export interface ProductImage {
   image: string;
 }
 export interface Product {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   price: number;
-  inventory: number;
+  inventory?: number;
   color: string;
   style: string;
   material: string;

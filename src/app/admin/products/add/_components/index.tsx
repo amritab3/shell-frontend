@@ -3,21 +3,38 @@
 import React from "react";
 
 import * as Yup from "yup";
+import { useForm } from "react-hook-form";
 import Grid from "@mui/material/Grid";
+import { Link, Typography } from "@mui/material";
 
 import CustomForm from "@/components/Form";
 import FormInput from "@/components/Form/FormInput";
 import FormButton from "@/components/Form/FormButton";
-import MultipleFileUpload from "@/components/MultipleFileUpload";
+import MultipleFileUpload from "../../../../../components/Form/MultipleFileUpload";
 import URLS from "@/utils/urls";
+import Button from "@/components/Button";
+import { ProductSize } from "@/utils/schema";
+
+export interface IFormInput {
+  name: string;
+  description: string;
+  price: number;
+  color: string;
+  style: string;
+  material: string;
+  category: string;
+  gender: string;
+  uploaded_sizes: Array<ProductSize>;
+  uploaded_images: Array<any>;
+}
 
 const validationSchema = Yup.object({});
 
 const AddProductForm = () => {
-  const initialValues = {
+  const initialValues: IFormInput = {
     name: "",
     description: "",
-    price: "",
+    price: 0,
     color: "",
     style: "",
     material: "",
@@ -30,8 +47,13 @@ const AddProductForm = () => {
     ],
   };
 
-  const handleSubmit = async (values: any, actions: any) => {
-    const { uploaded_images, uploaded_sizes, ...restValues } = values;
+  const { handleSubmit, control } = useForm<IFormInput>({
+    defaultValues: initialValues,
+  });
+
+  const onSubmit = async (submittedFormData: any) => {
+    const { uploaded_images, uploaded_sizes, ...restValues } =
+      submittedFormData;
 
     let formData = new FormData();
     for (let key in restValues) {
@@ -49,119 +71,95 @@ const AddProductForm = () => {
       .then(async (response) => {
         const responseData = await response.json();
         console.log("response", responseData);
-        actions.setSubmitting(false);
-        actions.resetForm();
       })
       .catch((error) => {
-        console.log("Error while fetching user details", error);
-        actions.setSubmitting(false);
+        console.log("Error while fetching adding the product", error);
       });
   };
   return (
-    <Grid
-      container
-      item
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      xs={12}
-      width="100%"
-    >
-      <CustomForm
-        title="Add Product"
-        initialValues={initialValues}
-        submitHandler={handleSubmit}
-        validationSchema={validationSchema}
+    <Grid container item alignItems="center" justifyContent="center" xs={12}>
+      <Grid
+        container
+        item
+        sx={{
+          width: { xs: 350, sm: 500, md: 600 },
+          boxShadow: "0px 1px 2px 0px rgba(0,0,0,0.4)",
+          mb: { xs: 5, sm: 10, md: 20 },
+        }}
       >
-        <Grid container item>
-          <Grid container item sx={{ margin: 2 }} xs={12} direction={"column"}>
-            <Grid item>
-              <FormInput
-                variant="outlined"
-                label="Name"
-                type="text"
-                name="name"
-              />
-            </Grid>
-            <Grid item>
-              <FormInput
-                variant="outlined"
-                label="Description"
-                type="text"
-                name="description"
-              />
-            </Grid>
+        <Grid item xs={12}>
+          <Typography
+            component="h1"
+            variant="h4"
+            sx={{
+              bgcolor: "background.formTitleBg",
+              color: "text.onPrimaryBg",
+              width: "100%",
+              borderTopLeftRadius: 3,
+              borderTopRightRadius: 3,
+              textAlign: "center",
+              height: "50px",
+              lineHeight: "50px",
+              mb: 2,
+            }}
+          >
+            Add Product
+          </Typography>
+        </Grid>
+        <Grid
+          container
+          item
+          xs={12}
+          sx={{ p: 2 }}
+          gap={{ xs: 2, sm: 3, md: 5 }}
+        >
+          <Grid item xs={12}>
+            <FormInput name={"name"} control={control} label={"Name"} />
+          </Grid>
+          <Grid item xs={12}>
+            <FormInput
+              name={"description"}
+              control={control}
+              label={"Description"}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormInput name={"price"} control={control} label={"Price"} />
+          </Grid>
+          <Grid item xs={12}>
+            <FormInput name={"color"} control={control} label={"Color"} />
+          </Grid>
+          <Grid item xs={12}>
+            <FormInput name={"style"} control={control} label={"Style"} />
+          </Grid>
+          <Grid item xs={12}>
+            <FormInput name={"material"} control={control} label={"Material"} />
+          </Grid>
+          <Grid item xs={12}>
+            <FormInput name={"category"} control={control} label={"Category"} />
+          </Grid>
+          <Grid item xs={12}>
+            <FormInput name={"gender"} control={control} label={"Gender"} />
+          </Grid>
+          <Grid item>
+            <MultipleFileUpload
+              label="Upload"
+              name="uploaded_images"
+              control={control}
+              variant="contained"
+            />
+          </Grid>
 
-            <Grid container item spacing={4}>
-              <Grid item xs={4}>
-                <FormInput
-                  variant="outlined"
-                  label="Price"
-                  type="text"
-                  name="price"
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormInput
-                  variant="outlined"
-                  label="Color"
-                  type="text"
-                  name="color"
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormInput
-                  variant="outlined"
-                  label="Style"
-                  type="text"
-                  name="style"
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item spacing={4}>
-              <Grid item xs={4}>
-                <FormInput
-                  variant="outlined"
-                  label="Material"
-                  type="text"
-                  name="material"
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormInput
-                  variant="outlined"
-                  label="Category"
-                  type="text"
-                  name="category"
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormInput
-                  variant="outlined"
-                  label="Gender"
-                  type="text"
-                  name="gender"
-                />
-              </Grid>
-            </Grid>
-            <Grid item>
-              <MultipleFileUpload
-                label="Upload"
-                name="uploaded_images"
-                variant="contained"
-              />
-            </Grid>
-            <Grid item sx={{ mt: 5 }}>
-              <FormButton variant="contained" type="submit" label="Submit" />
-            </Grid>
+          <Grid item xs={12}>
+            <Button
+              label="Submit"
+              fullWidth
+              variant="contained"
+              onClick={handleSubmit(onSubmit)}
+            />
           </Grid>
         </Grid>
-      </CustomForm>
+      </Grid>
     </Grid>
   );
 };
