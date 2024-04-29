@@ -65,3 +65,10 @@ export interface CartItem {
   quantity: number;
   size: string;
 }
+
+export interface FormInputProps {
+  name: string;
+  control: any;
+  label: string;
+  setValue?: any;
+}

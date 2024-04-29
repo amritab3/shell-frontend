@@ -2,9 +2,9 @@
 
 import React, { ReactNode } from "react";
 
+import { useForm } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 
-import { Formik, Form } from "formik";
 import { Typography } from "@mui/material";
 
 interface CustomFormProps {
@@ -28,6 +28,8 @@ const CustomForm = (props: CustomFormProps) => {
     sx,
   } = props;
 
+  const { handleSubmit, reset, control, setValue } = useForm(initialValues);
+
   return (
     <Grid
       container
@@ -41,41 +43,30 @@ const CustomForm = (props: CustomFormProps) => {
         ...sx,
       }}
     >
-      <Formik
-        initialValues={initialValues}
-        onSubmit={submitHandler}
-        validationSchema={validationSchema}
-        enableReinitialize={true}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <Grid container>
-              <Grid container item xs={12}>
-                <Typography
-                  component="h1"
-                  variant="h4"
-                  sx={{
-                    bgcolor: "background.formTitleBg",
-                    color: "text.onPrimaryBg",
-                    width: "100%",
-                    borderTopLeftRadius: 3,
-                    borderTopRightRadius: 3,
-                    textAlign: "center",
-                    height: "50px",
-                    lineHeight: "50px",
-                  }}
-                >
-                  {title}
-                </Typography>
-              </Grid>
+      <Grid container>
+        <Grid container item xs={12}>
+          <Typography
+            component="h1"
+            variant="h4"
+            sx={{
+              bgcolor: "background.formTitleBg",
+              color: "text.onPrimaryBg",
+              width: "100%",
+              borderTopLeftRadius: 3,
+              borderTopRightRadius: 3,
+              textAlign: "center",
+              height: "50px",
+              lineHeight: "50px",
+            }}
+          >
+            {title}
+          </Typography>
+        </Grid>
 
-              <Grid container item justifyContent="center" alignItems="center">
-                {children}
-              </Grid>
-            </Grid>
-          </Form>
-        )}
-      </Formik>
+        <Grid container item justifyContent="center" alignItems="center">
+          {children}
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
