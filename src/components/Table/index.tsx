@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 import MuiTable, { TableProps } from "@mui/material/Table";
 import MuiTableContainer from "@mui/material/TableContainer";
@@ -21,6 +22,8 @@ import Toolbar from "@mui/material/Toolbar";
 import { alpha } from "@mui/material/styles";
 
 import { RootState } from "@/redux/store";
+import Button from "@/components/Button";
+import Grid from "@mui/material/Grid";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -51,6 +54,7 @@ interface CustomTableProps {
   defaultSortBy: string;
   tableTitle: string;
   listUrl: string;
+  addButton: Object;
 }
 
 const Table = (props: CustomTableProps & TableProps) => {
@@ -152,6 +156,7 @@ const Table = (props: CustomTableProps & TableProps) => {
 
   function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const { numSelected } = props;
+    const router = useRouter();
 
     return (
       <Toolbar
@@ -193,11 +198,19 @@ const Table = (props: CustomTableProps & TableProps) => {
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton>
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
+          <Grid
+            container
+            justifyContent="flex-end"
+            gap={5}
+            onClick={() => router.push("/admin/products/add")}
+          >
+            <Button label={"Add New"} variant={"outlined"} />
+            <Tooltip title="Filter list">
+              <IconButton>
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
         )}
       </Toolbar>
     );
