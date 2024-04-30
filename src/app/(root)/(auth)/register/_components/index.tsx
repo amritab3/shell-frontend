@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux";
 import Grid from "@mui/material/Grid";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup"
+
 
 import { openToast } from "@/redux/features/toastSlice";
 import URLS from "@/utils/urls";
@@ -16,7 +18,10 @@ import FormInput from "@/components/Form/FormInput";
 import Button from "@/components/Button";
 
 interface IFormInput {
+  first_name: string,
+  last_name: string,
   email: string;
+  mobile_no: string;
   password: string;
   confirmPassword: string;
 }
@@ -43,12 +48,16 @@ const RegisterPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const initialValues: IFormInput = {
+    first_name: "",
+    last_name: "",
     email: "",
+    mobile_no: "",
     password: "",
     confirmPassword: "",
   };
   const { handleSubmit, control } = useForm<IFormInput>({
     defaultValues: initialValues,
+
   });
 
   const onSubmit = async (formData: IFormInput) => {
@@ -118,10 +127,34 @@ const RegisterPage = () => {
         >
           <Grid item xs={12}>
             <FormInput
+              name={"first_name"}
+              control={control}
+              label={"First Name"}
+              type={"text"}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormInput
+              name={"last_name"}
+              control={control}
+              label={"Last Name"}
+              type={"text"}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormInput
               name={"email"}
               control={control}
               label={"Email"}
               type={"email"}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormInput
+              name={"mobile_no"}
+              control={control}
+              label={"Mobile Number"}
+              type="tel"
             />
           </Grid>
           <Grid item xs={12}>
