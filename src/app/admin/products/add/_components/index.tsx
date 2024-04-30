@@ -5,26 +5,25 @@ import React from "react";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import Grid from "@mui/material/Grid";
-import { Link, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
-import CustomForm from "@/components/Form";
 import FormInput from "@/components/Form/FormInput";
-import FormButton from "@/components/Form/FormButton";
-import MultipleFileUpload from "../../../../../components/Form/MultipleFileUpload";
+import MultipleFileUpload from "@/components/Form/MultipleFileUpload";
 import URLS from "@/utils/urls";
 import Button from "@/components/Button";
-import { ProductSize } from "@/utils/schema";
+import { UploadProductSize } from "@/utils/schema";
+import UploadSizes from "./UploadSizes";
 
 export interface IFormInput {
   name: string;
   description: string;
-  price: number;
+  price: string;
   color: string;
   style: string;
   material: string;
   category: string;
   gender: string;
-  uploaded_sizes: Array<ProductSize>;
+  uploaded_sizes: Array<UploadProductSize>;
   uploaded_images: Array<any>;
 }
 
@@ -34,24 +33,22 @@ const AddProductForm = () => {
   const initialValues: IFormInput = {
     name: "",
     description: "",
-    price: 0,
+    price: "",
     color: "",
     style: "",
     material: "",
     category: "",
     gender: "",
     uploaded_images: [],
-    uploaded_sizes: [
-      { size: "M", size_inventory: 5 },
-      { size: "L", size_inventory: 7 },
-    ],
+    uploaded_sizes: [],
   };
 
-  const { handleSubmit, control } = useForm<IFormInput>({
+  const { handleSubmit, control, reset } = useForm<IFormInput>({
     defaultValues: initialValues,
   });
 
   const onSubmit = async (submittedFormData: any) => {
+    console.log("Data: ", submittedFormData);
     const { uploaded_images, uploaded_sizes, ...restValues } =
       submittedFormData;
 
@@ -71,6 +68,7 @@ const AddProductForm = () => {
       .then(async (response) => {
         const responseData = await response.json();
         console.log("response", responseData);
+        reset(initialValues);
       })
       .catch((error) => {
         console.log("Error while fetching adding the product", error);
@@ -141,7 +139,16 @@ const AddProductForm = () => {
           <Grid item xs={12}>
             <FormInput name={"gender"} control={control} label={"Gender"} />
           </Grid>
-          <Grid item>
+
+          <Grid container item>
+            <UploadSizes
+              name={"uploaded_sizes"}
+              control={control}
+              label={"Product Sizes"}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
             <MultipleFileUpload
               label="Upload"
               name="uploaded_images"
@@ -156,6 +163,12 @@ const AddProductForm = () => {
               fullWidth
               variant="contained"
               onClick={handleSubmit(onSubmit)}
+            />
+            <Button
+              label="Reset"
+              fullWidth
+              variant="contained"
+              onClick={() => reset(initialValues)}
             />
           </Grid>
         </Grid>

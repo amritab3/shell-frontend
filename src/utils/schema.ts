@@ -7,6 +7,11 @@ export interface ProductSize {
   product?: number;
 }
 
+export interface UploadProductSize {
+  size: string;
+  size_inventory: string;
+}
+
 export interface ProductImage {
   id?: number;
   image: string;
