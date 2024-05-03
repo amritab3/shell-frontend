@@ -18,7 +18,8 @@ interface FormTextFieldProps {
 const FormTextField = (
   props: FormInputProps & TextFieldProps & FormTextFieldProps,
 ) => {
-  const { name, control, label, type, variant, EndIcon, StartIcon } = props;
+  const { name, control, label, type, variant, EndIcon, StartIcon, ...rest } =
+    props;
   const [inputType, setInputType] = React.useState(type);
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -72,6 +73,7 @@ const FormTextField = (
               </InputAdornment>
             ),
           }}
+          {...rest}
         />
       )}
     />

@@ -92,7 +92,7 @@ const AddProductForm = () => {
             sx={{
               bgcolor: "background.formTitleBg",
               color: "text.onPrimaryBg",
-              width: "100%",
+              width: "auto",
               borderTopLeftRadius: 3,
               borderTopRightRadius: 3,
               textAlign: "center",
@@ -104,43 +104,78 @@ const AddProductForm = () => {
             Add Product
           </Typography>
         </Grid>
-        <Grid
-          container
-          item
-          xs={12}
-          sx={{ p: 2 }}
-          gap={{ xs: 2, sm: 3, md: 5 }}
-        >
-          <Grid item xs={12}>
-            <FormInput name={"name"} control={control} label={"Name"} />
-          </Grid>
-          <Grid item xs={12}>
-            <FormInput
-              name={"description"}
-              control={control}
-              label={"Description"}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormInput name={"price"} control={control} label={"Price"} />
-          </Grid>
-          <Grid item xs={12}>
-            <FormInput name={"color"} control={control} label={"Color"} />
-          </Grid>
-          <Grid item xs={12}>
-            <FormInput name={"style"} control={control} label={"Style"} />
-          </Grid>
-          <Grid item xs={12}>
-            <FormInput name={"material"} control={control} label={"Material"} />
-          </Grid>
-          <Grid item xs={12}>
-            <FormInput name={"category"} control={control} label={"Category"} />
-          </Grid>
-          <Grid item xs={12}>
-            <FormInput name={"gender"} control={control} label={"Gender"} />
+        <Grid container item xs={12} sx={{ p: 2 }} flexGrow={1}>
+          <Grid container item xs={5} gap={3} marginRight={2}>
+            <Grid item xs={12}>
+              <FormInput name={"name"} control={control} label={"Name"} />
+            </Grid>
+            <Grid item xs={12}>
+              <FormInput
+                name={"description"}
+                control={control}
+                label={"Description"}
+                multiline
+                rows={4}
+              />
+            </Grid>
           </Grid>
 
-          <Grid container item>
+          <Grid container item xs={5} gap={2}>
+            <Grid
+              container
+              item
+              spacing={1}
+              xs={12}
+              justifyContent="space-evenly"
+            >
+              <Grid item xs={6}>
+                <FormInput name={"price"} control={control} label={"Price"} />
+              </Grid>
+              <Grid item xs={6}>
+                <FormInput name={"color"} control={control} label={"Color"} />
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              item
+              spacing={1}
+              xs={12}
+              justifyContent="space-evenly"
+            >
+              <Grid item xs={6}>
+                <FormInput name={"style"} control={control} label={"Style"} />
+              </Grid>
+              <Grid item xs={6}>
+                <FormInput
+                  name={"material"}
+                  control={control}
+                  label={"Material"}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              item
+              spacing={1}
+              xs={12}
+              justifyContent="space-evenly"
+            >
+              <Grid item xs={6}>
+                <FormInput
+                  name={"category"}
+                  control={control}
+                  label={"Category"}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormInput name={"gender"} control={control} label={"Gender"} />
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid container item xs={12}>
             <UploadSizes
               name={"uploaded_sizes"}
               control={control}
