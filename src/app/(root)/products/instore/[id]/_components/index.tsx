@@ -8,7 +8,6 @@ import { RootState } from "@/redux/store";
 
 import { openToast } from "@/redux/features/toastSlice";
 
-
 import {
   Box,
   Grid,
@@ -83,9 +82,12 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     const cartItem: CartItem = {
-      productId: selectedSize.product!,
+      productId: product.id!,
       quantity: numberOfItems,
       size: selectedSize.size,
+      price: product.price,
+      name: product.name,
+      imageUrl: product.images[0].image,
     };
     dispatch(addToCart(cartItem));
     setSelectedSize({} as ProductSize);
@@ -258,7 +260,7 @@ const ProductDetail = () => {
           </Grid>
 
           <Grid container item>
-            {product.inventory > 0 ? (
+            {product.inventory! > 0 ? (
               <Button
                 label="Add to Cart"
                 variant="outlined"
