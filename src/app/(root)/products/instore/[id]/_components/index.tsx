@@ -17,8 +17,6 @@ import {
   Link,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import TrendingFlatIcon from "@mui/icons-material/TrendingFlat";
 import Rating from "@mui/material/Rating";
 import Button from "@/components/Button";
 import { Product, ProductSize } from "@/utils/schema";
@@ -53,7 +51,7 @@ const ProductDetail = () => {
       dispatch(
         openToast({
           message: "Please select the size first.",
-          severity: "info",
+          severity: "error",
         }),
       );
     }
@@ -81,6 +79,26 @@ const ProductDetail = () => {
   }, []);
 
   const handleAddToCart = () => {
+    if (!objectExists(selectedSize)) {
+      dispatch(
+        openToast({
+          message: "Please select the size first.",
+          severity: "error",
+        }),
+      );
+      return;
+    }
+
+    if (numberOfItems <= 0) {
+      dispatch(
+        openToast({
+          message: "Quantity should be more than 0",
+          severity: "error",
+        }),
+      );
+      return;
+    }
+
     const cartItem: CartItem = {
       productId: product.id!,
       quantity: numberOfItems,
@@ -263,7 +281,7 @@ const ProductDetail = () => {
             {product.inventory! > 0 ? (
               <Button
                 label="Add to Cart"
-                variant="outlined"
+                variant="contained"
                 onClick={handleAddToCart}
               />
             ) : (
