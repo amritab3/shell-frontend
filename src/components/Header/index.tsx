@@ -226,7 +226,7 @@ const Header = () => {
               open={Boolean(anchorElCart)}
               onClose={handleCloseCartMenu}
             >
-              <MenuItem>
+              <MenuItem onClick={() => router.push('/products/cart/')}>
                 <Typography>View Cart</Typography>
               </MenuItem>
               <MenuItem onClick={() => dispatch(clearCart())}>
