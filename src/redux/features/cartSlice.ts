@@ -36,7 +36,7 @@ export const cartSlice = createSlice({
           ) {
             return {
               ...cartItem,
-              quantity: cartItem.quantity + action.payload.quantity,
+              quantity: action.payload.quantity,
             };
           }
           return cartItem;
