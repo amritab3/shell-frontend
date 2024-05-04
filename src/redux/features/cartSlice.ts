@@ -24,14 +24,14 @@ export const cartSlice = createSlice({
         objectExistsWithTwoSameKeyValues(
           state.cartItems,
           "productId",
-          action.payload.productId,
+          action.payload.product,
           "size",
           action.payload.size,
         )
       ) {
         state.cartItems = state.cartItems.map((cartItem: CartItem) => {
           if (
-            cartItem["productId"] === action.payload.productId &&
+            cartItem["product"] === action.payload.product &&
             cartItem.size === action.payload.size
           ) {
             return {
