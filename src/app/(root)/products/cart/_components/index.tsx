@@ -19,24 +19,61 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import Button from "@/components/Button";
 import { RootState } from "@/redux/store";
+import URLS from "@/utils/urls";
+
+interface CartItemToShow {
+  quantity: number;
+  size: string;
+  name: string;
+  imageUrl: string;
+  price: number;
+}
 
 const ViewCart = () => {
   const [subTotalPrice, setSubTotalPrice] = React.useState(0);
   const [totalPrice, setTotalPrice] = React.useState(0);
+  const [cartToShow, setCartToShow] = React.useState<Array<CartItemToShow>>([]);
 
   const router = useRouter();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const deliveryCharge: number = 100;
 
   useEffect(() => {
-    const subTotal = cartItems.reduce(
+    const cart = cartItems.map(async (cartItem) => {
+      try {
+        const response = await fetch(
+          `${URLS.PRODUCTS_URL}/${cartItem.productId}`,
+          {
+            method: "GET",
+          },
+        );
+        const respBody = await response.json();
+        return {
+          quantity: cartItem.quantity,
+          size: cartItem.size,
+          price: respBody.price,
+          name: respBody.name,
+          imageUrl: respBody.images[0].image,
+        };
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    });
+
+    Promise.all(cart).then((res) => {
+      setCartToShow(res as Array<CartItemToShow>);
+    });
+  }, [cartItems]);
+
+  useEffect(() => {
+    const subTotal = cartToShow.reduce(
       (total, { price, quantity }) => total + quantity * price,
       0,
     );
 
     setSubTotalPrice(subTotal);
     setTotalPrice(subTotal + deliveryCharge);
-  }, []);
+  }, [cartToShow]);
 
   return (
     <Grid container item xs={12} marginX={4}>
@@ -96,7 +133,7 @@ const ViewCart = () => {
               </Grid>
             </ListItem>
 
-            {cartItems.map((cartItem, index) => {
+            {cartToShow.map((cartItem, index) => {
               const totalPriceForAnItem = cartItem.quantity * cartItem.price;
               return (
                 <ListItem key={index}>

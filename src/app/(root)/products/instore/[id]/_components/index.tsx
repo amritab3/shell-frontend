@@ -103,9 +103,6 @@ const ProductDetail = () => {
       productId: product.id!,
       quantity: numberOfItems,
       size: selectedSize.size,
-      price: product.price,
-      name: product.name,
-      imageUrl: product.images[0].image,
     };
     dispatch(addToCart(cartItem));
     setSelectedSize({} as ProductSize);

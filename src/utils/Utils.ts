@@ -38,3 +38,17 @@ export function isObjectEqual(obj1: any, obj2: any): boolean {
 
   return true;
 }
+
+export const objectExistsInArray = (arr: any[], obj: any): boolean => {
+  return arr.some((item) => JSON.stringify(item) === JSON.stringify(obj));
+};
+
+export function objectExistsWithTwoSameKeyValues(
+  arr: any[],
+  key1: string,
+  value1: any,
+  key2: string,
+  value2: any,
+): boolean {
+  return arr.some((obj) => obj[key1] === value1 && obj[key2] === value2);
+}

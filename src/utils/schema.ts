@@ -69,9 +69,6 @@ export interface CartItem {
   productId: number;
   quantity: number;
   size: string;
-  price: number;
-  name: string;
-  imageUrl: string;
 }
 
 export interface FormInputProps {
