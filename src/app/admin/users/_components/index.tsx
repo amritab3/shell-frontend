@@ -35,12 +35,17 @@ const userTableHeadCells: UserTableHeadCell[] = [
 ];
 
 const UsersTable = () => {
+  const addButton = {
+    redirectTo: "/admin/users/add",
+    label: "Add New User",
+  };
   return (
     <Table
       headCells={userTableHeadCells}
       defaultSortBy="first_name"
       tableTitle="Users"
       listUrl={URLS.LIST_USERS}
+      addButton={addButton}
     />
   );
 };
