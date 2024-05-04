@@ -84,7 +84,7 @@ export const MainListItems = () => {
 
       <ListItemButton onClick={expandUserManagement}>
         <ListItemIcon>
-          <CategoryIcon />
+          <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary="User Management" />
         {adminUserManagementCollapse ? <ExpandLess /> : <ExpandMore />}
