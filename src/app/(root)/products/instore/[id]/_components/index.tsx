@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 
 import { RootState } from "@/redux/store";
@@ -30,6 +30,7 @@ const itemInfoWidth: string = "100px";
 const ProductDetail = () => {
   const params = useParams();
   const dispatch = useDispatch();
+  const router = useRouter();
   const [ratingValue, setRatingValue] = React.useState<number | null>(0);
   const [numberOfItems, setNumberOfItems] = React.useState(0);
   const [product, setProduct] = useState({
@@ -39,6 +40,9 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState({} as ProductSize);
 
   const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
+  const accessToken = useSelector(
+    (state: RootState) => state.user.access_token,
+  );
 
   const incrementItemCount = () => {
     if (objectExists(selectedSize)) {
@@ -99,14 +103,45 @@ const ProductDetail = () => {
       return;
     }
 
+    if (!isLoggedIn) {
+      dispatch(
+        openToast({
+          message: "Please login to continue",
+          severity: "info",
+        }),
+      );
+      router.push("/login");
+      return;
+    }
+
     const cartItem: CartItem = {
-      productId: product.id!,
+      product: product.id!,
       quantity: numberOfItems,
       size: selectedSize.size,
     };
-    dispatch(addToCart(cartItem));
-    setSelectedSize({} as ProductSize);
-    setNumberOfItems(0);
+
+    fetch(URLS.ADD_ITEM_TO_CART, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cartItem),
+    })
+      .then(() => {
+        dispatch(addToCart(cartItem));
+        dispatch(
+          openToast({
+            message: "Item added to cart",
+            severity: "success",
+          }),
+        );
+        setSelectedSize({} as ProductSize);
+        setNumberOfItems(0);
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
   };
 
   return (
