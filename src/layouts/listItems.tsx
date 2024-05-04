@@ -18,7 +18,10 @@ import CategoryIcon from "@mui/icons-material/Category";
 import { logout } from "@/redux/features/userSlice";
 import { openToast } from "@/redux/features/toastSlice";
 import { RootState } from "@/redux/store";
-import { toggleAdminProductsCollapse } from "@/redux/features/miscSlice";
+import {
+  toggleAdminProductsCollapse,
+  toggleUserManagementCollapse,
+} from "@/redux/features/miscSlice";
 
 export const MainListItems = () => {
   const router = useRouter();
@@ -28,8 +31,16 @@ export const MainListItems = () => {
     (state: RootState) => state.misc.adminProductsCollapse,
   );
 
-  const expandProducts = () => {
+  const adminUserManagementCollapse = useSelector(
+    (state: RootState) => state.misc.adminUserManagementCollapse,
+  );
+
+  const expandProductManagement = () => {
     dispatch(toggleAdminProductsCollapse());
+  };
+
+  const expandUserManagement = () => {
+    dispatch(toggleUserManagementCollapse());
   };
 
   return (
@@ -41,11 +52,11 @@ export const MainListItems = () => {
         <ListItemText primary="Dashboard" />
       </ListItemButton>
 
-      <ListItemButton onClick={expandProducts}>
+      <ListItemButton onClick={expandProductManagement}>
         <ListItemIcon>
           <CategoryIcon />
         </ListItemIcon>
-        <ListItemText primary="Products" />
+        <ListItemText primary="Product Management" />
         {adminProductsCollapse ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={adminProductsCollapse} timeout="auto" unmountOnExit>
@@ -71,12 +82,26 @@ export const MainListItems = () => {
         </List>
       </Collapse>
 
-      <ListItemButton onClick={() => router.push("/admin/users")}>
+      <ListItemButton onClick={expandUserManagement}>
         <ListItemIcon>
-          <PeopleIcon />
+          <CategoryIcon />
         </ListItemIcon>
-        <ListItemText primary="Users" />
+        <ListItemText primary="User Management" />
+        {adminUserManagementCollapse ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
+      <Collapse in={adminUserManagementCollapse} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton
+            sx={{ pl: 4 }}
+            onClick={() => router.push("/admin/users")}
+          >
+            <ListItemIcon>
+              <InventoryIcon />
+            </ListItemIcon>
+            <ListItemText primary="Users" />
+          </ListItemButton>
+        </List>
+      </Collapse>
     </React.Fragment>
   );
 };
