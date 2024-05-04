@@ -49,16 +49,22 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
+interface AddButton {
+  redirectTo: string;
+  label: string;
+}
+
 interface CustomTableProps {
   headCells: Array<Record<string, any>>;
   defaultSortBy: string;
   tableTitle: string;
   listUrl: string;
-  addButton: Object;
+  addButton?: AddButton;
 }
 
 const Table = (props: CustomTableProps & TableProps) => {
-  const { headCells, defaultSortBy, tableTitle, listUrl, ...rest } = props;
+  const { headCells, defaultSortBy, tableTitle, listUrl, addButton, ...rest } =
+    props;
   const [data, setData] = React.useState<Array<any>>([]);
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>(defaultSortBy);
@@ -198,13 +204,14 @@ const Table = (props: CustomTableProps & TableProps) => {
             </IconButton>
           </Tooltip>
         ) : (
-          <Grid
-            container
-            justifyContent="flex-end"
-            gap={5}
-            onClick={() => router.push("/admin/products/add")}
-          >
-            <Button label={"Add New"} variant={"outlined"} />
+          <Grid container justifyContent="flex-end" gap={5}>
+            {addButton ? (
+              <Button
+                label={addButton.label}
+                variant={"outlined"}
+                onClick={() => router.push(addButton.redirectTo)}
+              />
+            ) : null}
             <Tooltip title="Filter list">
               <IconButton>
                 <FilterListIcon />
