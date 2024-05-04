@@ -9,15 +9,17 @@ import InputLabel from "@mui/material/InputLabel";
 
 interface Option {
   label: string;
-  value: string;
+  value: any;
 }
 
-interface FormSelectProps {
+interface FormMultiSelectProps {
   label: string;
   options: Array<Option>;
 }
 
-const FormSelect = (props: FormInputProps & SelectProps & FormSelectProps) => {
+const FormMultiSelect = (
+  props: FormInputProps & SelectProps & FormMultiSelectProps,
+) => {
   const { name, control, label, options, fullWidth, ...rest } = props;
 
   return (
@@ -36,6 +38,7 @@ const FormSelect = (props: FormInputProps & SelectProps & FormSelectProps) => {
             onChange={onChange}
             value={value}
             fullWidth={fullWidth}
+            multiple
           >
             {options.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -49,4 +52,4 @@ const FormSelect = (props: FormInputProps & SelectProps & FormSelectProps) => {
   );
 };
 
-export default FormSelect;
+export default FormMultiSelect;
