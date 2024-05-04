@@ -96,7 +96,7 @@ export const MainListItems = () => {
             onClick={() => router.push("/admin/users")}
           >
             <ListItemIcon>
-              <InventoryIcon />
+              <PeopleIcon />
             </ListItemIcon>
             <ListItemText primary="Users" />
           </ListItemButton>
