@@ -51,7 +51,7 @@ const ViewCart = () => {
     const cart = cartItems.map(async (cartItem) => {
       try {
         const response = await fetch(
-          `${URLS.PRODUCTS_URL}/${cartItem.productId}`,
+          `${URLS.PRODUCTS_URL}/${cartItem.product}`,
           {
             method: "GET",
           },

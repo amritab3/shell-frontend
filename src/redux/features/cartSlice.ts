@@ -23,7 +23,7 @@ export const cartSlice = createSlice({
       if (
         objectExistsWithTwoSameKeyValues(
           state.cartItems,
-          "productId",
+          "product",
           action.payload.product,
           "size",
           action.payload.size,
@@ -49,9 +49,13 @@ export const cartSlice = createSlice({
     clearCart: () => {
       return initialState;
     },
+    setCartOnLogin: (state, action) => {
+      state.cartItems = [...action.payload];
+      state.numberOfItems = state.cartItems.length;
+    },
   },
 });
 
-export const { addToCart, clearCart } = cartSlice.actions;
+export const { addToCart, clearCart, setCartOnLogin } = cartSlice.actions;
 
 export default cartSlice.reducer;

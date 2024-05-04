@@ -93,6 +93,7 @@ const Header = () => {
   const handleLogout = () => {
     handleCloseUserMenu();
     dispatch(logout());
+    dispatch(clearCart());
     dispatch(openToast({ message: "User logged out", severity: "success" }));
     router.push("/");
   };

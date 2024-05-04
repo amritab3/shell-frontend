@@ -16,6 +16,7 @@ import { UserType } from "@/utils/schema";
 import { Link, Typography } from "@mui/material";
 import FormInput from "@/components/Form/FormInput";
 import Button from "@/components/Button";
+import { setCartOnLogin } from "@/redux/features/cartSlice";
 
 interface IFormInput {
   email: string;
@@ -72,6 +73,21 @@ const LoginPage = () => {
         .catch((error) => {
           console.log("Error while fetching user details", error);
         });
+
+      fetch(URLS.GET_USER_CART, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${respData.access}`,
+        },
+      })
+        .then(async (response) => {
+          const responseData = await response.json();
+          dispatch(setCartOnLogin(responseData));
+        })
+        .catch((err) => {
+          console.log("Error while fetching user cart", err);
+        });
+
       router.push("/");
     } else {
       dispatch(openToast({ message: "User Login Failed", severity: "error" }));
