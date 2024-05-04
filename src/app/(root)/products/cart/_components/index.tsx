@@ -36,7 +36,16 @@ const ViewCart = () => {
 
   const router = useRouter();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
+  const userAccessToken = useSelector(
+    (state: RootState) => state.user.access_token,
+  );
+
   const deliveryCharge: number = 100;
+
+  if (!isLoggedIn) {
+    router.push("/login");
+  }
 
   useEffect(() => {
     const cart = cartItems.map(async (cartItem) => {

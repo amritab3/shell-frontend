@@ -17,6 +17,8 @@ const URLS = {
   LIST_KIDS_PRODUCTS: `${BASE_URL}/products/kids/`,
 
   LIST_USERS: `${BASE_URL}/users/`,
+
+  ADD_TO_CART: `${BASE_URL}/`,
 };
 
 export default URLS;

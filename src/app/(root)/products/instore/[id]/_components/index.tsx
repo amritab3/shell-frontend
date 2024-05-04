@@ -76,7 +76,7 @@ const ProductDetail = () => {
       .catch((error) => {
         console.log("Error while fetching a product.", error);
       });
-  }, []);
+  }, [params.id]);
 
   const handleAddToCart = () => {
     if (!objectExists(selectedSize)) {
