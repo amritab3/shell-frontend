@@ -66,7 +66,7 @@ export interface UserType {
 }
 
 export interface CartItem {
-  productId: number;
+  product: number;
   quantity: number;
   size: string;
 }
