@@ -39,7 +39,7 @@ const instoreProductsTableHeadCells: InstoreProductTableHeadCell[] = [
 
 const InstoreProductsTable = () => {
   const addButton = {
-    redirectTo: "/products/add",
+    redirectTo: "/admin/products/add",
     label: "Add New Product",
   };
   return (
