@@ -19,6 +19,8 @@ const URLS = {
   LIST_USERS: `${BASE_URL}/users/`,
 
   ADD_TO_CART: `${BASE_URL}/`,
+
+  ADMIN_ADD_USER: `${BASE_URL}/users/admin/user/`,
 };
 
 export default URLS;

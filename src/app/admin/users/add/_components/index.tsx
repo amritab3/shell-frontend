@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
@@ -11,6 +13,8 @@ import FormSelect from "@/components/Form/FormSelect";
 import FormMultiSelect from "@/components/Form/FormMultiSelect";
 import FormInput from "@/components/Form/FormInput";
 import Button from "@/components/Button";
+import URLS from "@/utils/urls";
+import { openToast } from "@/redux/features/toastSlice";
 
 export interface IFormInput {
   first_name: string;
@@ -36,9 +40,37 @@ const AddUserForm = () => {
   const { handleSubmit, control, reset } = useForm<IFormInput>({
     defaultValues: initialValues,
   });
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const onSubmit = async (submittedFormData: any) => {
-    console.log("Data: ", submittedFormData);
+    let formData = new FormData();
+    for (let key in submittedFormData) {
+      formData.append(key, submittedFormData[key]);
+    }
+
+    fetch(URLS.ADMIN_ADD_USER, {
+      method: "POST",
+      body: formData,
+    })
+      .then(async (response) => {
+        dispatch(
+          openToast({
+            message: "User added successfully",
+            severity: "success",
+          }),
+        );
+        router.push("/admin/users/");
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+        dispatch(
+          openToast({
+            message: "User could not be added",
+            severity: "error",
+          }),
+        );
+      });
   };
 
   const genderOptions = [
