@@ -22,6 +22,8 @@ const URLS = {
   GET_USER_CART: `${BASE_URL}/products/cart/user-cart/`,
 
   ADMIN_ADD_USER: `${BASE_URL}/users/admin/user/`,
+
+  CREATE_ORDER: `${BASE_URL}/orders/`,
 };
 
 export default URLS;

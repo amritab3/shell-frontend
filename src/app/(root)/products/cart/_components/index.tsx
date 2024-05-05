@@ -1,15 +1,16 @@
 "use client";
 
+import * as crypto from "crypto";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 import {
+  Avatar,
   Divider,
   Grid,
-  Typography,
   ListItemAvatar,
-  Avatar,
+  Typography,
 } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -83,6 +84,69 @@ const ViewCart = () => {
     setSubTotalPrice(subTotal);
     setTotalPrice(subTotal + deliveryCharge);
   }, [cartToShow]);
+
+  const onClickCheckout = () => {
+    const productsForOrder = cartItems.map((cartItem) => ({
+      product: cartItem.product,
+      quantity: cartItem.quantity,
+      size: cartItem.size,
+    }));
+
+    const orderItem = {
+      amount: subTotalPrice,
+      products: productsForOrder,
+    };
+
+    fetch(URLS.CREATE_ORDER, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userAccessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderItem),
+    })
+      .then(async (orderResp: any) => {
+        const orderRespData = await orderResp.json();
+        esewaCall(orderRespData.paymentFormData);
+      })
+      .catch((err) => {
+        console.log("Error", err);
+      });
+  };
+
+  const esewaCall = (paymentFormData: any) => {
+    const path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
+
+    paymentFormData["signature"] = createSignature(
+      `total_amount=${paymentFormData.total_amount},transaction_uuid=${paymentFormData.transaction_uuid},product_code=EPAYTEST`,
+    );
+
+    console.log("Form Data: ", paymentFormData);
+
+    let form = document.createElement("form");
+    form.setAttribute("method", "POST");
+    form.setAttribute("action", path);
+
+    for (let key in paymentFormData) {
+      let hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "hidden");
+      hiddenField.setAttribute("name", key);
+      hiddenField.setAttribute("value", paymentFormData[key].toString());
+      form.appendChild(hiddenField);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+  };
+
+  const createSignature = (message: string) => {
+    const secret = "8gBm/:&EnhH.1/q";
+
+    const hmac = crypto.createHmac("sha256", secret);
+    hmac.update(message);
+
+    return hmac.digest("base64");
+  };
 
   return (
     <Grid container item xs={12} marginX={4}>
@@ -235,7 +299,12 @@ const ViewCart = () => {
           </Typography>
         </Grid>
         <Grid container item gap={2} marginTop={2}>
-          <Button label="Proceed to checkout" fullWidth variant="contained" />
+          <Button
+            label="Checkout and pay with eSewa"
+            fullWidth
+            variant="contained"
+            onClick={onClickCheckout}
+          />
           <Button
             label="Continue Shopping"
             fullWidth
