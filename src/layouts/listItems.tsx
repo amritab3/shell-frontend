@@ -22,6 +22,7 @@ import {
   toggleAdminProductsCollapse,
   toggleUserManagementCollapse,
 } from "@/redux/features/miscSlice";
+import { clearCart } from "@/redux/features/cartSlice";
 
 export const MainListItems = () => {
   const router = useRouter();
@@ -110,10 +111,11 @@ export const SecondaryListItems = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleLogout = () => {
-    dispatch(logout());
-    dispatch(openToast({ message: "User logged out", severity: "success" }));
+  const handleLogout = async () => {
+    await dispatch(logout());
+    dispatch(clearCart());
     router.push("/");
+    dispatch(openToast({ message: "User logged out", severity: "success" }));
   };
 
   return (
