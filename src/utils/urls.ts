@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000";
+export const BASE_URL = "http://localhost:8000";
 
 const URLS = {
   USER_LOGIN_URL: `${BASE_URL}/auth/login/`,

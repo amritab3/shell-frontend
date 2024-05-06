@@ -14,7 +14,7 @@ import Button from "@/components/Button";
 import FormInput from "@/components/Form/FormInput";
 import { RootState } from "@/redux/store";
 import { UserType } from "@/utils/schema";
-import URLS from "@/utils/urls";
+import URLS, { BASE_URL } from "@/utils/urls";
 import { objectExists } from "@/utils/Utils";
 import { openToast } from "@/redux/features/toastSlice";
 import { setAvatarUrl } from "@/redux/features/userSlice";
@@ -88,14 +88,15 @@ const GeneralInformation = () => {
   }, []);
 
   const onSubmit = async (submittedFormData: any) => {
-    console.log(submittedFormData);
     const { avatar, ...restValues } = submittedFormData;
 
     let formData = new FormData();
     for (let key in restValues) {
       formData.append(key, restValues[key]);
     }
-    formData.append("avatar", avatar, avatar.name);
+    if (avatar) {
+      formData.append("avatar", avatar, avatar.name);
+    }
 
     fetch(`${URLS.USER_URL}/${loggedInUserId}/`, {
       method: "PATCH",
@@ -107,6 +108,7 @@ const GeneralInformation = () => {
       .then(async (response) => {
         const responseData: UserType = await response.json();
         setUserDetails(responseData);
+        dispatch(setAvatarUrl(`${BASE_URL}${responseData.avatar}`));
         dispatch(
           openToast({
             message: "User details updated",
