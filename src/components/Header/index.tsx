@@ -26,6 +26,7 @@ import { RootState } from "@/redux/store";
 import { logout } from "@/redux/features/userSlice";
 import { openToast } from "@/redux/features/toastSlice";
 import { clearCart } from "@/redux/features/cartSlice";
+import { removePreviousRoute } from "@/redux/features/miscSlice";
 
 const navBarItems = [
   { label: "Men", path: "/products/instore/men/" },
@@ -90,10 +91,11 @@ const Header = () => {
     (state: RootState) => state.cart.numberOfItems,
   );
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     handleCloseUserMenu();
-    dispatch(logout());
+    await dispatch(logout());
     dispatch(clearCart());
+    dispatch(removePreviousRoute());
     dispatch(openToast({ message: "User logged out", severity: "success" }));
     router.push("/");
   };

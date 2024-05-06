@@ -5,11 +5,13 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface MiscStateType {
   adminProductsCollapse: boolean;
   adminUserManagementCollapse: boolean;
+  prevRoute: string;
 }
 
 const initialState: MiscStateType = {
   adminProductsCollapse: false,
   adminUserManagementCollapse: false,
+  prevRoute: "",
 };
 
 export const miscSlice = createSlice({
@@ -22,10 +24,20 @@ export const miscSlice = createSlice({
     toggleUserManagementCollapse: (state) => {
       state.adminUserManagementCollapse = !state.adminUserManagementCollapse;
     },
+    setPreviousRoute: (state, action) => {
+      state.prevRoute = action.payload;
+    },
+    removePreviousRoute: (state) => {
+      state.prevRoute = "";
+    },
   },
 });
 
-export const { toggleAdminProductsCollapse, toggleUserManagementCollapse } =
-  miscSlice.actions;
+export const {
+  toggleAdminProductsCollapse,
+  toggleUserManagementCollapse,
+  setPreviousRoute,
+  removePreviousRoute,
+} = miscSlice.actions;
 
 export default miscSlice.reducer;

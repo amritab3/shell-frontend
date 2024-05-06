@@ -19,6 +19,7 @@ import { logout } from "@/redux/features/userSlice";
 import { openToast } from "@/redux/features/toastSlice";
 import { RootState } from "@/redux/store";
 import {
+  removePreviousRoute,
   toggleAdminProductsCollapse,
   toggleUserManagementCollapse,
 } from "@/redux/features/miscSlice";
@@ -115,6 +116,7 @@ export const SecondaryListItems = () => {
     await dispatch(logout());
     dispatch(clearCart());
     router.push("/");
+    dispatch(removePreviousRoute());
     dispatch(openToast({ message: "User logged out", severity: "success" }));
   };
 

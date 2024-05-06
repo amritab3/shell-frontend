@@ -3,7 +3,7 @@
 import React from "react";
 
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Grid from "@mui/material/Grid";
 import * as Yup from "yup";
@@ -17,6 +17,8 @@ import { Link, Typography } from "@mui/material";
 import FormInput from "@/components/Form/FormInput";
 import Button from "@/components/Button";
 import { setCartOnLogin } from "@/redux/features/cartSlice";
+import { RootState } from "@/redux/store";
+import { removePreviousRoute } from "@/redux/features/miscSlice";
 
 interface IFormInput {
   email: string;
@@ -40,6 +42,7 @@ const LoginPage = () => {
   const { handleSubmit, control } = useForm<IFormInput>({
     defaultValues: initialValues,
   });
+  const previousRoute = useSelector((state: RootState) => state.misc.prevRoute);
 
   const onSubmit = async (formData: IFormInput) => {
     const response = await fetch(URLS.USER_LOGIN_URL, {
@@ -88,7 +91,12 @@ const LoginPage = () => {
           console.log("Error while fetching user cart", err);
         });
 
-      router.push("/");
+      if (previousRoute) {
+        router.push(previousRoute);
+        dispatch(removePreviousRoute());
+      } else {
+        router.push("/");
+      }
     } else {
       dispatch(openToast({ message: "User Login Failed", severity: "error" }));
     }
