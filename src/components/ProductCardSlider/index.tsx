@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 
 import { ProductCardSliderType } from "@/utils/schema";
 import { Grid, Typography } from "@mui/material";
@@ -15,7 +16,8 @@ import ProductCard from "@/components/Card/ProductCard";
 import Button from "@/components/Button";
 
 const ProductCardSlider = (props: ProductCardSliderType) => {
-  const { products, autoPlay, title, showViewMore } = props;
+  const { products, autoPlay, title, showViewMore, viewMoreRedirect } = props;
+  const router = useRouter()
 
   function NextArrow(props: any) {
     const { className, style, onClick } = props;
@@ -117,7 +119,7 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
 
       {showViewMore && (
         <Grid item sx={{ mt: 5 }}>
-          <Button label="View More" variant="outlined" />
+          <Button label="View More" variant="outlined" onClick={() => router.push(viewMoreRedirect!)} /> 
         </Grid>
       )}
     </Grid>

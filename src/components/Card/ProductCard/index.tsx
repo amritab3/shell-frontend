@@ -78,8 +78,8 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
         </Grid>
       </Grid>
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {product.name}
+        <Typography gutterBottom variant="h5" component="div" textTransform="capitalize">
+          {product.name.toLowerCase()}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Rs.{product.price}

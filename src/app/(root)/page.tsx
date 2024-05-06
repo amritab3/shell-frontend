@@ -106,15 +106,15 @@ export default function Home() {
       </Grid>
 
       <Grid item xs={11} sx={{ mb: 4 }}>
-        <ProductCardSlider title="Men's Wear" products={menProducts} showViewMore={true} />
+        <ProductCardSlider title="Men's Wear" products={menProducts} showViewMore={true} viewMoreRedirect="/products/instore/men" />
       </Grid>
 
       <Grid item xs={11} sx={{ mb: 4 }}>
-        <ProductCardSlider title="Women's Wear" products={womenProducts} showViewMore={true} />
+        <ProductCardSlider title="Women's Wear" products={womenProducts} showViewMore={true} viewMoreRedirect="/products/instore/women/" />
       </Grid>
 
       <Grid item xs={11} sx={{ mb: 4 }}>
-        <ProductCardSlider title="Kid's Wear" products={kidsProducts} showViewMore={true} />
+        <ProductCardSlider title="Kid's Wear" products={kidsProducts} showViewMore={true} viewMoreRedirect="/products/instore/kids/" />
       </Grid>
     </Grid>
   );

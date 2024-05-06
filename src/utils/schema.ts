@@ -44,6 +44,7 @@ export interface ProductCardSliderType {
   autoPlay?: boolean;
   title: string;
   showViewMore?: boolean;
+  viewMoreRedirect?: string;
 }
 
 export interface BannerContent {
