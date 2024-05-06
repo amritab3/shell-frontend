@@ -21,6 +21,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@/components/Button";
 import { RootState } from "@/redux/store";
 import URLS from "@/utils/urls";
+import withAuth from "@/hoc/withAuth";
 
 interface CartItemToShow {
   quantity: number;
@@ -43,10 +44,6 @@ const ViewCart = () => {
   );
 
   const deliveryCharge: number = 100;
-
-  if (!isLoggedIn) {
-    router.push("/login");
-  }
 
   useEffect(() => {
     const cart = cartItems.map(async (cartItem) => {
@@ -317,4 +314,4 @@ const ViewCart = () => {
   );
 };
 
-export default ViewCart;
+export default withAuth(ViewCart);
