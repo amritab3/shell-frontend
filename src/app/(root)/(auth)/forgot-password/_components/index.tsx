@@ -5,17 +5,17 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
 import PersonIcon from "@mui/icons-material/Person";
 import Grid from "@mui/material/Grid";
-import * as Yup from "yup";
 
 import FormInput from "@/components/Form/FormInput";
 import { setForgotPasswordEmail } from "@/redux/features/userSlice";
 import { openToast } from "@/redux/features/toastSlice";
 import URLS from "@/utils/urls";
-import { Link, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Button from "@/components/Button";
-import { useForm } from "react-hook-form";
 
 interface IFormInput {
   email: string;

@@ -48,7 +48,6 @@ const AddProductForm = () => {
   });
 
   const onSubmit = async (submittedFormData: any) => {
-    console.log("Data: ", submittedFormData);
     const { uploaded_images, uploaded_sizes, ...restValues } =
       submittedFormData;
 
