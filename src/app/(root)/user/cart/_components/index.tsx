@@ -23,6 +23,7 @@ import { RootState } from "@/redux/store";
 import URLS from "@/utils/urls";
 import withAuth from "@/hoc/withAuth";
 import { removeCartItem } from "@/redux/features/cartSlice";
+import { openToast } from "@/redux/features/toastSlice";
 
 interface CartItemToShow {
   id: string;
@@ -137,16 +138,29 @@ const ViewCart = () => {
   };
 
   const deleteItemFromCart = async (cartItemId: string) => {
-    dispatch(removeCartItem(cartItemId));
-
     const cartItemDeleteUrl = new URL(
       URLS.DELETE_CART_ITEM.replace(":userId", userId),
     );
-    console.log("URL", cartItemDeleteUrl);
+    cartItemDeleteUrl.search = new URLSearchParams({
+      id: cartItemId,
+    }).toString();
 
-    // await fetch(URLS.DELETE_CART_ITEM, {
-    //   method: "DELETE",
-    // });
+    const cartItemDeleteResp = await fetch(cartItemDeleteUrl, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${userAccessToken}`,
+      },
+    });
+
+    if (cartItemDeleteResp.ok) {
+      dispatch(removeCartItem(cartItemId));
+      dispatch(
+        openToast({
+          message: "Cart item deleted successfully",
+          severity: "success",
+        }),
+      );
+    }
   };
 
   return (
