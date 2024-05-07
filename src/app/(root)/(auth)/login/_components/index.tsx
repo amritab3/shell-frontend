@@ -77,7 +77,7 @@ const LoginPage = () => {
           console.log("Error while fetching user details", error);
         });
 
-      fetch(URLS.GET_USER_CART, {
+      fetch(URLS.GET_USER_CART.replace(":userId", userData.id), {
         method: "GET",
         headers: {
           Authorization: `Bearer ${respData.access}`,

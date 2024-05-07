@@ -22,7 +22,7 @@ const URLS = {
   LIST_USERS: `${BASE_URL}/users/`,
 
   ADD_ITEM_TO_CART: `${BASE_URL}/products/cart/add-item/`,
-  GET_USER_CART: `${BASE_URL}/products/cart/user-cart/`,
+  GET_USER_CART: `${BASE_URL}/users/:userId/cart/user-cart/`,
 
   ADMIN_ADD_USER: `${BASE_URL}/users/admin/user/`,
 
