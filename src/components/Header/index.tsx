@@ -231,7 +231,7 @@ const Header = () => {
             >
               <MenuItem
                 onClick={() => {
-                  router.push("/products/cart/");
+                  router.push("/user/cart/");
                   handleCloseCartMenu();
                 }}
               >
