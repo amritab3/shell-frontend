@@ -84,8 +84,10 @@ const LoginPage = () => {
         },
       })
         .then(async (response) => {
-          const responseData = await response.json();
-          dispatch(setCartOnLogin(responseData));
+          if (response.ok) {
+            const responseData = await response.json();
+            dispatch(setCartOnLogin(responseData));
+          }
         })
         .catch((err) => {
           console.log("Error while fetching user cart", err);

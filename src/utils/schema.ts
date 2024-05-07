@@ -1,7 +1,8 @@
 import { MenuItemProps } from "@mui/material/MenuItem";
+import { UUID } from "node:crypto";
 
 export interface ProductSize {
-  id?: number;
+  id?: UUID;
   size: string;
   size_inventory: number;
   product?: number;
@@ -17,7 +18,7 @@ export interface ProductImage {
   image: string;
 }
 export interface Product {
-  id?: number;
+  id?: UUID;
   name: string;
   description: string;
   price: number;
