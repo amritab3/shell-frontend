@@ -86,7 +86,7 @@ const LoginPage = () => {
         .then(async (response) => {
           if (response.ok) {
             const responseData = await response.json();
-            dispatch(setCartOnLogin(responseData));
+            dispatch(setCartOnLogin(responseData[0]));
           }
         })
         .catch((err) => {

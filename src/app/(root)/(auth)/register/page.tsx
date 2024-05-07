@@ -1,5 +1,5 @@
 import RegisterPage from "./_components";
 
-export default function Login() {
-return <RegisterPage/>    
-} 
+export default function Register() {
+  return <RegisterPage />;
+}

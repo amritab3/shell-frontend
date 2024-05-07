@@ -3,7 +3,7 @@
 import * as crypto from "crypto";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   Avatar,
@@ -22,8 +22,10 @@ import Button from "@/components/Button";
 import { RootState } from "@/redux/store";
 import URLS from "@/utils/urls";
 import withAuth from "@/hoc/withAuth";
+import { removeCartItem } from "@/redux/features/cartSlice";
 
 interface CartItemToShow {
+  id: string;
   quantity: number;
   size: string;
   name: string;
@@ -42,34 +44,23 @@ const ViewCart = () => {
   const userAccessToken = useSelector(
     (state: RootState) => state.user.access_token,
   );
+  const userId = useSelector((state: RootState) => state.user.userID);
+  const dispatch = useDispatch();
 
   const deliveryCharge: number = 100;
 
   useEffect(() => {
-    const cart = cartItems.map(async (cartItem) => {
-      try {
-        const response = await fetch(
-          `${URLS.PRODUCTS_URL}/${cartItem.product}`,
-          {
-            method: "GET",
-          },
-        );
-        const respBody = await response.json();
-        return {
-          quantity: cartItem.quantity,
-          size: cartItem.size,
-          price: respBody.price,
-          name: respBody.name,
-          imageUrl: respBody.images[0].image,
-        };
-      } catch (error) {
-        console.log("Error: ", error);
-      }
+    const cart = cartItems.map((cartItem) => {
+      return {
+        id: cartItem.id,
+        quantity: cartItem.quantity,
+        size: cartItem.size,
+        price: cartItem.product.price,
+        name: cartItem.product.name,
+        imageUrl: cartItem.product.images[0].image,
+      };
     });
-
-    Promise.all(cart).then((res) => {
-      setCartToShow(res as Array<CartItemToShow>);
-    });
+    setCartToShow(cart as CartItemToShow[]);
   }, [cartItems]);
 
   useEffect(() => {
@@ -104,7 +95,7 @@ const ViewCart = () => {
     })
       .then(async (orderResp: any) => {
         const orderRespData = await orderResp.json();
-        esewaCall(orderRespData.paymentFormData);
+        esewaCall(orderRespData["paymentFormData"]);
       })
       .catch((err) => {
         console.log("Error", err);
@@ -115,7 +106,7 @@ const ViewCart = () => {
     const path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
 
     paymentFormData["signature"] = createSignature(
-      `total_amount=${paymentFormData.total_amount},transaction_uuid=${paymentFormData.transaction_uuid},product_code=EPAYTEST`,
+      `total_amount=${paymentFormData["total_amount"]},transaction_uuid=${paymentFormData["transaction_uuid"]},product_code=EPAYTEST`,
     );
 
     console.log("Form Data: ", paymentFormData);
@@ -143,6 +134,19 @@ const ViewCart = () => {
     hmac.update(message);
 
     return hmac.digest("base64");
+  };
+
+  const deleteItemFromCart = async (cartItemId: string) => {
+    dispatch(removeCartItem(cartItemId));
+
+    const cartItemDeleteUrl = new URL(
+      URLS.DELETE_CART_ITEM.replace(":userId", userId),
+    );
+    console.log("URL", cartItemDeleteUrl);
+
+    // await fetch(URLS.DELETE_CART_ITEM, {
+    //   method: "DELETE",
+    // });
   };
 
   return (
@@ -206,7 +210,7 @@ const ViewCart = () => {
             {cartToShow.map((cartItem, index) => {
               const totalPriceForAnItem = cartItem.quantity * cartItem.price;
               return (
-                <ListItem key={index}>
+                <ListItem key={cartItem.id}>
                   <Grid
                     container
                     justifyContent="space-between"
@@ -230,7 +234,11 @@ const ViewCart = () => {
                       <ListItemText primary={`Rs. ${totalPriceForAnItem}`} />
                     </Grid>
                     <Grid item xs={2}>
-                      <IconButton edge="end" aria-label="delete">
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => deleteItemFromCart(cartItem.id)}
+                      >
                         <DeleteIcon sx={{ color: "#D11A2A" }} />
                       </IconButton>
                     </Grid>

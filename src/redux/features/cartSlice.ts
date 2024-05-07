@@ -20,42 +20,39 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      if (
-        objectExistsWithTwoSameKeyValues(
-          state.cartItems,
-          "product",
-          action.payload.product,
-          "size",
-          action.payload.size,
-        )
-      ) {
-        state.cartItems = state.cartItems.map((cartItem: CartItem) => {
-          if (
-            cartItem["product"] === action.payload.product &&
-            cartItem.size === action.payload.size
-          ) {
-            return {
-              ...cartItem,
-              quantity: action.payload.quantity,
-            };
-          }
-          return cartItem;
-        });
-        return;
+      const payload = action.payload;
+      const existingCart = state.cartItems;
+
+      const index = existingCart.findIndex((obj) => obj.id === payload.id);
+
+      if (index !== -1) {
+        // Cart item with matching ID found, replace it
+        existingCart[index] = payload;
+      } else {
+        // Cart item with matching ID not found, append the new cart item
+        existingCart.push(payload);
       }
-      state.cartItems = [...state.cartItems, action.payload];
+
+      state.cartItems = [...existingCart];
       state.numberOfItems = state.cartItems.length;
     },
     clearCart: () => {
       return initialState;
     },
     setCartOnLogin: (state, action) => {
-      state.cartItems = [...action.payload];
+      state.cartItems = [...action.payload["cart_items"]];
+      state.numberOfItems = state.cartItems.length;
+    },
+    removeCartItem: (state, action) => {
+      state.cartItems = state.cartItems.filter(
+        (cartItem) => cartItem.id !== action.payload,
+      );
       state.numberOfItems = state.cartItems.length;
     },
   },
 });
 
-export const { addToCart, clearCart, setCartOnLogin } = cartSlice.actions;
+export const { addToCart, clearCart, setCartOnLogin, removeCartItem } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

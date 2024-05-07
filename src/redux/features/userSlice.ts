@@ -3,7 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface UserData {
-  id: number;
+  id: string;
   email: string;
   roles: Array<String>;
 }
@@ -13,7 +13,7 @@ export interface UserDetails {
   refresh_token: string;
   loggedIn: boolean;
 
-  userID: Number;
+  userID: string;
   userEmail: string;
   isAdmin: boolean;
   isShopAdmin: boolean;
@@ -28,7 +28,7 @@ const initialState: UserDetails = {
   refresh_token: "",
   loggedIn: false,
 
-  userID: 0,
+  userID: "",
   userEmail: "",
   isAdmin: false,
   isShopAdmin: false,

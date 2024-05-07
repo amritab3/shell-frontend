@@ -21,8 +21,9 @@ const URLS = {
 
   LIST_USERS: `${BASE_URL}/users/`,
 
-  ADD_ITEM_TO_CART: `${BASE_URL}/products/cart/add-item/`,
-  GET_USER_CART: `${BASE_URL}/users/:userId/cart/user-cart/`,
+  ADD_ITEM_TO_CART: `${BASE_URL}/users/:userId/cart/add-item/`,
+  GET_USER_CART: `${BASE_URL}/users/:userId/cart/`,
+  DELETE_CART_ITEM: `${BASE_URL}/users/:userId/cart/delete-cart-item/`,
 
   ADMIN_ADD_USER: `${BASE_URL}/users/admin/user/`,
 

@@ -67,10 +67,17 @@ export interface UserType {
   avatar: string;
 }
 
+export interface CartProduct {
+  images: Array<ProductImage>;
+  name: string;
+  price: number;
+}
+
 export interface CartItem {
-  product: number;
+  id: string;
   quantity: number;
   size: string;
+  product: CartProduct;
 }
 
 export interface FormInputProps {

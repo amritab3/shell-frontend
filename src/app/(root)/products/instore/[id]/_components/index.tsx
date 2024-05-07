@@ -43,7 +43,7 @@ const ProductDetail = () => {
   const accessToken = useSelector(
     (state: RootState) => state.user.access_token,
   );
-
+  const userId = useSelector((state: RootState) => state.user.userID);
   const incrementItemCount = () => {
     if (objectExists(selectedSize)) {
       let newNumberOfItems = numberOfItems + 1;
@@ -114,13 +114,13 @@ const ProductDetail = () => {
       return;
     }
 
-    const cartItem: CartItem = {
+    const cartItem = {
       product: product.id!,
       quantity: numberOfItems,
       size: selectedSize.size,
     };
 
-    fetch(URLS.ADD_ITEM_TO_CART, {
+    fetch(URLS.ADD_ITEM_TO_CART.replace(":userId", userId), {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -128,8 +128,9 @@ const ProductDetail = () => {
       },
       body: JSON.stringify(cartItem),
     })
-      .then(() => {
-        dispatch(addToCart(cartItem));
+      .then(async (resp) => {
+        const addedCart = await resp.json();
+        dispatch(addToCart(addedCart));
         dispatch(
           openToast({
             message: "Item added to cart",
