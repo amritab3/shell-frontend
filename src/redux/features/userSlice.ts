@@ -69,6 +69,10 @@ export const userSlice = createSlice({
     removeForgotPasswordEmail: (state) => {
       state.forgotPasswordEmail = "";
     },
+    setTokensAfterRefresh: (state, action) => {
+      state.access_token = action.payload.access;
+      state.refresh_token = action.payload.refresh;
+    },
   },
 });
 
@@ -78,6 +82,7 @@ export const {
   setForgotPasswordEmail,
   removeForgotPasswordEmail,
   setAvatarUrl,
+  setTokensAfterRefresh,
 } = userSlice.actions;
 
 export default userSlice.reducer;
