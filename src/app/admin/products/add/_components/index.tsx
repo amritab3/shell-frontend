@@ -26,6 +26,7 @@ export interface IFormInput {
   gender: string;
   uploaded_sizes: Array<UploadProductSize>;
   uploaded_images: Array<any>;
+  type: string;
 }
 
 const validationSchema = Yup.object({});
@@ -42,6 +43,7 @@ const AddProductForm = () => {
     gender: "",
     uploaded_images: [],
     uploaded_sizes: [],
+    type: "instore",
   };
 
   const { handleSubmit, control, reset } = useForm<IFormInput>({
@@ -123,7 +125,7 @@ const AddProductForm = () => {
               mb: 2,
             }}
           >
-            Add Product
+            Add Instore Product
           </Typography>
         </Grid>
         <form>
