@@ -16,7 +16,7 @@ const Input = (props: InputTypes & TextFieldProps) => {
   const { variant, label, type, StartIcon, EndIcon, ...rest } = props;
   const [showPassword, setShowPassword] = React.useState(false);
   const [inputType, setInputType] = React.useState(type);
-  const [shrink, setShrink] = React.useState(false);
+  const [shrink, setShrink] = React.useState(true);
 
   const passwordVisibilityToggle = () => {
     setShowPassword(!showPassword);

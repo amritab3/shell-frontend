@@ -22,7 +22,7 @@ const FormTextField = (
     props;
   const [inputType, setInputType] = React.useState(type);
   const [showPassword, setShowPassword] = React.useState(false);
-  const [shrink, setShrink] = React.useState(false);
+  const [shrink, setShrink] = React.useState(true);
 
   const passwordVisibilityToggle = () => {
     setShowPassword(!showPassword);
