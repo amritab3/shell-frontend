@@ -7,15 +7,19 @@ import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import HomeIcon from "@mui/icons-material/Home";
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'; import Rating from "@mui/material/Rating";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
-import { Product, SelectItemType } from "@/utils/schema";
+import { FormSelectOption, Product, SelectItemType } from "@/utils/schema";
 import ProductCard from "@/components/Card/ProductCard";
 import Button from "@/components/Button";
 import Select from "@/components/Select";
 import URLS from "@/utils/urls";
+import { objectExists } from "@/utils/Utils";
+
+interface ProductFilterType {
+  category?: string;
+}
 
 const sortSelectItems: Array<SelectItemType> = [
   {
@@ -34,9 +38,30 @@ const sortSelectItems: Array<SelectItemType> = [
 
 const MenProducts = () => {
   const [products, setProducts] = useState<Array<Product>>([]);
+  const [productCategories, setProductCategories] = useState(
+    [] as Array<FormSelectOption>,
+  );
+  const [productFilters, setProductFilters] = useState({} as ProductFilterType);
 
   useEffect(() => {
-    fetch(URLS.LIST_MEN_PRODUCTS, {
+    fetch(URLS.PRODUCT_CATEGORY_CHOICES, {
+      method: "GET",
+    }).then(async (resp) => {
+      const data: Array<FormSelectOption> = await resp.json();
+      setProductCategories(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    const listMenProductsUrl = new URL(URLS.LIST_MEN_PRODUCTS);
+
+    if (objectExists(productFilters)) {
+      listMenProductsUrl.search = new URLSearchParams({
+        ...productFilters,
+      }).toString();
+    }
+
+    fetch(listMenProductsUrl, {
       method: "GET",
     })
       .then(async (response) => {
@@ -46,7 +71,17 @@ const MenProducts = () => {
       .catch((error) => {
         console.log("Error while fetching men products", error);
       });
-  }, []);
+  }, [productFilters]);
+
+  const filterWithCategory = (category: string) => {
+    if (productFilters.category === category) {
+      const existingProductFilters = { ...productFilters };
+      delete existingProductFilters["category"];
+      setProductFilters({ ...existingProductFilters });
+      return;
+    }
+    setProductFilters({ ...productFilters, category });
+  };
 
   return (
     <Grid
@@ -60,10 +95,18 @@ const MenProducts = () => {
       <Grid item container>
         <Grid item xs={12} marginBottom={2}>
           <Breadcrumbs separator="|" aria-label="breadcrumb">
-            <Link underline="hover" sx={{ display: "flex", alignItems: "center" }} color="inherit" href="/">
+            <Link
+              underline="hover"
+              sx={{ display: "flex", alignItems: "center" }}
+              color="inherit"
+              href="/"
+            >
               <HomeIcon color="primary" sx={{ mr: 0.5 }} fontSize="small" />
             </Link>
-            <Typography sx={{ display: "flex", alignItems: "center" }} color="text.primary">
+            <Typography
+              sx={{ display: "flex", alignItems: "center" }}
+              color="text.primary"
+            >
               Men
             </Typography>
           </Breadcrumbs>
@@ -81,24 +124,23 @@ const MenProducts = () => {
             Refine Search{" "}
           </Typography>
           <Grid container item spacing={2} sx={{ mt: "1px" }}>
-            <Grid item>
-              <Button label="Shirts" variant="outlined" />
-            </Grid>
-            <Grid item>
-              <Button label="Pants" variant="outlined" />
-            </Grid>
-            <Grid item>
-              <Button label="T-Shirts" variant="outlined" />
-            </Grid>
-            <Grid item>
-              <Button label="Jeans" variant="outlined" />
-            </Grid>
-            <Grid item>
-              <Button label="Jackets" variant="outlined" />
-            </Grid>
-            <Grid item>
-              <Button label="Sweater" variant="outlined" />
-            </Grid>
+            {productCategories.map((productCategory) => {
+              return (
+                <Grid item key={productCategory.value}>
+                  <Button
+                    label={productCategory.label}
+                    variant={
+                      productFilters["category"] === productCategory.value
+                        ? "contained"
+                        : "outlined"
+                    }
+                    onClick={() =>
+                      filterWithCategory(productCategory.value.toString())
+                    }
+                  />
+                </Grid>
+              );
+            })}
           </Grid>
         </Grid>
 
@@ -147,7 +189,7 @@ const MenProducts = () => {
           <Pagination count={10} color="primary" />
         </Stack>
       </Grid>
-    </Grid >
+    </Grid>
   );
 };
 
