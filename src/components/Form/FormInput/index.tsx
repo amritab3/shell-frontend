@@ -22,6 +22,7 @@ const FormTextField = (
     props;
   const [inputType, setInputType] = React.useState(type);
   const [showPassword, setShowPassword] = React.useState(false);
+  const [shrink, setShrink] = React.useState(false);
 
   const passwordVisibilityToggle = () => {
     setShowPassword(!showPassword);
@@ -55,6 +56,9 @@ const FormTextField = (
           value={value}
           onChange={onChange}
           helperText={error ? error.message : null}
+          onFocus={() => setShrink(true)}
+          onBlur={(e) => setShrink(!!e.target.value)}
+          InputLabelProps={{ shrink }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">

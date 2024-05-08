@@ -125,7 +125,9 @@ const UploadSizes = (props: FormInputProps) => {
                         size,
                         size_inventory: sizeInventory,
                       };
-                      onChange([...value, newSize]);
+                      if (size) {
+                        onChange([...value, newSize]);
+                      }
                       setSize("");
                       setSizeInventory("");
                     }

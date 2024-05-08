@@ -50,6 +50,9 @@ const AddProductForm = () => {
   const [productGenderChoices, setProductGenderChoices] = useState(
     [] as Array<FormSelectOption>,
   );
+  const [productCategoryChoices, setProductCategoryChoices] = useState(
+    [] as Array<FormSelectOption>,
+  );
 
   useEffect(() => {
     fetch(URLS.PRODUCT_GENDER_CHOICES, {
@@ -57,6 +60,13 @@ const AddProductForm = () => {
     }).then(async (resp) => {
       const data: Array<FormSelectOption> = await resp.json();
       setProductGenderChoices(data);
+    });
+
+    fetch(URLS.PRODUCT_CATEGORY_CHOICES, {
+      method: "GET",
+    }).then(async (resp) => {
+      const data: Array<FormSelectOption> = await resp.json();
+      setProductCategoryChoices(data);
     });
   }, []);
 
@@ -175,17 +185,19 @@ const AddProductForm = () => {
               justifyContent="space-evenly"
             >
               <Grid item xs={6}>
-                <FormInput
+                <FormSelect
                   name={"category"}
                   control={control}
                   label={"Category"}
+                  options={productCategoryChoices}
+                  fullWidth
                 />
               </Grid>
               <Grid item xs={6}>
                 <FormSelect
                   name={"gender"}
                   control={control}
-                  label={"Product Gender"}
+                  label={"Gender"}
                   options={productGenderChoices}
                   fullWidth
                 />
