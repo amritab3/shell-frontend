@@ -86,3 +86,8 @@ export interface FormInputProps {
   label: string;
   setValue?: any;
 }
+
+export interface FormSelectOption {
+  label: string;
+  value: string | number;
+}

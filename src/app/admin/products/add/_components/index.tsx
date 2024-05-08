@@ -1,17 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 
+import FormSelect from "@/components/Form/FormSelect";
 import FormInput from "@/components/Form/FormInput";
 import MultipleFileUpload from "@/components/Form/MultipleFileUpload";
 import URLS from "@/utils/urls";
 import Button from "@/components/Button";
-import { UploadProductSize } from "@/utils/schema";
+import { FormSelectOption, UploadProductSize } from "@/utils/schema";
 import UploadSizes from "./UploadSizes";
 
 export interface IFormInput {
@@ -46,6 +47,18 @@ const AddProductForm = () => {
   const { handleSubmit, control, reset } = useForm<IFormInput>({
     defaultValues: initialValues,
   });
+  const [productGenderChoices, setProductGenderChoices] = useState(
+    [] as Array<FormSelectOption>,
+  );
+
+  useEffect(() => {
+    fetch(URLS.PRODUCT_GENDER_CHOICES, {
+      method: "GET",
+    }).then(async (resp) => {
+      const data: Array<FormSelectOption> = await resp.json();
+      setProductGenderChoices(data);
+    });
+  }, []);
 
   const onSubmit = async (submittedFormData: any) => {
     const { uploaded_images, uploaded_sizes, ...restValues } =
@@ -79,7 +92,7 @@ const AddProductForm = () => {
         container
         item
         sx={{
-          width: { xs: 350, sm: 500, md: 600 },
+          width: { xs: 350, sm: 500, md: 600, xl: 1200 },
           boxShadow: "0px 1px 2px 0px rgba(0,0,0,0.4)",
           mb: { xs: 5, sm: 10, md: 20 },
         }}
@@ -169,7 +182,13 @@ const AddProductForm = () => {
                 />
               </Grid>
               <Grid item xs={6}>
-                <FormInput name={"gender"} control={control} label={"Gender"} />
+                <FormSelect
+                  name={"gender"}
+                  control={control}
+                  label={"Product Gender"}
+                  options={productGenderChoices}
+                  fullWidth
+                />
               </Grid>
             </Grid>
           </Grid>

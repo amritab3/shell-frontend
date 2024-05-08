@@ -28,6 +28,8 @@ const URLS = {
   ADMIN_ADD_USER: `${BASE_URL}/users/admin/user/`,
 
   CREATE_ORDER: `${BASE_URL}/orders/`,
+
+  PRODUCT_GENDER_CHOICES: `${BASE_URL}/products/product-gender-choice/`,
 };
 
 export default URLS;

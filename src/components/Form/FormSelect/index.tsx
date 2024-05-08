@@ -6,15 +6,11 @@ import { FormInputProps } from "@/utils/schema";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-
-interface Option {
-  label: string;
-  value: string;
-}
+import { FormSelectOption } from "@/utils/schema";
 
 interface FormSelectProps {
   label: string;
-  options: Array<Option>;
+  options: Array<FormSelectOption>;
 }
 
 const FormSelect = (props: FormInputProps & SelectProps & FormSelectProps) => {
