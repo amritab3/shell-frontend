@@ -52,9 +52,6 @@ const Header = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
-  const [anchorElCart, setAnchorElCart] = React.useState<null | HTMLElement>(
-    null,
-  );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -63,20 +60,12 @@ const Header = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleOpenCartMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElCart(event.currentTarget);
-  };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-  };
-
-  const handleCloseCartMenu = () => {
-    setAnchorElCart(null);
   };
 
   const router = useRouter();
@@ -207,45 +196,14 @@ const Header = () => {
               display: { xs: "none", md: "flex" },
             }}
           >
-            <IconButton color="inherit" onClick={handleOpenCartMenu}>
+            <IconButton
+              color="inherit"
+              onClick={() => router.push("/user/cart/")}
+            >
               <Badge badgeContent={numberOfCartItems}>
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="cart-menu-appbar"
-              anchorEl={anchorElCart}
-              disableScrollLock={true}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElCart)}
-              onClose={handleCloseCartMenu}
-            >
-              <MenuItem
-                onClick={() => {
-                  router.push("/user/cart/");
-                  handleCloseCartMenu();
-                }}
-              >
-                <Typography>View Cart</Typography>
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  dispatch(clearCart());
-                  handleCloseCartMenu();
-                }}
-              >
-                <Typography>Clear Cart</Typography>
-              </MenuItem>
-            </Menu>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

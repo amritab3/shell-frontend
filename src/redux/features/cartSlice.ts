@@ -8,11 +8,13 @@ import { objectExistsWithTwoSameKeyValues } from "@/utils/Utils";
 export interface Cart {
   cartItems: CartItem[];
   numberOfItems: number;
+  cartId: string;
 }
 
 const initialState: Cart = {
   cartItems: [],
   numberOfItems: 0,
+  cartId: "",
 };
 
 export const cartSlice = createSlice({
@@ -40,7 +42,9 @@ export const cartSlice = createSlice({
       return initialState;
     },
     setCartOnLogin: (state, action) => {
+      console.log("payload", action.payload);
       state.cartItems = [...action.payload["cart_items"]];
+      state.cartId = action.payload.id;
       state.numberOfItems = state.cartItems.length;
     },
     removeCartItem: (state, action) => {
