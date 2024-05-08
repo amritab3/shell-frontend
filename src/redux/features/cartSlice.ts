@@ -42,7 +42,6 @@ export const cartSlice = createSlice({
       return initialState;
     },
     setCartOnLogin: (state, action) => {
-      console.log("payload", action.payload);
       state.cartItems = [...action.payload["cart_items"]];
       state.cartId = action.payload.id;
       state.numberOfItems = state.cartItems.length;
