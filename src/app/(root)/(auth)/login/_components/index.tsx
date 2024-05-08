@@ -135,38 +135,42 @@ const LoginPage = () => {
           </Typography>
         </Grid>
 
-        <Grid
-          container
-          item
-          xs={12}
-          sx={{ p: 2 }}
-          gap={{ xs: 2, sm: 3, md: 5 }}
-        >
-          <Grid item xs={12}>
-            <FormInput
-              name={"email"}
-              control={control}
-              label={"Email"}
-              type={"email"}
-            />
+        <form>
+          <Grid
+            container
+            item
+            xs={12}
+            sx={{ p: 2 }}
+            gap={{ xs: 2, sm: 3, md: 5 }}
+          >
+            <Grid item xs={12}>
+              <FormInput
+                name={"email"}
+                control={control}
+                label={"Email"}
+                type={"email"}
+                autoComplete={"username"}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormInput
+                name={"password"}
+                control={control}
+                label={"Password"}
+                type="password"
+                autoComplete={"current-password"}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                label="Login"
+                fullWidth
+                variant="contained"
+                onClick={handleSubmit(onSubmit)}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <FormInput
-              name={"password"}
-              control={control}
-              label={"Password"}
-              type="password"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              label="Login"
-              fullWidth
-              variant="contained"
-              onClick={handleSubmit(onSubmit)}
-            />
-          </Grid>
-        </Grid>
+        </form>
 
         <Grid container item sx={{ margin: 2 }}>
           <Grid item xs>
