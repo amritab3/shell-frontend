@@ -23,16 +23,20 @@ interface ProductFilterType {
 
 const sortSelectItems: Array<SelectItemType> = [
   {
-    label: "Newest",
-    value: "newest",
-  },
-  {
     label: "Name (A-Z)",
-    value: "name_asc",
+    value: "name",
   },
   {
     label: "Name (Z-A)",
-    value: "name_desc",
+    value: "-name",
+  },
+  {
+    label: "Price (High-Low)",
+    value: "-price",
+  },
+  {
+    label: "Price (Low-High)",
+    value: "price",
   },
 ];
 
@@ -42,6 +46,7 @@ const MenProducts = () => {
     [] as Array<FormSelectOption>,
   );
   const [productFilters, setProductFilters] = useState({} as ProductFilterType);
+  const [sortByValue, setSortByValue] = useState("");
 
   useEffect(() => {
     fetch(URLS.PRODUCT_CATEGORY_CHOICES, {
@@ -61,6 +66,12 @@ const MenProducts = () => {
       }).toString();
     }
 
+    if (sortByValue) {
+      listMenProductsUrl.search = new URLSearchParams({
+        ordering: sortByValue,
+      }).toString();
+    }
+
     fetch(listMenProductsUrl, {
       method: "GET",
     })
@@ -71,7 +82,7 @@ const MenProducts = () => {
       .catch((error) => {
         console.log("Error while fetching men products", error);
       });
-  }, [productFilters]);
+  }, [productFilters, sortByValue]);
 
   const filterWithCategory = (category: string) => {
     if (productFilters.category === category) {
@@ -81,6 +92,10 @@ const MenProducts = () => {
       return;
     }
     setProductFilters({ ...productFilters, category });
+  };
+
+  const handleSortSelectChange = (e: any) => {
+    setSortByValue(e.target.value);
   };
 
   return (
@@ -153,10 +168,13 @@ const MenProducts = () => {
           marginY={2}
         >
           <Grid item>
-            <Select id="sortBy" label="Sort By" selectItems={sortSelectItems} />
-          </Grid>
-          <Grid item>
-            <Select id="sortBy" label="Sort By" selectItems={sortSelectItems} />
+            <Select
+              id="sortBy"
+              label="Sort By"
+              selectItems={sortSelectItems}
+              value={sortByValue}
+              onChange={handleSortSelectChange}
+            />
           </Grid>
         </Grid>
       </Grid>
