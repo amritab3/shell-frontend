@@ -91,3 +91,16 @@ export interface FormSelectOption {
   label: string;
   value: string | number;
 }
+
+export interface PaginatedResponseType {
+  count: number;
+  next: string;
+  previous: string;
+  total_pages: number;
+  page_size: number;
+  current_page_number: number;
+}
+
+export interface ProductPaginatedResponseType extends PaginatedResponseType {
+  results: Array<Product>;
+}

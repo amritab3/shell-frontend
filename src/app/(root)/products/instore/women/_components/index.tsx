@@ -10,7 +10,12 @@ import HomeIcon from "@mui/icons-material/Home";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
-import { FormSelectOption, Product, SelectItemType } from "@/utils/schema";
+import {
+  FormSelectOption,
+  SelectItemType,
+  ProductPaginatedResponseType,
+  Product,
+} from "@/utils/schema";
 import ProductCard from "@/components/Card/ProductCard";
 import Button from "@/components/Button";
 import Select from "@/components/Select";
@@ -47,6 +52,15 @@ const WomenProducts = () => {
   );
   const [productFilters, setProductFilters] = useState({} as ProductFilterType);
   const [sortByValue, setSortByValue] = useState("");
+  const [page, setPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(0);
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setPage(value);
+  };
 
   useEffect(() => {
     fetch(URLS.PRODUCT_CATEGORY_CHOICES, {
@@ -60,14 +74,21 @@ const WomenProducts = () => {
   useEffect(() => {
     const listWomenProductsUrl = new URL(URLS.LIST_WOMEN_PRODUCTS);
 
+    listWomenProductsUrl.search = new URLSearchParams({
+      page: page.toString(),
+    }).toString();
+
     if (objectExists(productFilters)) {
       listWomenProductsUrl.search = new URLSearchParams({
+        page: page.toString(),
         ...productFilters,
       }).toString();
     }
 
     if (sortByValue) {
       listWomenProductsUrl.search = new URLSearchParams({
+        page: page.toString(),
+        ...productFilters,
         ordering: sortByValue,
       }).toString();
     }
@@ -76,13 +97,14 @@ const WomenProducts = () => {
       method: "GET",
     })
       .then(async (response) => {
-        const data: Array<Product> = await response.json();
-        setProducts(data);
+        const data: ProductPaginatedResponseType = await response.json();
+        setProducts(data.results);
+        setTotalPages(data.total_pages);
       })
       .catch((error) => {
         console.log("Error while fetching Women products", error);
       });
-  }, [productFilters, sortByValue]);
+  }, [productFilters, sortByValue, page]);
 
   const filterWithCategory = (category: string) => {
     if (productFilters.category === category) {
@@ -204,7 +226,12 @@ const WomenProducts = () => {
         }}
       >
         <Stack spacing={2}>
-          <Pagination count={10} color="primary" />
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            color="primary"
+          />
         </Stack>
       </Grid>
     </Grid>
