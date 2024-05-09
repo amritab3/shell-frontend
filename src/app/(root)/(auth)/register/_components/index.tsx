@@ -8,8 +8,6 @@ import { useDispatch } from "react-redux";
 import Grid from "@mui/material/Grid";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup"
-
 
 import { openToast } from "@/redux/features/toastSlice";
 import URLS from "@/utils/urls";
@@ -18,8 +16,8 @@ import FormInput from "@/components/Form/FormInput";
 import Button from "@/components/Button";
 
 interface IFormInput {
-  first_name: string,
-  last_name: string,
+  first_name: string;
+  last_name: string;
   email: string;
   mobile_no: string;
   password: string;
@@ -57,7 +55,6 @@ const RegisterPage = () => {
   };
   const { handleSubmit, control } = useForm<IFormInput>({
     defaultValues: initialValues,
-
   });
 
   const onSubmit = async (formData: IFormInput) => {
