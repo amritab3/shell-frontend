@@ -118,6 +118,7 @@ const ProductDetail = () => {
       product: product.id!,
       quantity: numberOfItems,
       size: selectedSize.size,
+      price: product.price,
     };
 
     fetch(URLS.ADD_ITEM_TO_CART.replace(":userId", userId), {
