@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Grid, Divider } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -9,6 +10,7 @@ import Link from "@mui/material/Link";
 import HomeIcon from "@mui/icons-material/Home";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import AddIcon from "@mui/icons-material/Add";
 
 import {
   FormSelectOption,
@@ -61,6 +63,8 @@ const Products = (props: ProductsPage) => {
   const [sortByValue, setSortByValue] = useState("");
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(0);
+
+  const router = useRouter();
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -149,9 +153,28 @@ const Products = (props: ProductsPage) => {
             </Typography>
           </Breadcrumbs>
         </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h4"> {pageTitle} </Typography>
-          <Divider sx={{ marginY: 2 }} />
+        <Grid
+          container
+          item
+          xs={12}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Grid item>
+            <Typography variant="h4"> {pageTitle} </Typography>
+          </Grid>
+          <Grid item>
+            <Button
+              label={"Add Thrift Product"}
+              variant={"contained"}
+              fullWidth
+              startIcon={<AddIcon />}
+              onClick={() => router.push("/products/thrift/add")}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Divider sx={{ marginY: 2 }} />
+          </Grid>
         </Grid>
         <Grid item container xs={12}>
           <Typography
