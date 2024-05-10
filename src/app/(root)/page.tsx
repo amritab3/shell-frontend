@@ -56,8 +56,8 @@ export default function Home() {
       method: "GET",
     })
       .then(async (response) => {
-        const data: Array<Product> = await response.json();
-        setMenProducts(data);
+        const data: ProductPaginatedResponseType = await response.json();
+        setMenProducts(data.results);
       })
       .catch((error) => {
         console.log("Error while fetching men products", error);
@@ -78,8 +78,8 @@ export default function Home() {
       method: "GET",
     })
       .then(async (response) => {
-        const data: Array<Product> = await response.json();
-        setKidsProducts(data);
+        const data: ProductPaginatedResponseType = await response.json();
+        setKidsProducts(data.results);
       })
       .catch((error) => {
         console.log("Error while fetching kids products", error);
