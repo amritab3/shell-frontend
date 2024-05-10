@@ -17,12 +17,13 @@ export default function Select(props: CustomSelectProps & SelectProps) {
   const { id, label, selectItems, ...rest } = props;
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+    <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
       <InputLabel>{label}</InputLabel>
       <MuiSelect
         id={id}
         label={label}
         inputProps={{ MenuProps: { disableScrollLock: true } }}
+        autoWidth
         {...rest}
       >
         <MenuItem value="">
