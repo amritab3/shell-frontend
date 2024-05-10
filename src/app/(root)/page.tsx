@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 
 import { Grid, formLabelClasses } from "@mui/material";
 
-import { Product, BannerContent } from "@/utils/schema";
+import {
+  Product,
+  BannerContent,
+  ProductPaginatedResponseType,
+} from "@/utils/schema";
 import ProductCardSlider from "@/components/ProductCardSlider";
 import WebsiteBanner from "@/components/Banner";
 import URLS from "@/utils/urls";
-
 
 export default function Home() {
   const [products, setProducts] = useState<Array<Product>>([]);
@@ -64,8 +67,8 @@ export default function Home() {
       method: "GET",
     })
       .then(async (response) => {
-        const data: Array<Product> = await response.json();
-        setWomenProducts(data);
+        const data: ProductPaginatedResponseType = await response.json();
+        setWomenProducts(data.results);
       })
       .catch((error) => {
         console.log("Error while fetching women products", error);
@@ -102,19 +105,38 @@ export default function Home() {
       </Grid>
 
       <Grid item xs={11} sx={{ mb: 6 }}>
-        <ProductCardSlider title="New Arrivals" products={products} showViewMore={false} />
+        <ProductCardSlider
+          title="New Arrivals"
+          products={products}
+          showViewMore={false}
+        />
       </Grid>
 
       <Grid item xs={11} sx={{ mb: 4 }}>
-        <ProductCardSlider title="Men's Wear" products={menProducts} showViewMore={true} viewMoreRedirect="/products/instore/men" />
+        <ProductCardSlider
+          title="Men's Wear"
+          products={menProducts}
+          showViewMore={true}
+          viewMoreRedirect="/products/instore/men"
+        />
       </Grid>
 
       <Grid item xs={11} sx={{ mb: 4 }}>
-        <ProductCardSlider title="Women's Wear" products={womenProducts} showViewMore={true} viewMoreRedirect="/products/instore/women/" />
+        <ProductCardSlider
+          title="Women's Wear"
+          products={womenProducts}
+          showViewMore={true}
+          viewMoreRedirect="/products/instore/women/"
+        />
       </Grid>
 
       <Grid item xs={11} sx={{ mb: 4 }}>
-        <ProductCardSlider title="Kid's Wear" products={kidsProducts} showViewMore={true} viewMoreRedirect="/products/instore/kids/" />
+        <ProductCardSlider
+          title="Kid's Wear"
+          products={kidsProducts}
+          showViewMore={true}
+          viewMoreRedirect="/products/instore/kids/"
+        />
       </Grid>
     </Grid>
   );
