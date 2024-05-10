@@ -45,7 +45,13 @@ const sortSelectItems: Array<SelectItemType> = [
   },
 ];
 
-const WomenProducts = () => {
+interface ProductsPage {
+  productsUrl: string;
+  pageTitle: string;
+}
+
+const Products = (props: ProductsPage) => {
+  const { productsUrl, pageTitle } = props;
   const [products, setProducts] = useState<Array<Product>>([]);
   const [productCategories, setProductCategories] = useState(
     [] as Array<FormSelectOption>,
@@ -72,28 +78,28 @@ const WomenProducts = () => {
   }, []);
 
   useEffect(() => {
-    const listWomenProductsUrl = new URL(URLS.LIST_WOMEN_PRODUCTS);
+    const listProductsUrl = new URL(productsUrl);
 
-    listWomenProductsUrl.search = new URLSearchParams({
+    listProductsUrl.search = new URLSearchParams({
       page: page.toString(),
     }).toString();
 
     if (objectExists(productFilters)) {
-      listWomenProductsUrl.search = new URLSearchParams({
+      listProductsUrl.search = new URLSearchParams({
         page: page.toString(),
         ...productFilters,
       }).toString();
     }
 
     if (sortByValue) {
-      listWomenProductsUrl.search = new URLSearchParams({
+      listProductsUrl.search = new URLSearchParams({
         page: page.toString(),
         ...productFilters,
         ordering: sortByValue,
       }).toString();
     }
 
-    fetch(listWomenProductsUrl, {
+    fetch(listProductsUrl, {
       method: "GET",
     })
       .then(async (response) => {
@@ -102,7 +108,7 @@ const WomenProducts = () => {
         setTotalPages(data.total_pages);
       })
       .catch((error) => {
-        console.log("Error while fetching Women products", error);
+        console.log("Error while fetching products", error);
       });
   }, [productFilters, sortByValue, page]);
 
@@ -144,12 +150,12 @@ const WomenProducts = () => {
               sx={{ display: "flex", alignItems: "center" }}
               color="text.primary"
             >
-              Women
+              {pageTitle}
             </Typography>
           </Breadcrumbs>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h4"> Women </Typography>
+          <Typography variant="h4"> {pageTitle} </Typography>
           <Divider sx={{ marginY: 2 }} />
         </Grid>
         <Grid item container xs={12}>
@@ -238,4 +244,4 @@ const WomenProducts = () => {
   );
 };
 
-export default WomenProducts;
+export default Products;
