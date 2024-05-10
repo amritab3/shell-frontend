@@ -21,6 +21,7 @@ import Button from "@/components/Button";
 import Select from "@/components/Select";
 import URLS from "@/utils/urls";
 import { objectExists } from "@/utils/Utils";
+import Input from "@/components/Input";
 
 interface ProductFilterType {
   category?: string;
@@ -56,7 +57,8 @@ const Products = (props: ProductsPage) => {
   const [productCategories, setProductCategories] = useState(
     [] as Array<FormSelectOption>,
   );
-  const [productFilters, setProductFilters] = useState({} as ProductFilterType);
+
+  const [filterByCategory, setFilterByCategory] = useState("");
   const [sortByValue, setSortByValue] = useState("");
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(0);
@@ -84,17 +86,17 @@ const Products = (props: ProductsPage) => {
       page: page.toString(),
     }).toString();
 
-    if (objectExists(productFilters)) {
+    if (objectExists(filterByCategory)) {
       listProductsUrl.search = new URLSearchParams({
         page: page.toString(),
-        ...productFilters,
+        category: filterByCategory,
       }).toString();
     }
 
     if (sortByValue) {
       listProductsUrl.search = new URLSearchParams({
         page: page.toString(),
-        ...productFilters,
+        category: filterByCategory,
         ordering: sortByValue,
       }).toString();
     }
@@ -110,16 +112,10 @@ const Products = (props: ProductsPage) => {
       .catch((error) => {
         console.log("Error while fetching products", error);
       });
-  }, [productFilters, sortByValue, page]);
+  }, [filterByCategory, sortByValue, page]);
 
-  const filterWithCategory = (category: string) => {
-    if (productFilters.category === category) {
-      const existingProductFilters = { ...productFilters };
-      delete existingProductFilters["category"];
-      setProductFilters({ ...existingProductFilters });
-      return;
-    }
-    setProductFilters({ ...productFilters, category });
+  const handleCategoryFilterSelectChange = (e: any) => {
+    setFilterByCategory(e.target.value);
   };
 
   const handleSortSelectChange = (e: any) => {
@@ -163,46 +159,59 @@ const Products = (props: ProductsPage) => {
             variant="h6"
             sx={{ fontWeight: "inherit", letterSpacing: 1 }}
           >
-            {" "}
-            Refine Search{" "}
+            Refine Search
           </Typography>
-          <Grid container item spacing={2} sx={{ mt: "1px" }}>
-            {productCategories.map((productCategory) => {
-              return (
-                <Grid item key={productCategory.value}>
-                  <Button
-                    label={productCategory.label}
-                    variant={
-                      productFilters["category"] === productCategory.value
-                        ? "contained"
-                        : "outlined"
-                    }
-                    onClick={() =>
-                      filterWithCategory(productCategory.value.toString())
-                    }
-                  />
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Grid>
+          <Grid
+            container
+            item
+            spacing={2}
+            sx={{ mt: "1px" }}
+            xs={12}
+            justifyContent={"space-between"}
+          >
+            <Grid item container xs={7} alignItems={"center"} gap={5}>
+              <Grid item xs={5}>
+                <Input
+                  size={"small"}
+                  label="Search"
+                  variant="outlined"
+                  placeholder={"Search by name"}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Button label={"Search"} variant={"contained"} fullWidth />
+              </Grid>
+            </Grid>
 
-        <Grid
-          container
-          item
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          marginY={2}
-        >
-          <Grid item>
-            <Select
-              id="sortBy"
-              label="Sort By"
-              selectItems={sortSelectItems}
-              value={sortByValue}
-              onChange={handleSortSelectChange}
-            />
+            <Grid
+              item
+              container
+              xs={3}
+              alignItems="center"
+              justifyContent="flex-end"
+              gap={5}
+            >
+              <Grid item>
+                <Select
+                  id="sortBy"
+                  label="Filter By Category"
+                  selectItems={productCategories}
+                  value={filterByCategory}
+                  onChange={handleCategoryFilterSelectChange}
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item>
+                <Select
+                  id="sortBy"
+                  label="Sort By"
+                  selectItems={sortSelectItems}
+                  value={sortByValue}
+                  onChange={handleSortSelectChange}
+                />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
