@@ -39,7 +39,66 @@ const UploadSizes = (props: FormInputProps) => {
         fieldState: { error },
         formState,
       }) => (
-        <Grid container item>
+        <Grid container item xs={12}>
+          <Grid
+            container
+            item
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            gap={2}
+          >
+            <Grid item xs={4}>
+              <Input
+                label={"Size"}
+                size={"small"}
+                value={size}
+                onChange={(e) => setSize(e.target.value.toUpperCase())}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Input
+                label={"In Stock"}
+                size={"small"}
+                value={sizeInventory}
+                onChange={(e) => setSizeInventory(e.target.value.toUpperCase())}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Button
+                label={"Add Size"}
+                variant="contained"
+                onClick={() => {
+                  const index = value.findIndex(
+                    (item: any) => item.size === size,
+                  );
+
+                  if (index !== -1) {
+                    const existingSizes: UploadProductSize[] = [...value];
+                    const existingSize = existingSizes[index];
+
+                    existingSizes[index] = {
+                      size: existingSize.size,
+                      size_inventory: sizeInventory,
+                    };
+                    onChange([...existingSizes]);
+                    setSize("");
+                    setSizeInventory("");
+                  } else {
+                    const newSize: UploadProductSize = {
+                      size,
+                      size_inventory: sizeInventory,
+                    };
+                    if (size) {
+                      onChange([...value, newSize]);
+                    }
+                    setSize("");
+                    setSizeInventory("");
+                  }
+                }}
+              />
+            </Grid>
+          </Grid>
+
           <Grid container item direction="column">
             {removeObjectsWithEmptyKeys(value).map((sizeInput, index) => {
               return (
@@ -74,67 +133,6 @@ const UploadSizes = (props: FormInputProps) => {
                 </Grid>
               );
             })}
-          </Grid>
-          <Grid container item direction="column">
-            <Grid
-              container
-              item
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Grid item>
-                <Input
-                  label={"Size"}
-                  size={"small"}
-                  value={size}
-                  onChange={(e) => setSize(e.target.value.toUpperCase())}
-                />
-              </Grid>
-              <Grid item>
-                <Input
-                  label={"In Stock"}
-                  size={"small"}
-                  value={sizeInventory}
-                  onChange={(e) =>
-                    setSizeInventory(e.target.value.toUpperCase())
-                  }
-                />
-              </Grid>
-              <Grid item>
-                <Button
-                  label={"Add Size"}
-                  variant="contained"
-                  onClick={() => {
-                    const index = value.findIndex(
-                      (item: any) => item.size === size,
-                    );
-
-                    if (index !== -1) {
-                      const existingSizes: UploadProductSize[] = [...value];
-                      const existingSize = existingSizes[index];
-
-                      existingSizes[index] = {
-                        size: existingSize.size,
-                        size_inventory: sizeInventory,
-                      };
-                      onChange([...existingSizes]);
-                      setSize("");
-                      setSizeInventory("");
-                    } else {
-                      const newSize: UploadProductSize = {
-                        size,
-                        size_inventory: sizeInventory,
-                      };
-                      if (size) {
-                        onChange([...value, newSize]);
-                      }
-                      setSize("");
-                      setSizeInventory("");
-                    }
-                  }}
-                />
-              </Grid>
-            </Grid>
           </Grid>
         </Grid>
       )}

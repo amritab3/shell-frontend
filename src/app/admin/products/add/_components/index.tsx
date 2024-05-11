@@ -129,86 +129,66 @@ const AddProductForm = () => {
           </Typography>
         </Grid>
         <form>
-          <Grid container item xs={12} sx={{ p: 2 }} flexGrow={1}>
-            <Grid container item xs={5} gap={3} marginRight={2}>
-              <Grid item xs={12}>
-                <FormInput name={"name"} control={control} label={"Name"} />
-              </Grid>
-              <Grid item xs={12}>
-                <FormInput
-                  name={"description"}
-                  control={control}
-                  label={"Description"}
-                  multiline
-                  rows={4}
-                />
-              </Grid>
+          <Grid
+            container
+            item
+            xs={12}
+            sx={{ p: 2 }}
+            flexGrow={1}
+            justifyContent={"space-evenly"}
+            gap={2}
+            flexWrap={"wrap"}
+          >
+            <Grid item xs={5}>
+              <FormInput name={"name"} control={control} label={"Name"} />
+            </Grid>
+            <Grid item xs={5}>
+              <FormInput name={"price"} control={control} label={"Price"} />
+            </Grid>
+            <Grid item xs={5}>
+              <FormInput
+                name={"description"}
+                control={control}
+                label={"Description"}
+                multiline
+              />
             </Grid>
 
-            <Grid container item xs={5} gap={2}>
-              <Grid
-                container
-                item
-                spacing={1}
-                xs={12}
-                justifyContent="space-evenly"
-              >
-                <Grid item xs={6}>
-                  <FormInput name={"price"} control={control} label={"Price"} />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormInput name={"color"} control={control} label={"Color"} />
-                </Grid>
-              </Grid>
-
-              <Grid
-                container
-                item
-                spacing={1}
-                xs={12}
-                justifyContent="space-evenly"
-              >
-                <Grid item xs={6}>
-                  <FormInput name={"style"} control={control} label={"Style"} />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormInput
-                    name={"material"}
-                    control={control}
-                    label={"Material"}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid
-                container
-                item
-                spacing={1}
-                xs={12}
-                justifyContent="space-evenly"
-              >
-                <Grid item xs={6}>
-                  <FormSelect
-                    name={"category"}
-                    control={control}
-                    label={"Category"}
-                    options={productCategoryChoices}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormSelect
-                    name={"gender"}
-                    control={control}
-                    label={"Gender"}
-                    options={productGenderChoices}
-                    fullWidth
-                  />
-                </Grid>
-              </Grid>
+            <Grid item xs={5}>
+              <FormInput name={"color"} control={control} label={"Color"} />
             </Grid>
 
-            <Grid container item xs={12}>
+            <Grid item xs={5}>
+              <FormInput name={"style"} control={control} label={"Style"} />
+            </Grid>
+            <Grid item xs={5}>
+              <FormInput
+                name={"material"}
+                control={control}
+                label={"Material"}
+              />
+            </Grid>
+
+            <Grid item xs={5}>
+              <FormSelect
+                name={"category"}
+                control={control}
+                label={"Category"}
+                options={productCategoryChoices}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={5}>
+              <FormSelect
+                name={"gender"}
+                control={control}
+                label={"Gender"}
+                options={productGenderChoices}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid container item xs={5} sx={{ flex: 0 }}>
               <UploadSizes
                 name={"uploaded_sizes"}
                 control={control}
@@ -216,7 +196,14 @@ const AddProductForm = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid
+              container
+              item
+              xs={5}
+              sx={{
+                flex: 0,
+              }}
+            >
               <MultipleFileUpload
                 label="Upload"
                 name="uploaded_images"
@@ -225,19 +212,23 @@ const AddProductForm = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
-              <Button
-                label="Submit"
-                fullWidth
-                variant="contained"
-                onClick={handleSubmit(onSubmit)}
-              />
-              <Button
-                label="Reset"
-                fullWidth
-                variant="contained"
-                onClick={() => reset(initialValues)}
-              />
+            <Grid container item xs={12} gap={2}>
+              <Grid item xs={2}>
+                <Button
+                  label="Submit"
+                  fullWidth
+                  variant="contained"
+                  onClick={handleSubmit(onSubmit)}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Button
+                  label="Reset"
+                  fullWidth
+                  variant="contained"
+                  onClick={() => reset(initialValues)}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </form>
