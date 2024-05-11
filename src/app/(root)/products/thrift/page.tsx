@@ -3,7 +3,7 @@ import URLS from "@/utils/urls";
 
 const ThriftProducts = () => {
   return (
-    <Products productsUrl={URLS.LIST_WOMEN_PRODUCTS} pageTitle={"Thrift"} />
+    <Products productsUrl={URLS.THRIFT_PRODUCTS_URL} pageTitle={"Thrift"} />
   );
 };
 

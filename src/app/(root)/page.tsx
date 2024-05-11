@@ -45,8 +45,8 @@ export default function Home() {
       method: "GET",
     })
       .then(async (response) => {
-        const data: Array<Product> = await response.json();
-        setProducts(data);
+        const data: ProductPaginatedResponseType = await response.json();
+        setProducts(data.results);
       })
       .catch((error) => {
         console.log("Error while fetching products", error);

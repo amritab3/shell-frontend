@@ -74,31 +74,30 @@ const AddThriftProductForm = () => {
   }, []);
 
   const onSubmit = async (submittedFormData: any) => {
-    console.log("Values", submittedFormData);
-    // const { uploaded_images, uploaded_sizes, ...restValues } =
-    //   submittedFormData;
-    //
-    // let formData = new FormData();
-    // for (let key in restValues) {
-    //   formData.append(key, restValues[key]);
-    // }
-    // for (const image of uploaded_images) {
-    //   formData.append("uploaded_images", image, image.name);
-    // }
-    // formData.append("uploaded_sizes", JSON.stringify(uploaded_sizes));
-    //
-    // fetch(`${URLS.PRODUCTS_URL}/`, {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then(async (response) => {
-    //     const responseData = await response.json();
-    //     console.log("response", responseData);
-    //     reset(initialValues);
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error while fetching adding the product", error);
-    //   });
+    const { uploaded_images, uploaded_sizes, ...restValues } =
+      submittedFormData;
+
+    let formData = new FormData();
+    for (let key in restValues) {
+      formData.append(key, restValues[key]);
+    }
+    for (const image of uploaded_images) {
+      formData.append("uploaded_images", image, image.name);
+    }
+    formData.append("uploaded_sizes", JSON.stringify(uploaded_sizes));
+
+    fetch(`${URLS.THRIFT_PRODUCTS_URL}`, {
+      method: "POST",
+      body: formData,
+    })
+      .then(async (response) => {
+        const responseData = await response.json();
+        console.log("response", responseData);
+        reset(initialValues);
+      })
+      .catch((error) => {
+        console.log("Error while fetching adding the product", error);
+      });
   };
   return (
     <Grid container item alignItems="center" justifyContent="center" xs={12}>
