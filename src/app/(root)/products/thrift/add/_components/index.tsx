@@ -14,6 +14,7 @@ import URLS from "@/utils/urls";
 import Button from "@/components/Button";
 import { FormSelectOption, UploadProductSize } from "@/utils/schema";
 import withAuth from "@/hoc/withAuth";
+import UploadSize from "./UploadSize";
 
 export interface IFormInput {
   name: string;
@@ -42,7 +43,7 @@ const AddThriftProductForm = () => {
     category: "",
     gender: "",
     uploaded_images: [],
-    uploaded_sizes: [],
+    uploaded_sizes: [{ size: "", size_inventory: "1" }],
     type: "thrift",
   };
 
@@ -73,30 +74,31 @@ const AddThriftProductForm = () => {
   }, []);
 
   const onSubmit = async (submittedFormData: any) => {
-    const { uploaded_images, uploaded_sizes, ...restValues } =
-      submittedFormData;
-
-    let formData = new FormData();
-    for (let key in restValues) {
-      formData.append(key, restValues[key]);
-    }
-    for (const image of uploaded_images) {
-      formData.append("uploaded_images", image, image.name);
-    }
-    formData.append("uploaded_sizes", JSON.stringify(uploaded_sizes));
-
-    fetch(`${URLS.PRODUCTS_URL}/`, {
-      method: "POST",
-      body: formData,
-    })
-      .then(async (response) => {
-        const responseData = await response.json();
-        console.log("response", responseData);
-        reset(initialValues);
-      })
-      .catch((error) => {
-        console.log("Error while fetching adding the product", error);
-      });
+    console.log("Values", submittedFormData);
+    // const { uploaded_images, uploaded_sizes, ...restValues } =
+    //   submittedFormData;
+    //
+    // let formData = new FormData();
+    // for (let key in restValues) {
+    //   formData.append(key, restValues[key]);
+    // }
+    // for (const image of uploaded_images) {
+    //   formData.append("uploaded_images", image, image.name);
+    // }
+    // formData.append("uploaded_sizes", JSON.stringify(uploaded_sizes));
+    //
+    // fetch(`${URLS.PRODUCTS_URL}/`, {
+    //   method: "POST",
+    //   body: formData,
+    // })
+    //   .then(async (response) => {
+    //     const responseData = await response.json();
+    //     console.log("response", responseData);
+    //     reset(initialValues);
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error while fetching adding the product", error);
+    //   });
   };
   return (
     <Grid container item alignItems="center" justifyContent="center" xs={12}>
@@ -129,86 +131,64 @@ const AddThriftProductForm = () => {
           </Typography>
         </Grid>
         <form>
-          <Grid container item xs={12} sx={{ p: 2 }} flexGrow={1}>
-            <Grid container item xs={5} gap={3} marginRight={2}>
-              <Grid item xs={12}>
-                <FormInput name={"name"} control={control} label={"Name"} />
-              </Grid>
-              <Grid item xs={12}>
-                <FormInput
-                  name={"description"}
-                  control={control}
-                  label={"Description"}
-                  multiline
-                  rows={4}
-                />
-              </Grid>
+          <Grid container item xs={12} sx={{ p: 2 }} flexGrow={1} spacing={5}>
+            <Grid item xs={4}>
+              <FormInput name={"name"} control={control} label={"Name"} />
+            </Grid>
+            <Grid item xs={4}>
+              <FormInput name={"price"} control={control} label={"Price"} />
+            </Grid>
+            <Grid item xs={4}>
+              <FormInput
+                name={"description"}
+                control={control}
+                label={"Description"}
+                multiline
+              />
             </Grid>
 
-            <Grid container item xs={5} gap={2}>
-              <Grid
-                container
-                item
-                spacing={1}
-                xs={12}
-                justifyContent="space-evenly"
-              >
-                <Grid item xs={6}>
-                  <FormInput name={"price"} control={control} label={"Price"} />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormInput name={"color"} control={control} label={"Color"} />
-                </Grid>
-              </Grid>
-
-              <Grid
-                container
-                item
-                spacing={1}
-                xs={12}
-                justifyContent="space-evenly"
-              >
-                <Grid item xs={6}>
-                  <FormInput name={"style"} control={control} label={"Style"} />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormInput
-                    name={"material"}
-                    control={control}
-                    label={"Material"}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid
-                container
-                item
-                spacing={1}
-                xs={12}
-                justifyContent="space-evenly"
-              >
-                <Grid item xs={6}>
-                  <FormSelect
-                    name={"category"}
-                    control={control}
-                    label={"Category"}
-                    options={productCategoryChoices}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormSelect
-                    name={"gender"}
-                    control={control}
-                    label={"Gender"}
-                    options={productGenderChoices}
-                    fullWidth
-                  />
-                </Grid>
-              </Grid>
+            <Grid item xs={4}>
+              <FormInput name={"color"} control={control} label={"Color"} />
+            </Grid>
+            <Grid item xs={4}>
+              <FormInput name={"style"} control={control} label={"Style"} />
+            </Grid>
+            <Grid item xs={4}>
+              <FormInput
+                name={"material"}
+                control={control}
+                label={"Material"}
+              />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={4}>
+              <FormSelect
+                name={"category"}
+                control={control}
+                label={"Category"}
+                options={productCategoryChoices}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormSelect
+                name={"gender"}
+                control={control}
+                label={"Gender"}
+                options={productGenderChoices}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid container item xs={4}>
+              <UploadSize
+                name={"uploaded_sizes"}
+                control={control}
+                label={"Product Size"}
+              />
+            </Grid>
+
+            <Grid item xs={4}>
               <MultipleFileUpload
                 label="Upload"
                 name="uploaded_images"
@@ -217,19 +197,23 @@ const AddThriftProductForm = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
-              <Button
-                label="Submit"
-                fullWidth
-                variant="contained"
-                onClick={handleSubmit(onSubmit)}
-              />
-              <Button
-                label="Reset"
-                fullWidth
-                variant="contained"
-                onClick={() => reset(initialValues)}
-              />
+            <Grid container item xs={12} gap={2}>
+              <Grid item xs={1}>
+                <Button
+                  label="Submit"
+                  fullWidth
+                  variant="contained"
+                  onClick={handleSubmit(onSubmit)}
+                />
+              </Grid>
+              <Grid item xs={1}>
+                <Button
+                  label="Reset"
+                  fullWidth
+                  variant="contained"
+                  onClick={() => reset(initialValues)}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </form>
