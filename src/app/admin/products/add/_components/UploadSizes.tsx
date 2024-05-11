@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { Controller, useController } from "react-hook-form";
 import Grid from "@mui/material/Grid";
@@ -13,12 +13,21 @@ import {
   removeObjectsWithEmptyKeys,
   deleteObjectFromArray,
 } from "@/utils/Utils";
-import { FormInputProps, UploadProductSize } from "@/utils/schema";
+import {
+  FormInputProps,
+  FormSelectOption,
+  UploadProductSize,
+} from "@/utils/schema";
+import URLS from "@/utils/urls";
+import Select from "@/components/Select";
 
 const UploadSizes = (props: FormInputProps) => {
   const { name, control } = props;
   const [size, setSize] = React.useState("");
   const [sizeInventory, setSizeInventory] = React.useState("");
+  const [productSizeChoices, setProductSizeChoices] = useState(
+    [] as Array<FormSelectOption>,
+  );
 
   const { field } = useController({
     name,
@@ -29,6 +38,19 @@ const UploadSizes = (props: FormInputProps) => {
     setSize("");
     setSizeInventory("");
   }, [field.value]);
+
+  React.useEffect(() => {
+    fetch(URLS.PRODUCT_SIZE_CHOICES, {
+      method: "GET",
+    }).then(async (resp) => {
+      const data: Array<FormSelectOption> = await resp.json();
+      setProductSizeChoices(data);
+    });
+  }, []);
+
+  const handleProductSizeChange = (e: any) => {
+    setSize(e.target.value);
+  };
 
   return (
     <Controller
@@ -48,11 +70,12 @@ const UploadSizes = (props: FormInputProps) => {
             gap={2}
           >
             <Grid item xs={4}>
-              <Input
-                label={"Size"}
-                size={"small"}
+              <Select
+                id="size"
+                label="Size"
+                selectItems={productSizeChoices}
                 value={size}
-                onChange={(e) => setSize(e.target.value.toUpperCase())}
+                onChange={handleProductSizeChange}
               />
             </Grid>
             <Grid item xs={4}>

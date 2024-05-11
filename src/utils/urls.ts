@@ -33,6 +33,7 @@ const URLS = {
 
   PRODUCT_GENDER_CHOICES: `${BASE_URL}/products/product-gender-choice/`,
   PRODUCT_CATEGORY_CHOICES: `${BASE_URL}/products/product-category-choice/`,
+  PRODUCT_SIZE_CHOICES: `${BASE_URL}/products/product-size-choice/`,
 };
 
 export default URLS;
