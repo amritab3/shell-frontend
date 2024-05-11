@@ -115,7 +115,7 @@ const ProductDetail = () => {
     }
 
     const cartItem = {
-      product: product.id!,
+      product: product,
       quantity: numberOfItems,
       size: selectedSize.size,
       price: product.price,

@@ -24,6 +24,7 @@ import URLS from "@/utils/urls";
 import withAuth from "@/hoc/withAuth";
 import { removeCartItem } from "@/redux/features/cartSlice";
 import { openToast } from "@/redux/features/toastSlice";
+import { CartItem } from "@/utils/schema";
 
 interface CartItemToShow {
   id: string;
@@ -51,7 +52,7 @@ const ViewCart = () => {
   const deliveryCharge: number = 100;
 
   useEffect(() => {
-    const cart = cartItems.map((cartItem) => {
+    const cart = cartItems.map((cartItem: CartItem) => {
       return {
         id: cartItem.id,
         quantity: cartItem.quantity,
@@ -75,8 +76,8 @@ const ViewCart = () => {
   }, [cartToShow]);
 
   const onClickCheckout = () => {
-    const productsForOrder = cartItems.map((cartItem) => ({
-      product: cartItem.product,
+    const productsForOrder = cartItems.map((cartItem: CartItem) => ({
+      product: cartItem.product.id,
       quantity: cartItem.quantity,
       size: cartItem.size,
     }));

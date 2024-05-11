@@ -69,6 +69,7 @@ export interface UserType {
 }
 
 export interface CartProduct {
+  id: string;
   images: Array<ProductImage>;
   name: string;
   price: number;
