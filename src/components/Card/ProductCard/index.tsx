@@ -28,7 +28,9 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
       <Grid container direction="column" sx={{ position: "relative" }}>
         <Grid item>
           <CardActionArea
-            onClick={() => router.push(`/products/instore/${product.id}`)}
+            onClick={() =>
+              router.push(`/products/${product.type}/${product.id}`)
+            }
             sx={{
               overflow: "hidden",
               borderRadius: 0,
@@ -58,7 +60,9 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
           }}
         >
           <Button
-            onClick={() => router.push(`/products/instore/${product.id}`)}
+            onClick={() =>
+              router.push(`/products/${product.type}/${product.id}`)
+            }
             fullWidth
             label="Order Now"
             sx={{
@@ -78,7 +82,12 @@ export default function ProductCard(props: CustomCardProps & CardProps) {
         </Grid>
       </Grid>
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div" textTransform="capitalize">
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          textTransform="capitalize"
+        >
           {product.name.toLowerCase()}
         </Typography>
         <Typography variant="body2" color="text.secondary">

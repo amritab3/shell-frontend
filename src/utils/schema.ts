@@ -28,6 +28,7 @@ export interface Product {
   material: string;
   category: string;
   gender: string;
+  type: string;
   sizes: Array<ProductSize>;
   images: Array<ProductImage>;
 }

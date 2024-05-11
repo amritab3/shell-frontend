@@ -19,7 +19,7 @@ const URLS = {
   LIST_WOMEN_PRODUCTS: `${BASE_URL}/products/women/`,
   LIST_KIDS_PRODUCTS: `${BASE_URL}/products/kids/`,
 
-  THRIFT_PRODUCTS_URL: `${BASE_URL}/products/thrift/`,
+  THRIFT_PRODUCTS_URL: `${BASE_URL}/products/thrift`,
 
   LIST_USERS: `${BASE_URL}/users/`,
 
