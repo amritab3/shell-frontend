@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
 import MuiTable, { TableProps } from "@mui/material/Table";
@@ -25,6 +25,8 @@ import { RootState } from "@/redux/store";
 import Button from "@/components/Button";
 import Grid from "@mui/material/Grid";
 import { PaginatedResponseType } from "@/utils/schema";
+import URLS from "@/utils/urls";
+import { openToast } from "@/redux/features/toastSlice";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -73,6 +75,7 @@ const Table = (props: CustomTableProps & TableProps) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const dispatch = useDispatch();
   const accessToken = useSelector(
     (state: RootState) => state.user.access_token,
   );
@@ -165,6 +168,32 @@ const Table = (props: CustomTableProps & TableProps) => {
     const { numSelected } = props;
     const router = useRouter();
 
+    const handleDeleteClick = () => {
+      console.log("Selected", selected);
+      const dataAfterDelete = data.filter(async (obj) => {
+        if (selected.includes(obj.id)) {
+          const deleteResp = await fetch(`${listUrl}/${obj.id}/`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+
+          if (deleteResp.status === 204) {
+            dispatch(
+              openToast({
+                message: "Data deleted successfully",
+                severity: "success",
+              }),
+            );
+            return !selected.includes(obj.id);
+          }
+        }
+      });
+      console.log(dataAfterDelete);
+      setData([...dataAfterDelete]);
+    };
+
     return (
       <Toolbar
         sx={{
@@ -200,7 +229,7 @@ const Table = (props: CustomTableProps & TableProps) => {
         )}
         {numSelected > 0 ? (
           <Tooltip title="Delete">
-            <IconButton>
+            <IconButton onClick={handleDeleteClick}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -303,13 +332,13 @@ const Table = (props: CustomTableProps & TableProps) => {
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(Number(row["id"]));
+                const isItemSelected = isSelected(row["id"]);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, Number(row["id"]))}
+                    onClick={(event) => handleClick(event, row["id"])}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
