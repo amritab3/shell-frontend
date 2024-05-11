@@ -99,6 +99,7 @@ export interface PaginatedResponseType {
   total_pages: number;
   page_size: number;
   current_page_number: number;
+  results: Array<any>;
 }
 
 export interface ProductPaginatedResponseType extends PaginatedResponseType {

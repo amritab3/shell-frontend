@@ -24,6 +24,7 @@ import { alpha } from "@mui/material/styles";
 import { RootState } from "@/redux/store";
 import Button from "@/components/Button";
 import Grid from "@mui/material/Grid";
+import { PaginatedResponseType } from "@/utils/schema";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -67,7 +68,7 @@ const Table = (props: CustomTableProps & TableProps) => {
     props;
   const [data, setData] = React.useState<Array<any>>([]);
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<string>(defaultSortBy);
+  const [orderBy, setOrderBy] = React.useState<string>("");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -84,13 +85,13 @@ const Table = (props: CustomTableProps & TableProps) => {
       },
     })
       .then(async (response) => {
-        const responseData: Array<any> = await response.json();
-        setData(responseData);
+        const responseData: PaginatedResponseType = await response.json();
+        setData(responseData["results"]);
       })
       .catch((error) => {
         console.log("Error while fetching users", error);
       });
-  }, []);
+  }, [accessToken]);
 
   interface EnhancedTableProps {
     numSelected: number;

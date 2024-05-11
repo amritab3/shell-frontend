@@ -41,9 +41,9 @@ const ThriftProductsTable = () => {
   return (
     <Table
       headCells={thriftProductsTableHeadCells}
-      defaultSortBy="name"
+      defaultSortBy=""
       tableTitle="Thrift Products"
-      listUrl={URLS.LIST_PRODUCTS}
+      listUrl={URLS.THRIFT_PRODUCTS_URL}
     />
   );
 };
