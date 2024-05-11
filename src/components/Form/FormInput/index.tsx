@@ -58,7 +58,7 @@ const FormTextField = (
           helperText={error ? error.message : null}
           onFocus={() => setShrink(true)}
           onBlur={(e) => setShrink(!!e.target.value)}
-          InputLabelProps={{ shrink: value ? value : shrink }}
+          InputLabelProps={{ shrink: value ? Boolean(value) : shrink }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">

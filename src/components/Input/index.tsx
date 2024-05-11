@@ -13,10 +13,10 @@ interface InputTypes {
 }
 
 const Input = (props: InputTypes & TextFieldProps) => {
-  const { variant, label, type, StartIcon, EndIcon, ...rest } = props;
+  const { variant, label, type, value, StartIcon, EndIcon, ...rest } = props;
   const [showPassword, setShowPassword] = React.useState(false);
   const [inputType, setInputType] = React.useState(type);
-  const [shrink, setShrink] = React.useState(true);
+  const [shrink, setShrink] = React.useState(false);
 
   const passwordVisibilityToggle = () => {
     setShowPassword(!showPassword);
@@ -38,9 +38,10 @@ const Input = (props: InputTypes & TextFieldProps) => {
       label={label}
       variant={variant}
       type={inputType || "text"}
+      value={value}
       onFocus={() => setShrink(true)}
       onBlur={(e) => setShrink(!!e.target.value)}
-      InputLabelProps={{ shrink }}
+      InputLabelProps={{ shrink: value ? Boolean(value) : shrink }}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
