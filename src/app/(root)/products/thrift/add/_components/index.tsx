@@ -86,7 +86,7 @@ const AddThriftProductForm = () => {
     }
     formData.append("uploaded_sizes", JSON.stringify(uploaded_sizes));
 
-    fetch(`${URLS.THRIFT_PRODUCTS_URL}`, {
+    fetch(`${URLS.THRIFT_PRODUCTS_URL}/`, {
       method: "POST",
       body: formData,
     })
