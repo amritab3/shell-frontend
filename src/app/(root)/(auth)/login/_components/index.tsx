@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Grid from "@mui/material/Grid";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { login, setAvatarUrl } from "@/redux/features/userSlice";
 import { openToast } from "@/redux/features/toastSlice";
@@ -30,7 +31,7 @@ const validationSchema = Yup.object({
     .email("Invalid email format")
     .required("Email is required"),
   password: Yup.string().required("Password is required"),
-});
+}).required();
 
 const LoginPage = () => {
   const router = useRouter();
@@ -41,6 +42,8 @@ const LoginPage = () => {
   };
   const { handleSubmit, control, setError } = useForm<IFormInput>({
     defaultValues: initialValues,
+    mode: "onBlur",
+    resolver: yupResolver(validationSchema),
   });
   const previousRoute = useSelector((state: RootState) => state.misc.prevRoute);
 

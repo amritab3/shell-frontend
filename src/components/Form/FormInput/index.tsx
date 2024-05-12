@@ -43,7 +43,7 @@ const FormTextField = (
       name={name}
       control={control}
       render={({
-        field: { onChange, value },
+        field: { onChange, value, onBlur },
         fieldState: { error },
         formState,
       }) => (
@@ -57,7 +57,10 @@ const FormTextField = (
           onChange={onChange}
           helperText={error ? error.message : null}
           onFocus={() => setShrink(true)}
-          onBlur={(e) => setShrink(!!e.target.value)}
+          onBlur={(e) => {
+            setShrink(!!e.target.value);
+            onBlur();
+          }}
           InputLabelProps={{ shrink: value ? Boolean(value) : shrink }}
           InputProps={{
             startAdornment: (
@@ -80,10 +83,10 @@ const FormTextField = (
           sx={{
             ...rest.sx,
             "& .MuiInputLabel-outlined": {
-              px: 4,
+              px: StartIcon ? 4 : null,
             },
             "& .MuiOutlinedInput-notchedOutline": {
-              px: 4,
+              px: StartIcon ? 4 : null,
             },
             "& .Mui-focused .MuiInputAdornment-root": {
               color: (theme) => theme.palette.primary.main,
