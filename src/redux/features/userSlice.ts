@@ -52,9 +52,9 @@ export const userSlice = createSlice({
         state.userID = userData.id;
         state.userEmail = userData.email;
 
-        state.isAdmin = userData.roles.includes("Admin");
-        state.isShopAdmin = userData.roles.includes("ShopAdmin");
-        state.isCustomer = userData.roles.includes("Customer");
+        state.isAdmin = userData.roles.includes("Admin".toLowerCase());
+        state.isShopAdmin = userData.roles.includes("ShopAdmin".toLowerCase());
+        state.isCustomer = userData.roles.includes("Customer".toLowerCase());
       }
     },
     setAvatarUrl: (state, action) => {
