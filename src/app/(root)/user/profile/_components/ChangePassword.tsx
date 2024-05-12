@@ -2,9 +2,9 @@
 
 import * as Yup from "yup";
 import { Grid } from "@mui/material";
-import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import LockIcon from "@mui/icons-material/Lock";
+import { useForm } from "react-hook-form";
 
 import { RootState } from "@/redux/store";
 import FormButton from "@/components/Form/FormButton";
@@ -12,107 +12,105 @@ import FormInput from "@/components/Form/FormInput";
 import { openToast } from "@/redux/features/toastSlice";
 import { removeForgotPasswordEmail } from "@/redux/features/userSlice";
 import URLS from "@/utils/urls";
+import Button from "@/components/Button";
+import React from "react";
+
+interface IFormInput {
+  new_password: string;
+  confirm_new_password: string;
+  email: string;
+}
 
 const ChangePassword = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const validationSchema = Yup.object({
-        new_password: Yup.string().required("Password is required"),
-        confirm_new_password: Yup.string()
-            .required("Confirm password is required")
-            .oneOf([Yup.ref("new_password")], "Passwords must match"),
+  const validationSchema = Yup.object({
+    new_password: Yup.string()
+      .required("Password is required.")
+      .min(6, "Password should be 6 characters minimum.")
+      .matches(/[a-zA-Z]/, "Password can only contain Latin letters.")
+      .matches(/[0-9]/, "Password must contain at least one number.")
+      .matches(
+        /[!@#$%^&*(),.?":{}|<>]/,
+        "Password must contain at least one special character.",
+      ),
+    confirm_new_password: Yup.string()
+      .required("Confirm password is required")
+      .oneOf([Yup.ref("new_password")], "Passwords must match"),
+  });
+
+  const forgotPasswordEmail = useSelector(
+    (state: RootState) => state.user.userEmail,
+  );
+
+  const initialValues: IFormInput = {
+    email: forgotPasswordEmail,
+    new_password: "",
+    confirm_new_password: "",
+  };
+
+  const { handleSubmit, control, reset } = useForm<IFormInput>({
+    defaultValues: initialValues,
+  });
+
+  const onSubmit = async (formData: IFormInput) => {
+    const response = await fetch(URLS.UPDATE_PASSWORD, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
     });
 
-    const forgotPasswordEmail = useSelector(
-        (state: RootState) => state.user.userEmail,
-    );
+    if (response.ok) {
+      dispatch(removeForgotPasswordEmail());
+      dispatch(
+        openToast({
+          message: "Password successfully updated",
+          severity: "success",
+        }),
+      );
+      reset(initialValues);
+    } else {
+      dispatch(
+        openToast({
+          message: "Password update failed",
+          severity: "error",
+        }),
+      );
+    }
+  };
 
-    const initialValues = {
-        email: forgotPasswordEmail,
-        new_password: "",
-        confirm_new_password: "",
-    };
-
-    const handleSubmit = async (values: any, actions: any) => {
-        const response = await fetch(URLS.UPDATE_PASSWORD, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(values),
-        });
-
-        if (response.ok) {
-            dispatch(removeForgotPasswordEmail());
-            dispatch(
-                openToast({
-                    message: "Password successfully updated",
-                    severity: "success",
-                }),
-            );
-
-            actions.setSubmitting(false);
-            actions.resetForm(initialValues);
-        } else {
-            dispatch(
-                openToast({
-                    message: "Password update failed",
-                    severity: "error",
-                }),
-            );
-            actions.setSubmitting(false);
-        }
-    };
-
-    return (
-        <Grid
-            container
-            item
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-        >
-            <Formik
-                initialValues={initialValues}
-                onSubmit={handleSubmit}
-                validationSchema={validationSchema}
-                showBoxShadow
-            >
-                {({ isSubmitting }) => (
-                    <Form>
-                        <Grid
-                            container
-                            item
-                            sx={{
-                                width: "400px",
-                            }}
-                        >
-                            <Grid container item>
-                                <FormInput
-                                    variant="outlined"
-                                    label="New Password"
-                                    type="password"
-                                    name="new_password"
-                                    StartIcon={LockIcon}
-                                />
-                                <FormInput
-                                    variant="outlined"
-                                    label="Confirm New Password"
-                                    type="password"
-                                    name="confirm_new_password"
-                                    StartIcon={LockIcon}
-                                />
-
-                                <FormButton
-                                    variant="contained"
-                                    type="submit"
-                                    label="Change Password"
-                                />
-                            </Grid>
-                        </Grid>
-                    </Form>
-                )}
-            </Formik>
+  return (
+    <Grid container item alignItems="center" justifyContent="center">
+      <Grid container item xs={12} sx={{ p: 2 }} gap={{ xs: 2, sm: 3, md: 5 }}>
+        <Grid item xs={12}>
+          <FormInput
+            name={"new_password"}
+            control={control}
+            label={"New Password"}
+            type={"password"}
+          />
         </Grid>
-    );
+
+        <Grid item xs={12}>
+          <FormInput
+            name={"confirm_new_password"}
+            control={control}
+            label={"Confirm New Password"}
+            type={"password"}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Button
+            label="Change Password"
+            fullWidth
+            variant="contained"
+            onClick={handleSubmit(onSubmit)}
+          />
+        </Grid>
+      </Grid>
+    </Grid>
+  );
 };
 
 export default ChangePassword;

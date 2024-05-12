@@ -4,21 +4,18 @@ import React from "react";
 
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { Typography } from "@mui/material";
 
 import LockIcon from "@mui/icons-material/Lock";
 import Grid from "@mui/material/Grid";
 import * as Yup from "yup";
 
 import FormInput from "@/components/Form/FormInput";
-import FormButton from "@/components/Form/FormButton";
-import CustomForm from "@/components/Form";
 import { openToast } from "@/redux/features/toastSlice";
 import { removeForgotPasswordEmail } from "@/redux/features/userSlice";
 import URLS from "@/utils/urls";
 import { RootState } from "@/redux/store";
-import { useForm } from "react-hook-form";
-import { Typography } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
 import Button from "@/components/Button";
 
 interface IFormInput {
