@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 
 import Table from "@/components/Table";
 import URLS from "@/utils/urls";
-import { RootState } from "@/redux/store";
-import { UserType } from "@/utils/schema";
 
 interface UserTableHeadCell {
   id: string;
