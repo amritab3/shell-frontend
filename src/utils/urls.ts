@@ -28,6 +28,7 @@ const URLS = {
   DELETE_CART_ITEM: `${BASE_URL}/users/:userId/cart/delete-cart-item/`,
 
   ADMIN_ADD_USER: `${BASE_URL}/users/admin/user/`,
+  ADMIN_ROLES_URL: `${BASE_URL}/users/admin/roles/`,
 
   CREATE_ORDER: `${BASE_URL}/orders/`,
 
