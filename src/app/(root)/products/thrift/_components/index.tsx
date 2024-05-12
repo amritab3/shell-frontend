@@ -63,6 +63,7 @@ const Products = (props: ProductsPage) => {
   const [sortByValue, setSortByValue] = useState("");
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(0);
+  const [searchByName, setSearchByName] = React.useState("");
 
   const router = useRouter();
 
@@ -104,6 +105,15 @@ const Products = (props: ProductsPage) => {
       }).toString();
     }
 
+    if (searchByName) {
+      listProductsUrl.search = new URLSearchParams({
+        page: page.toString(),
+        category: filterByCategory,
+        ordering: sortByValue,
+        search: searchByName,
+      }).toString();
+    }
+
     fetch(listProductsUrl, {
       method: "GET",
     })
@@ -115,7 +125,7 @@ const Products = (props: ProductsPage) => {
       .catch((error) => {
         console.log("Error while fetching products", error);
       });
-  }, [filterByCategory, sortByValue, page]);
+  }, [filterByCategory, sortByValue, page, searchByName]);
 
   const handleCategoryFilterSelectChange = (e: any) => {
     setFilterByCategory(e.target.value);
@@ -198,6 +208,8 @@ const Products = (props: ProductsPage) => {
                   label="Search"
                   variant="outlined"
                   placeholder={"Search by name"}
+                  value={searchByName}
+                  onChange={(e: any) => setSearchByName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={2}>
