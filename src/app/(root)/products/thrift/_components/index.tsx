@@ -208,7 +208,7 @@ const Products = (props: ProductsPage) => {
             <Grid
               item
               container
-              xs={3}
+              xs={4}
               alignItems="center"
               justifyContent="flex-end"
               gap={5}

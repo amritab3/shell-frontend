@@ -186,10 +186,10 @@ const Products = (props: ProductsPage) => {
             <Grid
               item
               container
-              xs={3}
+              xs={4}
               alignItems="center"
               justifyContent="flex-end"
-              gap={5}
+              gap={2}
             >
               <Grid item>
                 <Select
@@ -216,14 +216,14 @@ const Products = (props: ProductsPage) => {
         </Grid>
       </Grid>
 
-      <Grid container item xs={12} spacing={4} justifyContent="flex-start">
+      <Grid container item xs={12} justifyContent="flex-start">
         {products.map((product) => {
           return (
             <Grid
               item
-              xs={3}
+              xs={4}
               key={product.id}
-              sx={{ display: "flex", justifyContent: "center" }}
+              sx={{ display: "flex", justifyContent: "center", mb: 5 }}
             >
               <ProductCard product={product} />
             </Grid>
