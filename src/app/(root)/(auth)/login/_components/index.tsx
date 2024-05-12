@@ -39,7 +39,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   };
-  const { handleSubmit, control } = useForm<IFormInput>({
+  const { handleSubmit, control, setError } = useForm<IFormInput>({
     defaultValues: initialValues,
   });
   const previousRoute = useSelector((state: RootState) => state.misc.prevRoute);
@@ -101,6 +101,15 @@ const LoginPage = () => {
       }
     } else {
       dispatch(openToast({ message: "User Login Failed", severity: "error" }));
+      const errResp = await response.json();
+      const errorMessages = errResp.message;
+      Object.keys(errResp.message).forEach((k) => {
+        const key = k as keyof IFormInput;
+        setError(key, {
+          type: "custom",
+          message: errorMessages[key],
+        });
+      });
     }
   };
 
