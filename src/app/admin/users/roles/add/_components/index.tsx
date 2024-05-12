@@ -50,8 +50,8 @@ const AddRoleForm = () => {
           const addRoleResponse = await response.json();
           throw new HttpError(
             addRoleResponse.detail,
-            addRoleResponse.status,
-            addRoleResponse.statusText,
+            response.status,
+            response.statusText,
             {
               cause: addRoleResponse.code,
             },

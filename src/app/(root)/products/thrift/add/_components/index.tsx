@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
@@ -15,6 +17,8 @@ import Button from "@/components/Button";
 import { FormSelectOption, UploadProductSize } from "@/utils/schema";
 import withAuth from "@/hoc/withAuth";
 import UploadSize from "./UploadSize";
+import HttpError from "@/utils/HttpError";
+import { openToast } from "@/redux/features/toastSlice";
 
 export interface IFormInput {
   name: string;
@@ -56,6 +60,8 @@ const AddThriftProductForm = () => {
   const [productCategoryChoices, setProductCategoryChoices] = useState(
     [] as Array<FormSelectOption>,
   );
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     fetch(URLS.PRODUCT_GENDER_CHOICES, {
@@ -91,12 +97,34 @@ const AddThriftProductForm = () => {
       body: formData,
     })
       .then(async (response) => {
-        const responseData = await response.json();
-        console.log("response", responseData);
+        if (!response.ok) {
+          const addProductErrorResponse = await response.json();
+          throw new HttpError(
+            addProductErrorResponse.detail,
+            response.status,
+            response.statusText,
+            {
+              cause: addProductErrorResponse.code,
+            },
+          );
+        }
+        dispatch(
+          openToast({
+            message: "Thrift product added successfully",
+            severity: "success",
+          }),
+        );
+        router.push("/products/thrift/");
         reset(initialValues);
       })
       .catch((error) => {
-        console.log("Error while fetching adding the product", error);
+        console.log("Error while adding the product", error);
+        dispatch(
+          openToast({
+            message: "Thrift product could not be added",
+            severity: "error",
+          }),
+        );
       });
   };
   return (

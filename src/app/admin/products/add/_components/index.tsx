@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
@@ -14,6 +16,8 @@ import URLS from "@/utils/urls";
 import Button from "@/components/Button";
 import { FormSelectOption, UploadProductSize } from "@/utils/schema";
 import UploadSizes from "./UploadSizes";
+import { openToast } from "@/redux/features/toastSlice";
+import HttpError from "@/utils/HttpError";
 
 export interface IFormInput {
   name: string;
@@ -55,6 +59,8 @@ const AddProductForm = () => {
   const [productCategoryChoices, setProductCategoryChoices] = useState(
     [] as Array<FormSelectOption>,
   );
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     fetch(URLS.PRODUCT_GENDER_CHOICES, {
@@ -90,12 +96,34 @@ const AddProductForm = () => {
       body: formData,
     })
       .then(async (response) => {
-        const responseData = await response.json();
-        console.log("response", responseData);
+        if (!response.ok) {
+          const addProductErrorResponse = await response.json();
+          throw new HttpError(
+            addProductErrorResponse.detail,
+            response.status,
+            response.statusText,
+            {
+              cause: addProductErrorResponse.code,
+            },
+          );
+        }
+        dispatch(
+          openToast({
+            message: "Instore product added successfully",
+            severity: "success",
+          }),
+        );
+        router.push("/admin/products/instore");
         reset(initialValues);
       })
       .catch((error) => {
-        console.log("Error while fetching adding the product", error);
+        console.log("Error while adding the product", error);
+        dispatch(
+          openToast({
+            message: "Instore product could not be added",
+            severity: "error",
+          }),
+        );
       });
   };
   return (
