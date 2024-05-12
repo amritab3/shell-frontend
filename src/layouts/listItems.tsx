@@ -102,6 +102,15 @@ export const MainListItems = () => {
             </ListItemIcon>
             <ListItemText primary="Users" />
           </ListItemButton>
+          <ListItemButton
+            sx={{ pl: 4 }}
+            onClick={() => router.push("/admin/users/roles")}
+          >
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Roles" />
+          </ListItemButton>
         </List>
       </Collapse>
     </React.Fragment>
