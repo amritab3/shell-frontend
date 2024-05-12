@@ -17,7 +17,7 @@ import Button from "@/components/Button";
 
 const ProductCardSlider = (props: ProductCardSliderType) => {
   const { products, autoPlay, title, showViewMore, viewMoreRedirect } = props;
-  const router = useRouter()
+  const router = useRouter();
 
   function NextArrow(props: any) {
     const { className, style, onClick } = props;
@@ -119,7 +119,11 @@ const ProductCardSlider = (props: ProductCardSliderType) => {
 
       {showViewMore && (
         <Grid item sx={{ mt: 5 }}>
-          <Button label="View More" variant="outlined" onClick={() => router.push(viewMoreRedirect!)} /> 
+          <Button
+            label="View More"
+            variant="contained"
+            onClick={() => router.push(viewMoreRedirect!)}
+          />
         </Grid>
       )}
     </Grid>

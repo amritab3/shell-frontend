@@ -77,6 +77,21 @@ const FormTextField = (
               </InputAdornment>
             ),
           }}
+          sx={{
+            ...rest.sx,
+            "& .MuiInputLabel-outlined": {
+              px: 4,
+            },
+            "& .MuiOutlinedInput-notchedOutline": {
+              px: 4,
+            },
+            "& .Mui-focused .MuiInputAdornment-root": {
+              color: (theme) => theme.palette.primary.main,
+            },
+            "& .Mui-error .MuiInputAdornment-root": {
+              color: (theme) => theme.palette.error.main,
+            },
+          }}
           {...rest}
         />
       )}

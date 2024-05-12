@@ -90,7 +90,7 @@ export default function Home() {
     <Grid container item xs={12} justifyContent="center" alignItems="center">
       <Grid
         item
-        xs={11}
+        xs={12}
         sx={{
           height: {
             xs: "26vh",

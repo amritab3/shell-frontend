@@ -35,7 +35,7 @@ const ForgotPasswordPage = () => {
     email: "",
   };
 
-  const { handleSubmit, control } = useForm<IFormInput>({
+  const { handleSubmit, control, setError } = useForm<IFormInput>({
     defaultValues: initialValues,
   });
 
@@ -66,6 +66,15 @@ const ForgotPasswordPage = () => {
           severity: "error",
         }),
       );
+      const errResp = await response.json();
+      const errorMessages = errResp.message;
+      Object.keys(errResp.message).forEach((k) => {
+        const key = k as keyof IFormInput;
+        setError(key, {
+          type: "custom",
+          message: errorMessages[key],
+        });
+      });
     }
   };
 

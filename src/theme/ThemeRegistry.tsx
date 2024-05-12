@@ -29,11 +29,11 @@ declare module "@mui/material/styles" {
 
 const backgroundColors = {
   default: "#f0f8ff",
-  formTitleBg: "#E65540",
+  formTitleBg: "#242423",
 } as MyTypeBackground;
 
 const textColors = {
-  primary: "#300000",
+  primary: "#171717",
   onPrimaryBg: "#f0f8ff",
 } as MyTypeText;
 
@@ -51,7 +51,7 @@ const themeOptions: ThemeOptions = {
   palette: {
     background: backgroundColors,
     primary: {
-      main: "#E65540",
+      main: "#242423",
     },
     text: textColors,
   },
