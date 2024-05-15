@@ -26,7 +26,7 @@ const FormSelect = (props: FormInputProps & SelectProps & FormSelectProps) => {
         fieldState: { error },
         formState,
       }) => (
-        <FormControl fullWidth={fullWidth}>
+        <FormControl fullWidth={fullWidth} error={!!error}>
           <InputLabel id="demo-simple-select-label">{label}</InputLabel>
           <MuiSelect
             id={name}
