@@ -76,15 +76,12 @@ const ViewCart = () => {
   }, [cartToShow]);
 
   const onClickCheckout = () => {
-    const productsForOrder = cartItems.map((cartItem: CartItem) => ({
-      product: cartItem.product.id,
-      quantity: cartItem.quantity,
-      size: cartItem.size,
-    }));
+    const cartItemsForOrder = cartItems.map(
+      (cartItem: CartItem) => cartItem.id,
+    );
 
     const orderItem = {
-      amount: subTotalPrice,
-      products: productsForOrder,
+      cart_items: cartItemsForOrder,
     };
 
     fetch(URLS.CREATE_ORDER, {
