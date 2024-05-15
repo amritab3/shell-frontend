@@ -5,6 +5,7 @@ import MuiSelect, { SelectProps } from "@mui/material/Select";
 import { FormInputProps } from "@/utils/schema";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import { FormHelperText } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import { FormSelectOption } from "@/utils/schema";
 
@@ -21,17 +22,19 @@ const FormSelect = (props: FormInputProps & SelectProps & FormSelectProps) => {
       name={name}
       control={control}
       render={({
-        field: { onChange, value },
+        field, 
         fieldState: { error },
         formState,
       }) => (
         <FormControl fullWidth={fullWidth}>
           <InputLabel id="demo-simple-select-label">{label}</InputLabel>
           <MuiSelect
+            id={name}
             label={label}
-            onChange={onChange}
-            value={value}
+            inputProps={{ MenuProps: { disableScrollLock: true } }}
             fullWidth={fullWidth}
+            error={!!error}
+            {...field}
           >
             {options.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -39,6 +42,11 @@ const FormSelect = (props: FormInputProps & SelectProps & FormSelectProps) => {
               </MenuItem>
             ))}
           </MuiSelect>
+          {error && (
+            <FormHelperText error={!!error}>
+              {error.message}
+            </FormHelperText>
+          )}
         </FormControl>
       )}
     />
