@@ -57,10 +57,11 @@ const AddUserForm = () => {
     roles: [],
   };
 
-  const { handleSubmit, control, reset } = useForm({
+  const { handleSubmit, control, reset } = useForm<any>({
     defaultValues: initialValues,
     mode: "all",
     resolver: yupResolver(validationSchema),
+
   });
   const dispatch = useDispatch();
   const router = useRouter();
