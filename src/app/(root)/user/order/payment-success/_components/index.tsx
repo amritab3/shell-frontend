@@ -1,74 +1,126 @@
 "use client";
 
-import React from 'react';
-import { Box, Typography, Paper, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import Confetti from 'react-confetti';
+import { useRouter } from 'next/navigation';
+
+import { Grid, Typography, Divider } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import Button from "@/components/Button";
 
-
 const PaymentSuccess = () => {
+  const [showConfetti, setShowConfetti] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowConfetti(false), 4000); // Stop confetti after 4 seconds
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <Box
-      display="flex"
+    <Grid
+      container
+      item
       justifyContent="center"
       alignItems="center"
-      minHeight="100vh"
-      bgcolor="#f5f5f5"
-      p={2}
+      spacing={2}
+      xs={12}
+      marginX={8}
+      marginBottom={3}
     >
-      <Paper elevation={3} sx={{ padding: 4, maxWidth: 600 }}>
-        <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} display="flex" justifyContent="center">
+      {showConfetti && <Confetti />}
+      <Grid
+        container
+        item
+        justifyContent="center"
+        alignItems="center"
+        sx={{ padding: 4, maxWidth: {lg:500}, backgroundColor: '#fff'}}
+      >
+        <Grid container xs={12} spacing={2} justifyContent="center" alignItems="center">
+          <Grid item>
             <CheckCircleIcon color="success" sx={{ fontSize: 40 }} />
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h5" align="center" gutterBottom>
-              Payment successful
+              <strong>Payment Successful</strong>
             </Typography>
           </Grid>
-          <Grid container item xs={12}>
-            <Grid item xs={12}>
-              <Typography variant="body1"><strong>Payment type:</strong> Net banking</Typography>
+          <Grid container item spacing={2}>
+            <Grid container item  justifyContent="space-between">
+              <Grid item>
+                <Typography variant="body1" textAlign="initial">Payment type</Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body1" textAlign="initial">Net banking</Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1"><strong>Bank:</strong> HDFC</Typography>
+            <Grid container item  justifyContent="space-between">
+              <Grid item>
+                <Typography variant="body1" textAlign="initial">Bank</Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body1" textAlign="initial">HDFC</Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1"><strong>Mobile:</strong> 8897131444</Typography>
+            <Grid container item  justifyContent="space-between">
+              <Grid item>
+                <Typography variant="body1">Mobile</Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body1">8897131444</Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1"><strong>Email:</strong> sudheerreddy.ui@gmail.com</Typography>
+            <Grid container item  justifyContent="space-between">
+              <Grid item>
+                <Typography variant="body1">Email</Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body1">sudheerreddy.ui@gmail.com</Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1"><strong>Amount paid:</strong> 500.00</Typography>
+            <Divider variant="middle" sx={{ width: '100%', my: 1 }} />
+            <Grid container item  justifyContent="space-between">
+              <Grid item>
+                <Typography variant="h6"><strong>Amount paid</strong></Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>500.00</Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1"><strong>Transaction id:</strong> 125478965698</Typography>
+            <Divider variant="middle" sx={{ width: '100%', my: 1 }} />
+            <Grid container item  justifyContent="space-between">
+              <Grid item>
+                <Typography variant="body1">Order id</Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body1">125478965698</Typography>
+              </Grid>
+            </Grid>
+            <Grid container item  justifyContent="center" gap={4}>
+              <Grid item xs={4}>
+                <Button
+                  label="My Orders"
+                  fullWidth
+                  variant="contained"
+                  onClick={()=>router.push('/')}
+
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  label="Shop More"
+                  fullWidth
+                  variant="contained"
+                  onClick={()=>router.push('/')}
+                />
+              </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} display="flex" justifyContent="space-between" mt={2}>
-          <Grid item xs={12}>
-            <Button
-              label="Print"
-              fullWidth
-              variant="contained"
-              // onClick={handleSubmit(onSubmit)}
-              onClick={() => window.print()}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              label="Close"
-              fullWidth
-              variant="contained"
-              // onClick={handleSubmit(onSubmit)}
-            />
-          </Grid>
-          </Grid>
+          
         </Grid>
-      </Paper>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 
