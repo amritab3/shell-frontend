@@ -151,19 +151,21 @@ const ProductDetail = () => {
         console.log("Error while fetching a product.", error);
       });
 
-    fetch(URLS.GET_USER_RATING.replace(":productId", params.id.toString()), {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then(async (response) => {
-        const ratingData = await response.json();
-        setRatingValue(ratingData["rating"]);
+    if (isLoggedIn) {
+      fetch(URLS.GET_USER_RATING.replace(":productId", params.id.toString()), {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        },
       })
-      .catch((error) => {
-        console.log("Error while fetching user product rating.", error);
-      });
+        .then(async (response) => {
+          const ratingData = await response.json();
+          setRatingValue(ratingData["rating"]);
+        })
+        .catch((error) => {
+          console.log("Error while fetching user product rating.", error);
+        });
+    }
   }, [params.id, accessToken]);
 
   useEffect(() => {
@@ -255,7 +257,6 @@ const ProductDetail = () => {
   };
 
   const handleRatingChange = (event: any, newValue: number | null) => {
-    console.log(newValue);
     setRatingValue(newValue);
     fetch(URLS.ADD_RATING.replace(":productId", params.id.toString()), {
       method: "POST",
