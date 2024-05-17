@@ -37,6 +37,8 @@ const URLS = {
   PRODUCT_SIZE_CHOICES: `${BASE_URL}/products/product-size-choice/`,
 
   PRODUCT_COMMENT_URL: `${BASE_URL}/products/:productId/feedback/comments`,
+  GET_USER_RATING: `${BASE_URL}/products/:productId/feedback/ratings/user-rating/`,
+  ADD_RATING: `${BASE_URL}/products/:productId/feedback/ratings/`,
 };
 
 export default URLS;

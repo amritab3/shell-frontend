@@ -32,6 +32,8 @@ import { addToCart } from "@/redux/features/cartSlice";
 import FormInput from "@/components/Form/FormInput";
 import Stack from "@mui/material/Stack";
 import Pagination from "@mui/material/Pagination";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import Tooltip from "@mui/material/Tooltip";
 
 const itemInfoWidth: string = "100px";
 
@@ -148,7 +150,21 @@ const ProductDetail = () => {
       .catch((error) => {
         console.log("Error while fetching a product.", error);
       });
-  }, [params.id]);
+
+    fetch(URLS.GET_USER_RATING.replace(":productId", params.id.toString()), {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(async (response) => {
+        const ratingData = await response.json();
+        setRatingValue(ratingData["rating"]);
+      })
+      .catch((error) => {
+        console.log("Error while fetching user product rating.", error);
+      });
+  }, [params.id, accessToken]);
 
   useEffect(() => {
     const listCommentsUrl = new URL(
@@ -238,6 +254,26 @@ const ProductDetail = () => {
       });
   };
 
+  const handleRatingChange = (event: any, newValue: number | null) => {
+    console.log(newValue);
+    setRatingValue(newValue);
+    fetch(URLS.ADD_RATING.replace(":productId", params.id.toString()), {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ rating_value: newValue ? newValue : 0 }),
+    })
+      .then(async (resp) => {
+        const ratingCreateData = await resp.json();
+        setRatingValue(ratingCreateData["rating_value"]);
+      })
+      .catch((error) => {
+        console.log("Error while adding rating", error);
+      });
+  };
+
   return (
     <Grid container item direction="column" flex={1} gap={5}>
       <Grid container item>
@@ -282,14 +318,18 @@ const ProductDetail = () => {
                 </Typography>
               </Breadcrumbs>
             </Grid>
-            <Grid item sx={{ display: "flex", alignItems: "center" }}>
+            <Grid item sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <Rating
                 name="product-rating"
                 value={ratingValue}
-                onChange={(event, newValue) => {
-                  setRatingValue(newValue);
-                }}
+                onChange={handleRatingChange}
+                disabled={!isLoggedIn}
               />
+              {!isLoggedIn ? (
+                <Tooltip title="Login to rate">
+                  <InfoOutlinedIcon fontSize="small" />
+                </Tooltip>
+              ) : null}
             </Grid>
           </Grid>
 
