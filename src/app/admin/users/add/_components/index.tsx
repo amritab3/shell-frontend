@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
@@ -25,7 +26,26 @@ export interface IFormInput {
   roles: Array<number>;
 }
 
-const validationSchema = Yup.object({});
+const validationSchema = Yup.object({
+  first_name: Yup.string()
+    .required("First name is required")
+    .matches(/^[a-zA-Z]+$/, "First name can only contain letters"),
+  last_name: Yup.string()
+    .required("Last name is required")
+    .matches(/^[a-zA-Z]+$/, "Last name can only contain letters"),
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  mobile_no: Yup.string()
+    .required("Mobile number is required")
+    .matches(/^[0-9]+$/, "Mobile number can only contain digits")
+    .min(10, "Mobile number should be at least 10 digits")
+    .max(15, "Mobile number should not exceed 15 digits"),
+    gender: Yup.string()
+    .required("Gender is required"), 
+    roles: Yup.string()
+    .required("Roles is required"),
+}).required();
 
 const AddUserForm = () => {
   const initialValues: IFormInput = {
@@ -37,8 +57,11 @@ const AddUserForm = () => {
     roles: [],
   };
 
-  const { handleSubmit, control, reset } = useForm<IFormInput>({
+  const { handleSubmit, control, reset } = useForm<any>({
     defaultValues: initialValues,
+    mode: "all",
+    resolver: yupResolver(validationSchema),
+
   });
   const dispatch = useDispatch();
   const router = useRouter();

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 
@@ -33,7 +34,24 @@ export interface IFormInput {
   type: string;
 }
 
-const validationSchema = Yup.object({});
+const validationSchema = Yup.object({
+  name: Yup.string()
+      .required("Name is required"),
+    description: Yup.string()
+      .required("Description is required"),
+    price: Yup.string()
+      .required("Price is required"),
+    color: Yup.string()
+      .required("Color is required"),
+    style: Yup.string()
+      .required("Style is required"),
+    material: Yup.string()
+      .required("Material is required"),
+    category: Yup.string()
+      .required("Category is required"),
+    gender: Yup.string()
+      .required("Gender is required"),
+}).required();
 
 const AddProductForm = () => {
   const initialValues: IFormInput = {
@@ -50,8 +68,11 @@ const AddProductForm = () => {
     type: "instore",
   };
 
-  const { handleSubmit, control, reset } = useForm<IFormInput>({
+  const { handleSubmit, control, reset } = useForm({
     defaultValues: initialValues,
+    mode: "all",
+    resolver: yupResolver(validationSchema),
+
   });
   const [productGenderChoices, setProductGenderChoices] = useState(
     [] as Array<FormSelectOption>,

@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux";
 import Grid from "@mui/material/Grid";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 
 import { openToast } from "@/redux/features/toastSlice";
 import URLS from "@/utils/urls";
@@ -25,9 +27,20 @@ interface IFormInput {
 }
 
 const validationSchema = Yup.object({
+  first_name: Yup.string()
+    .required("First name is required")
+    .matches(/^[a-zA-Z]+$/, "First name can only contain letters"),
+  last_name: Yup.string()
+    .required("Last name is required")
+    .matches(/^[a-zA-Z]+$/, "Last name can only contain letters"),
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
+  mobile_no: Yup.string()
+    .required("Mobile number is required")
+    .matches(/^[0-9]+$/, "Mobile number can only contain digits")
+    .min(10, "Mobile number should be at least 10 digits")
+    .max(15, "Mobile number should not exceed 15 digits"),
   password: Yup.string()
     .required("Password is required.")
     .min(6, "Password should be 6 characters minimum.")
@@ -40,7 +53,7 @@ const validationSchema = Yup.object({
   confirmPassword: Yup.string()
     .required("Confirm password is required")
     .oneOf([Yup.ref("password")], "Passwords must match"),
-});
+}).required();
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -53,11 +66,13 @@ const RegisterPage = () => {
     password: "",
     confirmPassword: "",
   };
-  const { handleSubmit, control } = useForm<IFormInput>({
+  const { handleSubmit, control } = useForm({
     defaultValues: initialValues,
+    mode: "all",
+    resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = async (formData: IFormInput) => {
+  const onSubmit = async (formData: any) => {
     const response = await fetch(URLS.USER_REGISTER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
