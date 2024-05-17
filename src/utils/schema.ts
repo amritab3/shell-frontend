@@ -14,8 +14,13 @@ export interface UploadProductSize {
 }
 
 export interface ProductImage {
-  id?: number;
+  id?: string;
   image: string;
+}
+export interface ProductComment {
+  id?: string;
+  message: string;
+  created_date: string;
 }
 export interface Product {
   id?: UUID;
@@ -31,6 +36,7 @@ export interface Product {
   type: string;
   sizes: Array<ProductSize>;
   images: Array<ProductImage>;
+  comments: Array<ProductComment>;
 }
 
 export interface UserAddress {
@@ -106,4 +112,8 @@ export interface PaginatedResponseType {
 
 export interface ProductPaginatedResponseType extends PaginatedResponseType {
   results: Array<Product>;
+}
+
+export interface CommentsPaginatedResponseType extends PaginatedResponseType {
+  results: Array<ProductComment>;
 }

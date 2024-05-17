@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
 
 import { RootState } from "@/redux/store";
 
@@ -19,13 +20,24 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import Rating from "@mui/material/Rating";
 import Button from "@/components/Button";
-import { Product, ProductSize } from "@/utils/schema";
+import {
+  CommentsPaginatedResponseType,
+  Product,
+  ProductComment,
+  ProductSize,
+} from "@/utils/schema";
 import URLS from "@/utils/urls";
 import { objectExists } from "@/utils/Utils";
-import { CartItem } from "@/utils/schema";
 import { addToCart } from "@/redux/features/cartSlice";
+import FormInput from "@/components/Form/FormInput";
+import Stack from "@mui/material/Stack";
+import Pagination from "@mui/material/Pagination";
 
 const itemInfoWidth: string = "100px";
+
+interface IFormInput {
+  message: string;
+}
 
 const ProductDetail = () => {
   const params = useParams();
@@ -36,14 +48,70 @@ const ProductDetail = () => {
   const [product, setProduct] = useState({
     images: [{}],
     sizes: [{ size: "" }],
+    comments: [{ id: "" }],
   } as Product);
   const [selectedSize, setSelectedSize] = useState({} as ProductSize);
+  const [comments, setComments] = React.useState([
+    { id: "" } as ProductComment,
+  ]);
+  const [commentPage, setCommentPage] = React.useState(1);
+  const [commentTotalPages, setCommentTotalPages] = React.useState(0);
 
   const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
   const accessToken = useSelector(
     (state: RootState) => state.user.access_token,
   );
   const userId = useSelector((state: RootState) => state.user.userID);
+
+  const handleCommentPageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setCommentPage(value);
+  };
+
+  const initialValues: IFormInput = {
+    message: "",
+  };
+  const { handleSubmit, control, setError, reset } = useForm<IFormInput>({
+    defaultValues: initialValues,
+  });
+  const onCommentSubmit = async (formData: IFormInput) => {
+    const commentResponse = await fetch(
+      `${URLS.PRODUCT_COMMENT_URL}/`.replace(
+        ":productId",
+        params.id.toString(),
+      ),
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ message: formData.message }),
+      },
+    );
+
+    if (commentResponse.status === 201) {
+      const addedComment: ProductComment = await commentResponse.json();
+      setComments([addedComment, ...comments]);
+      dispatch(
+        openToast({
+          message: "Comment successfully added",
+          severity: "success",
+        }),
+      );
+      reset(initialValues);
+    } else {
+      dispatch(
+        openToast({
+          message: "Comment could not be added",
+          severity: "error",
+        }),
+      );
+    }
+  };
+
   const incrementItemCount = () => {
     if (objectExists(selectedSize)) {
       let newNumberOfItems = numberOfItems + 1;
@@ -81,6 +149,30 @@ const ProductDetail = () => {
         console.log("Error while fetching a product.", error);
       });
   }, [params.id]);
+
+  useEffect(() => {
+    const listCommentsUrl = new URL(
+      `${URLS.PRODUCT_COMMENT_URL}/`.replace(
+        ":productId",
+        params.id.toString(),
+      ),
+    );
+    listCommentsUrl.search = new URLSearchParams({
+      page: commentPage.toString(),
+    }).toString();
+
+    fetch(listCommentsUrl, {
+      method: "GET",
+    })
+      .then(async (response) => {
+        const data: CommentsPaginatedResponseType = await response.json();
+        setComments(data.results);
+        setCommentTotalPages(data.total_pages);
+      })
+      .catch((error) => {
+        console.log("Error while fetching comments.", error);
+      });
+  }, [params.id, commentPage]);
 
   const handleAddToCart = () => {
     if (!objectExists(selectedSize)) {
@@ -329,11 +421,42 @@ const ProductDetail = () => {
           <Typography variant="h5" component="h2" fontWeight="bold">
             Reviews
           </Typography>
-          <Typography variant="subtitle1" component="h2" letterSpacing={0.5}>
-            Write comments here
-          </Typography>
           {isLoggedIn ? (
-            <Typography>COMMENT FORM</Typography>
+            <Grid
+              container
+              item
+              sx={{
+                width: { xs: 350, sm: 500, md: 700 },
+              }}
+            >
+              <Grid
+                container
+                item
+                xs={12}
+                sx={{ p: 2 }}
+                gap={{ xs: 2, sm: 3, md: 2 }}
+              >
+                <Grid item xs={12}>
+                  <FormInput
+                    name={"message"}
+                    control={control}
+                    label={"Comment"}
+                    type={"text"}
+                    multiline
+                    rows={2}
+                  />
+                </Grid>
+
+                <Grid item xs={3}>
+                  <Button
+                    label="Add Comment"
+                    fullWidth
+                    variant="contained"
+                    onClick={handleSubmit(onCommentSubmit)}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
           ) : (
             <Typography
               variant="subtitle1"
@@ -344,9 +467,75 @@ const ProductDetail = () => {
             </Typography>
           )}
 
-          <Typography variant="subtitle2" component="h2" sx={{ mt: 2 }}>
-            There are no reviews for this product.
-          </Typography>
+          {comments.length ? (
+            <Grid
+              container
+              item
+              direction={"column"}
+              alignItems={"start"}
+              justifyContent={"center"}
+              gap={2}
+              sx={{
+                ml: 2,
+                mb: 3,
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.4)",
+                width: { xs: 350, sm: 500, md: 700 },
+              }}
+            >
+              {comments.map((comment, index) => (
+                <React.Fragment key={index}>
+                  <Grid
+                    key={comment.id}
+                    item
+                    sx={{
+                      px: 2,
+                      height: "50px",
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      boxShadow:
+                        "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                    }}
+                  >
+                    <Typography variant="body1" component="p" letterSpacing="1">
+                      {comment.message}
+                    </Typography>
+                    <Typography variant="body1" component="p">
+                      {comment.created_date}
+                    </Typography>
+                  </Grid>
+                </React.Fragment>
+              ))}
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  my: 1,
+                }}
+              >
+                <Stack
+                  spacing={2}
+                  sx={{ display: "flex", justifySelf: "center" }}
+                >
+                  <Pagination
+                    count={commentTotalPages}
+                    page={commentPage}
+                    onChange={handleCommentPageChange}
+                    color="primary"
+                  />
+                </Stack>
+              </Grid>
+            </Grid>
+          ) : (
+            <Typography variant="subtitle2" component="h2" sx={{ mt: 2 }}>
+              There are no reviews for this product.
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </Grid>
