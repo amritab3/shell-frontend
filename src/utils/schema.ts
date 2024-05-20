@@ -22,6 +22,11 @@ export interface ProductComment {
   message: string;
   created_date: string;
 }
+export interface SellerDetails {
+  id: string;
+  name: string;
+  email: string;
+}
 export interface Product {
   id?: UUID;
   name: string;
@@ -37,6 +42,7 @@ export interface Product {
   sizes: Array<ProductSize>;
   images: Array<ProductImage>;
   comments: Array<ProductComment>;
+  seller_details?: SellerDetails;
 }
 
 export interface UserAddress {
@@ -116,4 +122,14 @@ export interface ProductPaginatedResponseType extends PaginatedResponseType {
 
 export interface CommentsPaginatedResponseType extends PaginatedResponseType {
   results: Array<ProductComment>;
+}
+
+export interface ChatReceiver {
+  id: string;
+  name: string;
+}
+export interface ChatRoomType {
+  id: string;
+  name: string;
+  receiver: ChatReceiver;
 }

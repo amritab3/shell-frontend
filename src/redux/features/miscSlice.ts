@@ -6,12 +6,20 @@ export interface MiscStateType {
   adminProductsCollapse: boolean;
   adminUserManagementCollapse: boolean;
   prevRoute: string;
+
+  chatUniqueId: string;
+  chatFromId: string;
+  chatToId: string;
 }
 
 const initialState: MiscStateType = {
   adminProductsCollapse: false,
   adminUserManagementCollapse: false,
   prevRoute: "",
+
+  chatUniqueId: "",
+  chatFromId: "",
+  chatToId: "",
 };
 
 export const miscSlice = createSlice({
@@ -30,6 +38,12 @@ export const miscSlice = createSlice({
     removePreviousRoute: (state) => {
       state.prevRoute = "";
     },
+    setChatFromId: (state, action) => {
+      state.chatFromId = action.payload;
+    },
+    setChatToId: (state, action) => {
+      state.chatToId = action.payload;
+    },
   },
 });
 
@@ -38,6 +52,9 @@ export const {
   toggleUserManagementCollapse,
   setPreviousRoute,
   removePreviousRoute,
+
+  setChatFromId,
+  setChatToId,
 } = miscSlice.actions;
 
 export default miscSlice.reducer;

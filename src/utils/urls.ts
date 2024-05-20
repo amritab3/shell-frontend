@@ -39,6 +39,8 @@ const URLS = {
   PRODUCT_COMMENT_URL: `${BASE_URL}/products/:productId/feedback/comments`,
   GET_USER_RATING: `${BASE_URL}/products/:productId/feedback/ratings/user-rating/`,
   ADD_RATING: `${BASE_URL}/products/:productId/feedback/ratings/`,
+
+  GET_USER_CHAT_ROOMS: `${BASE_URL}/chats/chat-rooms/user-rooms/`,
 };
 
 export default URLS;
