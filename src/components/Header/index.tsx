@@ -94,21 +94,21 @@ const Header = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             component="a"
             href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
+              fontFamily: "inherit",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+              // letterSpacing: ".1rem",
               color: "inherit",
               textDecoration: "none",
             }}
           >
-            LOGO
+            ThreadSwap
           </Typography>
 
           <Box
