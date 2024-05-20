@@ -87,21 +87,7 @@ const Footer: React.FC = () => {
               Contact
             </Link>
           </Grid>
-
-          <Grid item xs={6} sm={3} md={2}>
-            <Typography
-              variant="subtitle1"
-              color="text.primary"
-              sx={{ fontWeight: 700 }}
-              gutterBottom
-            >
-              INFORMATION
-            </Typography>
-            <Link href="#" color="inherit" display="block">
-              Contact Us
-            </Link>
-          </Grid>
-
+          
           <Grid item xs={6} sm={3} md={2}>
             <Typography
               variant="subtitle1"
