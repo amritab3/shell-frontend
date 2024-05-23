@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-
 import { RootState } from "@/redux/store";
 
 import { openToast } from "@/redux/features/toastSlice";
@@ -12,12 +11,13 @@ import {
   Box,
   Grid,
   Typography,
-  TextField,
   Breadcrumbs,
   Link,
+  Tooltip,
 } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import HomeIcon from "@mui/icons-material/Home";
-
+import Rating from "@mui/material/Rating";
 import Button from "@/components/Button";
 import { Product } from "@/utils/schema";
 import URLS from "@/utils/urls";
@@ -29,24 +29,18 @@ const ThriftProductDetail = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const router = useRouter();
-  const [numberOfItems, setNumberOfItems] = React.useState(0);
+  const [ratingValue, setRatingValue] = React.useState<number | null>(0);
   const [product, setProduct] = useState({
     images: [{}],
     sizes: [{ size: "" }],
+    // seller_details: { id: "", name: "", contact: "", email: "" },
   } as Product);
 
   const isLoggedIn = useSelector((state: RootState) => state.user.loggedIn);
-
+  const accessToken = useSelector(
+    (state: RootState) => state.user.access_token,
+  );
   const userId = useSelector((state: RootState) => state.user.userID);
-
-  const decrementItemCount = () => {
-    let newNumberOfItems = numberOfItems - 1;
-    if (newNumberOfItems < 0) {
-      newNumberOfItems = 0;
-    }
-
-    setNumberOfItems(newNumberOfItems);
-  };
 
   useEffect(() => {
     //fetch product data here
@@ -58,7 +52,42 @@ const ThriftProductDetail = () => {
       .catch((error) => {
         console.log("Error while fetching a product.", error);
       });
+
+    if (isLoggedIn) {
+      fetch(URLS.GET_USER_RATING.replace(":productId", params.id.toString()), {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        },
+      })
+        .then(async (response) => {
+          const ratingData = await response.json();
+          setRatingValue(ratingData["rating"]);
+        })
+        .catch((error) => {
+          console.log("Error while fetching user product rating.", error);
+        });
+    }
   }, [params.id]);
+
+  const handleRatingChange = (event: any, newValue: number | null) => {
+    setRatingValue(newValue);
+    fetch(URLS.ADD_RATING.replace(":productId", params.id.toString()), {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ rating_value: newValue ? newValue : 0 }),
+    })
+      .then(async (resp) => {
+        const ratingCreateData = await resp.json();
+        setRatingValue(ratingCreateData["rating_value"]);
+      })
+      .catch((error) => {
+        console.log("Error while adding rating", error);
+      });
+  };
 
   const handleChatWithSeller = () => {
     dispatch(setChatToId(product.seller_details?.id));
@@ -83,9 +112,6 @@ const ThriftProductDetail = () => {
             sx={{
               width: 400,
               marginLeft: 10,
-
-              // maxHeight: { xs: 233, md: 167 },
-              // maxWidth: { xs: 350, md: 250 },
             }}
             alt={product.name}
             src={product.images[0].image}
@@ -162,6 +188,56 @@ const ThriftProductDetail = () => {
               </Grid>
             </Grid>
           </Grid>
+
+          <Box sx={{ height:"28%" ,padding: 1, border: '1px solid #ccc', borderRadius: 2, boxShadow: 2, width: "40%" }}>
+            <Grid container item>
+              <Grid item sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Rating
+                  name="product-rating"
+                  value={ratingValue}
+                  onChange={handleRatingChange}
+                  disabled={!isLoggedIn}
+                />
+                {!isLoggedIn ? (
+                  <Tooltip title="Login to rate">
+                    <InfoOutlinedIcon fontSize="small" />
+                  </Tooltip>
+                ) : null}
+              </Grid>
+            </Grid>
+            <Typography variant="body2" color="text.secondary"marginBottom={1}>
+              Avg Rating: 3/5
+            </Typography>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+              Seller Details:
+            </Typography>
+            <Grid container >
+              <Grid item xs={12} display="flex" >
+                <Typography variant="body1" gutterBottom sx={{ fontWeight: 'bold', mr: 1 }}>
+                  Name:
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Amrita Bhattarai
+                </Typography>
+              </Grid>
+              <Grid item xs={12} display="flex">
+                <Typography variant="body1" gutterBottom sx={{ fontWeight: 'bold',mr: 1 }}>
+                  Contact:
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  981111111
+                </Typography>
+              </Grid>
+              <Grid item xs={12} display="flex">
+                <Typography variant="body1" gutterBottom sx={{ fontWeight: 'bold',mr: 1 }}>
+                  Email:
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  aaa@gmail.com                
+                </Typography>
+              </Grid>
+            </Grid>
+          </Box>
 
           <Grid container item>
             {product.inventory! > 0 ? (
