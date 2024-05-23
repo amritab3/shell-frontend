@@ -17,18 +17,21 @@ import SendIcon from "@mui/icons-material/Send";
 import Input from "@/components/Input";
 import { RootState } from "@/redux/store";
 import URLS from "@/utils/urls";
-import { ChatRoomType } from "@/utils/schema";
+import { ChatRoomType, ChatMessageType } from "@/utils/schema";
 
 const ChatWithSeller = () => {
   const [message, setMessage] = useState("");
   const webSocketRef = useRef<WebSocket | null>(null);
   const [chatRooms, setChatRooms] = useState<ChatRoomType[]>([]);
+  const [messages, setMessages] = useState<Array<ChatMessageType>>([]);
 
   const fromId = useSelector((state: RootState) => state.misc.chatFromId);
   const toId = useSelector((state: RootState) => state.misc.chatToId);
   const userAccessToken = useSelector(
     (state: RootState) => state.user.access_token,
   );
+
+  const [chatReceiver, setChatReceiver] = useState(toId);
 
   useEffect(() => {
     fetch(URLS.GET_USER_CHAT_ROOMS, {
@@ -50,19 +53,19 @@ const ChatWithSeller = () => {
 
   useEffect(() => {
     const webSocket = new WebSocket(
-      `ws://127.0.0.1:8000/ws/chat/from/${fromId}/to/${toId}`,
+      `ws://127.0.0.1:8000/ws/chat/from/${fromId}/to/${chatReceiver}`,
     );
     webSocketRef.current = webSocket;
+
+    webSocket.onopen = (event) => {
+      console.log("Event on connect: ", event);
+    };
 
     webSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       console.log("Message Data: ", data);
     };
-
-    // return () => {
-    //   webSocket.close();
-    // };
-  }, [fromId, toId]);
+  }, [fromId, chatReceiver]);
 
   const sendChatMessage = () => {
     if (message) {
@@ -73,6 +76,8 @@ const ChatWithSeller = () => {
       webSocketRef.current?.send(JSON.stringify(chatMessage));
     }
   };
+
+  const selectChat = () => {};
 
   return (
     <Grid container item sx={{ padding: 2 }}>
@@ -101,7 +106,7 @@ const ChatWithSeller = () => {
           <Divider />
           <List>
             {chatRooms.map((chatRoom: ChatRoomType) => (
-              <ListItemButton key={chatRoom.id}>
+              <ListItemButton key={chatRoom.id} onClick={selectChat}>
                 <ListItemIcon>
                   <Avatar
                     alt={chatRoom.receiver.name}

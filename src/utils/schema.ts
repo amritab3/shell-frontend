@@ -133,3 +133,10 @@ export interface ChatRoomType {
   name: string;
   receiver: ChatReceiver;
 }
+
+export interface ChatMessageType {
+  id: string;
+  message: string;
+  sender: string;
+  timestamp: string;
+}
