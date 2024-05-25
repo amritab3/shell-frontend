@@ -44,6 +44,7 @@ const URLS = {
   ADD_RATING: `${BASE_URL}/products/:productId/feedback/ratings/`,
 
   GET_USER_CHAT_ROOMS: `${BASE_URL}/chats/chat-rooms/user-rooms/`,
+  USER_ROLES_CHOICES: `${BASE_URL}/users/admin/roles/choices/`,
 };
 
 export default URLS;

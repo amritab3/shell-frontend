@@ -193,6 +193,7 @@ const Table = (props: CustomTableProps & TableProps) => {
         (item) => !successfulDeletions.includes(item.id),
       );
       setData([...updatedData]);
+      setSelected([]);
     };
 
     return (

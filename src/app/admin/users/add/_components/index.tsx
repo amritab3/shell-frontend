@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,6 +16,8 @@ import FormInput from "@/components/Form/FormInput";
 import Button from "@/components/Button";
 import URLS from "@/utils/urls";
 import { openToast } from "@/redux/features/toastSlice";
+import { FormSelectOption } from "@/utils/schema";
+import { RootState } from "@/redux/store";
 
 export interface IFormInput {
   first_name: string;
@@ -41,10 +43,8 @@ const validationSchema = Yup.object({
     .matches(/^[0-9]+$/, "Mobile number can only contain digits")
     .min(10, "Mobile number should be at least 10 digits")
     .max(15, "Mobile number should not exceed 15 digits"),
-    gender: Yup.string()
-    .required("Gender is required"), 
-    roles: Yup.string()
-    .required("Roles is required"),
+  gender: Yup.string().required("Gender is required"),
+  // roles: Yup.string().required("Roles is required"),
 }).required();
 
 const AddUserForm = () => {
@@ -61,29 +61,57 @@ const AddUserForm = () => {
     defaultValues: initialValues,
     mode: "all",
     resolver: yupResolver(validationSchema),
-
   });
   const dispatch = useDispatch();
   const router = useRouter();
+  const [rolesChoices, setRolesChoices] = React.useState<FormSelectOption[]>(
+    [],
+  );
+
+  const accessToken = useSelector(
+    (state: RootState) => state.user.access_token,
+  );
+
+  useEffect(() => {
+    fetch(URLS.USER_ROLES_CHOICES, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then(async (resp) => {
+      if (resp.ok) {
+        const data: Array<FormSelectOption> = await resp.json();
+        setRolesChoices(data);
+      }
+    });
+  }, [accessToken]);
 
   const onSubmit = async (submittedFormData: any) => {
-    let formData = new FormData();
-    for (let key in submittedFormData) {
-      formData.append(key, submittedFormData[key]);
-    }
-
     fetch(URLS.ADMIN_ADD_USER, {
       method: "POST",
-      body: formData,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(submittedFormData),
     })
       .then(async (response) => {
-        dispatch(
-          openToast({
-            message: "User added successfully",
-            severity: "success",
-          }),
-        );
-        router.push("/admin/users/");
+        if (response.ok) {
+          dispatch(
+            openToast({
+              message: "User added successfully",
+              severity: "success",
+            }),
+          );
+          router.push("/admin/users/");
+        } else {
+          dispatch(
+            openToast({
+              message: "User could not be added",
+              severity: "error",
+            }),
+          );
+        }
       })
       .catch((error) => {
         console.log("Error: ", error);
@@ -99,12 +127,6 @@ const AddUserForm = () => {
   const genderOptions = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
-  ];
-
-  const roleOptions = [
-    { label: "Admin", value: 1 },
-    { label: "Shop Admin", value: 2 },
-    { label: "Customer", value: 3 },
   ];
 
   return (
@@ -179,7 +201,7 @@ const AddUserForm = () => {
                 label={"Roles"}
                 name={"roles"}
                 control={control}
-                options={roleOptions}
+                options={rolesChoices}
                 fullWidth
               />
             </Grid>
