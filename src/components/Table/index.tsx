@@ -71,7 +71,7 @@ const Table = (props: CustomTableProps & TableProps) => {
   const [data, setData] = React.useState<Array<any>>([]);
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>("");
-  const [selected, setSelected] = React.useState<readonly number[]>([]);
+  const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -168,30 +168,31 @@ const Table = (props: CustomTableProps & TableProps) => {
     const { numSelected } = props;
     const router = useRouter();
 
-    const handleDeleteClick = () => {
-      console.log("Selected", selected);
-      const dataAfterDelete = data.filter(async (obj) => {
-        if (selected.includes(obj.id)) {
-          const deleteResp = await fetch(`${listUrl}/${obj.id}/`, {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+    const handleDeleteClick = async () => {
+      const successfulDeletions: string[] = [];
 
-          if (deleteResp.status === 204) {
-            dispatch(
-              openToast({
-                message: "Data deleted successfully",
-                severity: "success",
-              }),
-            );
-            return !selected.includes(obj.id);
-          }
+      for (const id of selected) {
+        const deleteResp = await fetch(`${listUrl}/${id}/`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        if (deleteResp.ok) {
+          successfulDeletions.push(id);
+          dispatch(
+            openToast({
+              message: "Data deleted successfully",
+              severity: "success",
+            }),
+          );
         }
-      });
-      console.log(dataAfterDelete);
-      setData([...dataAfterDelete]);
+      }
+
+      const updatedData = data.filter(
+        (item) => !successfulDeletions.includes(item.id),
+      );
+      setData([...updatedData]);
     };
 
     return (
@@ -271,9 +272,9 @@ const Table = (props: CustomTableProps & TableProps) => {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+  const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
     const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly number[] = [];
+    let newSelected: readonly string[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);
@@ -301,7 +302,7 @@ const Table = (props: CustomTableProps & TableProps) => {
     setPage(0);
   };
 
-  const isSelected = (id: number) => selected.indexOf(id) !== -1;
+  const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
