@@ -140,3 +140,19 @@ export interface ChatMessageType {
   sender: string;
   timestamp: string;
 }
+
+export interface EsewaPaymentSuccessResponse {
+  product_code: string;
+  signature: string;
+  signed_field_names: string;
+  status: string;
+  total_amount: string;
+  transaction_code: string;
+  transaction_uuid: string;
+}
+
+export interface PaymentOrderDetails {
+  id: string;
+  user_email: string;
+  user_phone: string;
+}

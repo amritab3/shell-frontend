@@ -31,6 +31,9 @@ const URLS = {
   ADMIN_ROLES_URL: `${BASE_URL}/users/admin/roles/`,
 
   CREATE_ORDER: `${BASE_URL}/orders/`,
+  ORDER_PAYMENT_SUCCESS_URL: `${BASE_URL}/orders/:orderID/payment-success/`,
+  ORDER_PAYMENT_FAILED_URL: `${BASE_URL}/orders/:orderID/payment-failed/`,
+  ORDER_DATA: `${BASE_URL}/orders/:orderID/order-data/`,
 
   PRODUCT_GENDER_CHOICES: `${BASE_URL}/products/product-gender-choice/`,
   PRODUCT_CATEGORY_CHOICES: `${BASE_URL}/products/product-category-choice/`,
