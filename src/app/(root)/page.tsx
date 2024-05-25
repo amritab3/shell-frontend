@@ -23,19 +23,19 @@ export default function Home() {
     {
       id: 1,
       imageUrl:
-        "https://static.zara.net/photos///contents/mkt/spots/ss24-studio-collection-maintenance/subhome-xmedia-worldwide//w/1920/IMAGE-landscape-0224cf8b-a2e1-4ab7-a5a3-6c8d4923289b-default_0.jpg?ts=1710158285323",
+        "https://static.zara.net/assets/public/af28/ab86/96b84a599ab0/70c870b82dca/image-landscape-fill-a9e43b43-d3b2-4c52-98d9-14cba8263329-default_0.jpg?ts=1716465577594&w=1920",
       redirectUrl: "",
     },
     {
       id: 2,
       imageUrl:
-        "https://static.zara.net/photos///contents/mkt/spots/ss24-north-woman-dresses/subhome-xmedia-13//w/1920/IMAGE-landscape-fill-6d47abd7-4a4e-4580-b8d4-fc1b9d1970fc-default_0.jpg?ts=1711560554796",
+        "https://static.zara.net/assets/public/0fdb/f1cd/7a8045b8bfc1/290d30d97471/image-landscape-fill-9aa604cb-8877-4977-bb68-4d3af48f97eb-default_0.jpg?ts=1716550054926&w=1920",
       redirectUrl: "",
     },
     {
       id: 3,
       imageUrl:
-        "https://static.zara.net/photos///contents/mkt/spots/ss24-north-woman-shoes/subhome-xmedia-13-2//w/1920/IMAGE-landscape-fill-735480c8-6d15-4139-bc45-8c96bb41dc17-default_0.jpg?ts=1711557494527",
+        "https://static.zara.net/assets/public/d04d/9ed3/5501493b96a4/ae5e882bb924/image-landscape-default-fill-17cceacf-5191-4374-817f-088ee8cd8b2c-default_0.jpg?ts=1716478734743&w=1920",
       redirectUrl: "",
     },
   ];

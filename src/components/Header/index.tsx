@@ -171,7 +171,7 @@ const Header = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            ThreadSwap
           </Typography>
           <Box
             sx={{
