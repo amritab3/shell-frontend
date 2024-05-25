@@ -71,20 +71,17 @@ const Footer: React.FC = () => {
             >
               QUICK LINKS
             </Typography>
-            <Link href="#" color="inherit" display="block">
+            <Link href="/products/instore/men" color="inherit" display="block">
               Men
             </Link>
-            <Link href="#" color="inherit" display="block">
+            <Link href="/products/instore/women" color="inherit" display="block">
               Women
             </Link>
-            <Link href="#" color="inherit" display="block">
+            <Link href="/products/instore/kids" color="inherit" display="block">
               Kids
             </Link>
-            <Link href="#" color="inherit" display="block">
+            <Link href="/products/thrift" color="inherit" display="block">
               Thrift
-            </Link>
-            <Link href="#" color="inherit" display="block">
-              Contact
             </Link>
           </Grid>
           
@@ -97,10 +94,10 @@ const Footer: React.FC = () => {
             >
               MY ACCOUNT
             </Typography>
-            <Link href="#" color="inherit" display="block">
+            <Link href="/user/profile" color="inherit" display="block">
               My Profile
             </Link>
-            <Link href="#" color="inherit" display="block">
+            <Link href="/user/orders" color="inherit" display="block">
               Order History
             </Link>
           </Grid>
