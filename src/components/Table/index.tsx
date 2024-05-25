@@ -63,11 +63,19 @@ interface CustomTableProps {
   tableTitle: string;
   listUrl: string;
   addButton?: AddButton;
+  deleteUrl?: string;
 }
 
 const Table = (props: CustomTableProps & TableProps) => {
-  const { headCells, defaultSortBy, tableTitle, listUrl, addButton, ...rest } =
-    props;
+  const {
+    headCells,
+    defaultSortBy,
+    tableTitle,
+    listUrl,
+    addButton,
+    deleteUrl,
+    ...rest
+  } = props;
   const [data, setData] = React.useState<Array<any>>([]);
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>("");
@@ -170,14 +178,18 @@ const Table = (props: CustomTableProps & TableProps) => {
 
     const handleDeleteClick = async () => {
       const successfulDeletions: string[] = [];
+      console.log(deleteUrl);
 
       for (const id of selected) {
-        const deleteResp = await fetch(`${listUrl}/${id}/`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
+        const deleteResp = await fetch(
+          `${deleteUrl ? deleteUrl : listUrl}/${id}/`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           },
-        });
+        );
         if (deleteResp.ok) {
           successfulDeletions.push(id);
           dispatch(
