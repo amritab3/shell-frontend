@@ -22,7 +22,7 @@ import Button from "@/components/Button";
 import { RootState } from "@/redux/store";
 import URLS from "@/utils/urls";
 import withAuth from "@/hoc/withAuth";
-import { removeCartItem } from "@/redux/features/cartSlice";
+import { removeCartItem, clearCart } from "@/redux/features/cartSlice";
 import { openToast } from "@/redux/features/toastSlice";
 import { CartItem } from "@/utils/schema";
 
@@ -93,6 +93,7 @@ const ViewCart = () => {
       body: JSON.stringify(orderItem),
     })
       .then(async (orderResp: any) => {
+        dispatch(clearCart());
         const orderRespData = await orderResp.json();
         esewaCall(orderRespData["paymentFormData"]);
       })
