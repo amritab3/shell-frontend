@@ -46,6 +46,8 @@ const URLS = {
 
   GET_USER_CHAT_ROOMS: `${BASE_URL}/chats/chat-rooms/user-rooms/`,
   USER_ROLES_CHOICES: `${BASE_URL}/users/admin/roles/choices/`,
+
+  GET_ROOM_MESSAGES: `${BASE_URL}/chats/chat-rooms/:roomID/messages/`,
 };
 
 export default URLS;

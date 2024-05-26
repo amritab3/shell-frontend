@@ -58,15 +58,24 @@ const ChatWithSeller = () => {
     );
     webSocketRef.current = webSocket;
 
-    webSocket.onopen = (event) => {
-      console.log("Event on connect: ", event);
-    };
-
     webSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
+      if (data.on_connect) {
+        fetch(URLS.GET_ROOM_MESSAGES.replace(":roomID", data.room), {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${userAccessToken}`,
+          },
+        }).then(async (res) => {
+          if (res.ok) {
+            const existingMessages = await res.json();
+            setMessages(existingMessages);
+          }
+        });
+      }
       console.log("Message Data: ", data);
     };
-  }, [fromId, chatReceiver]);
+  }, [fromId, chatReceiver, userAccessToken]);
 
   const sendChatMessage = () => {
     if (message) {
@@ -123,57 +132,33 @@ const ChatWithSeller = () => {
         </Grid>
         <Grid item xs={9}>
           <List sx={{ height: "70vh", overflowY: "auto" }}>
-            <ListItem key="1">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText
-                    sx={{ textAlign: "right" }}
-                    primary="Hey!"
-                  ></ListItemText>
+            {messages.map((existingMessage: ChatMessageType) => (
+              <ListItem key={existingMessage.id}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <ListItemText
+                      sx={{
+                        textAlign:
+                          existingMessage.sender === fromId ? "right" : "left",
+                      }}
+                      primary={existingMessage.message}
+                    ></ListItemText>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <ListItemText
+                      sx={{
+                        textAlign:
+                          existingMessage.sender === fromId ? "right" : "left",
+                      }}
+                      secondary={existingMessage.timestamp}
+                    ></ListItemText>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <ListItemText
-                    sx={{ textAlign: "right" }}
-                    secondary="09:30"
-                  ></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
-            <ListItem key="2">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText
-                    sx={{ textAlign: "left" }}
-                    primary="Hello!"
-                  ></ListItemText>
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText
-                    sx={{ textAlign: "left" }}
-                    secondary="09:31"
-                  ></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
-            <ListItem key="3">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText
-                    sx={{ textAlign: "right" }}
-                    primary="I am interested in this product."
-                  ></ListItemText>
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText
-                    sx={{ textAlign: "right" }}
-                    secondary="10:30"
-                  ></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
+              </ListItem>
+            ))}
           </List>
           <Divider />
-          <Grid container >
+          <Grid container>
             <Grid item xs={11}>
               <Input
                 value={message}
@@ -182,12 +167,19 @@ const ChatWithSeller = () => {
                 label={"Type Something"}
               />
             </Grid>
-            <Grid item xs={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Grid
+              item
+              xs={1}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Fab color="primary" aria-label="add" onClick={sendChatMessage}>
                 <SendIcon />
               </Fab>
             </Grid>
-
           </Grid>
         </Grid>
       </Grid>
