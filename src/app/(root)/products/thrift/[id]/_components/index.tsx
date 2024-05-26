@@ -262,11 +262,19 @@ const ThriftProductDetail = () => {
 
           <Grid container item>
             {product.inventory! > 0 ? (
-              <Button
-                label="Chat with seller"
-                variant="contained"
-                onClick={handleChatWithSeller}
-              />
+              <>
+                <Button
+                  label="Chat with seller"
+                  variant="contained"
+                  onClick={handleChatWithSeller}
+                  disabled={userId === product.seller_details?.id}
+                />
+                {userId === product.seller_details?.id ? (
+                  <Tooltip title={"You are the seller"}>
+                    <InfoOutlinedIcon />
+                  </Tooltip>
+                ) : null}
+              </>
             ) : (
               <Button label="Out of Stock" disabled variant="outlined" />
             )}
