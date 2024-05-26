@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -19,6 +19,7 @@ import { RootState } from "@/redux/store";
 import URLS from "@/utils/urls";
 import { ChatRoomType, ChatMessageType } from "@/utils/schema";
 import withAuth from "@/hoc/withAuth";
+import { openToast } from "@/redux/features/toastSlice";
 
 const ChatWithSeller = () => {
   const [message, setMessage] = useState("");
@@ -33,6 +34,8 @@ const ChatWithSeller = () => {
   );
 
   const [chatReceiver, setChatReceiver] = useState(toId);
+  const [newMessage, setNewMessage] = useState<ChatMessageType>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetch(URLS.GET_USER_CHAT_ROOMS, {
@@ -50,7 +53,7 @@ const ChatWithSeller = () => {
       .catch((error) => {
         console.log("Error", error);
       });
-  }, []);
+  }, [userAccessToken]);
 
   useEffect(() => {
     const webSocket = new WebSocket(
@@ -60,6 +63,7 @@ const ChatWithSeller = () => {
 
     webSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
+
       if (data.on_connect) {
         fetch(URLS.GET_ROOM_MESSAGES.replace(":roomID", data.room), {
           method: "GET",
@@ -73,7 +77,24 @@ const ChatWithSeller = () => {
           }
         });
       }
-      console.log("Message Data: ", data);
+
+      if (data.on_message) {
+        const newMessage: ChatMessageType = {
+          id: data.id,
+          sender: data.sender,
+          message: data.message,
+          timestamp: data.timestamp,
+        };
+        if (newMessage) {
+          setMessage("");
+          dispatch(
+            openToast({
+              message: "Refresh the page.",
+              severity: "success",
+            }),
+          );
+        }
+      }
     };
   }, [fromId, chatReceiver, userAccessToken]);
 
