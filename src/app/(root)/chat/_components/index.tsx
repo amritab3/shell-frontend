@@ -18,6 +18,7 @@ import Input from "@/components/Input";
 import { RootState } from "@/redux/store";
 import URLS from "@/utils/urls";
 import { ChatRoomType, ChatMessageType } from "@/utils/schema";
+import withAuth from "@/hoc/withAuth";
 
 const ChatWithSeller = () => {
   const [message, setMessage] = useState("");
@@ -194,4 +195,4 @@ const ChatWithSeller = () => {
   );
 };
 
-export default ChatWithSeller;
+export default withAuth(ChatWithSeller);

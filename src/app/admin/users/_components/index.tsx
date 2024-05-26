@@ -42,6 +42,7 @@ const UsersTable = () => {
       defaultSortBy="first_name"
       tableTitle="Users"
       listUrl={URLS.LIST_USERS}
+      deleteUrl={URLS.DELETE_USER}
       addButton={addButton}
     />
   );

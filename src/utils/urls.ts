@@ -22,6 +22,7 @@ const URLS = {
   THRIFT_PRODUCTS_URL: `${BASE_URL}/products/thrift`,
 
   LIST_USERS: `${BASE_URL}/users/`,
+  DELETE_USER: `${BASE_URL}/users/admin/user`,
 
   ADD_ITEM_TO_CART: `${BASE_URL}/users/:userId/cart/add-item/`,
   GET_USER_CART: `${BASE_URL}/users/:userId/cart/`,

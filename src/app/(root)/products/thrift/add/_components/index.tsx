@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
 import * as Yup from "yup";
@@ -20,6 +20,7 @@ import withAuth from "@/hoc/withAuth";
 import UploadSize from "./UploadSize";
 import HttpError from "@/utils/HttpError";
 import { openToast } from "@/redux/features/toastSlice";
+import { RootState } from "@/redux/store";
 
 export interface IFormInput {
   name: string;
@@ -36,22 +37,14 @@ export interface IFormInput {
 }
 
 const validationSchema = Yup.object({
-    name: Yup.string()
-      .required("Name is required"),
-    description: Yup.string()
-      .required("Description is required"),
-    price: Yup.string()
-      .required("Price is required"),
-    color: Yup.string()
-      .required("Color is required"),
-    style: Yup.string()
-      .required("Style is required"),
-    material: Yup.string()
-      .required("Material is required"),
-    category: Yup.string()
-      .required("Category is required"),
-    gender: Yup.string()
-      .required("Gender is required"),
+  name: Yup.string().required("Name is required"),
+  description: Yup.string().required("Description is required"),
+  price: Yup.string().required("Price is required"),
+  color: Yup.string().required("Color is required"),
+  style: Yup.string().required("Style is required"),
+  material: Yup.string().required("Material is required"),
+  category: Yup.string().required("Category is required"),
+  gender: Yup.string().required("Gender is required"),
 }).required();
 
 const AddThriftProductForm = () => {
@@ -82,6 +75,9 @@ const AddThriftProductForm = () => {
   );
   const dispatch = useDispatch();
   const router = useRouter();
+  const accessToken = useSelector(
+    (state: RootState) => state.user.access_token,
+  );
 
   useEffect(() => {
     fetch(URLS.PRODUCT_GENDER_CHOICES, {
@@ -114,6 +110,9 @@ const AddThriftProductForm = () => {
 
     fetch(`${URLS.THRIFT_PRODUCTS_URL}/`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
       body: formData,
     })
       .then(async (response) => {
