@@ -189,7 +189,16 @@ const ThriftProductDetail = () => {
             </Grid>
           </Grid>
 
-          <Box sx={{ height:"28%" ,padding: 1, border: '1px solid #ccc', borderRadius: 2, boxShadow: 2, width: "40%" }}>
+          <Box
+            sx={{
+              height: "28%",
+              padding: 1,
+              border: "1px solid #ccc",
+              borderRadius: 2,
+              boxShadow: 2,
+              width: "40%",
+            }}
+          >
             <Grid container item>
               <Grid item sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Rating
@@ -205,35 +214,47 @@ const ThriftProductDetail = () => {
                 ) : null}
               </Grid>
             </Grid>
-            <Typography variant="body2" color="text.secondary"marginBottom={1}>
+            <Typography variant="body2" color="text.secondary" marginBottom={1}>
               Avg Rating: 3/5
             </Typography>
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
               Seller Details:
             </Typography>
-            <Grid container >
-              <Grid item xs={12} display="flex" >
-                <Typography variant="body1" gutterBottom sx={{ fontWeight: 'bold', mr: 1 }}>
+            <Grid container>
+              <Grid item xs={12} display="flex">
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  sx={{ fontWeight: "bold", mr: 1 }}
+                >
                   Name:
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  Amrita Bhattarai
+                  {product.seller_details?.name}
                 </Typography>
               </Grid>
               <Grid item xs={12} display="flex">
-                <Typography variant="body1" gutterBottom sx={{ fontWeight: 'bold',mr: 1 }}>
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  sx={{ fontWeight: "bold", mr: 1 }}
+                >
                   Contact:
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  981111111
+                  {product.seller_details?.mobile_no}
                 </Typography>
               </Grid>
               <Grid item xs={12} display="flex">
-                <Typography variant="body1" gutterBottom sx={{ fontWeight: 'bold',mr: 1 }}>
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  sx={{ fontWeight: "bold", mr: 1 }}
+                >
                   Email:
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  aaa@gmail.com                
+                  {product.seller_details?.email}
                 </Typography>
               </Grid>
             </Grid>

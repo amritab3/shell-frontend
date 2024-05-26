@@ -26,6 +26,7 @@ export interface SellerDetails {
   id: string;
   name: string;
   email: string;
+  mobile_no: string;
 }
 export interface Product {
   id?: UUID;
