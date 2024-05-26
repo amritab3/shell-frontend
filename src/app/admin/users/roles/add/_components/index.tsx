@@ -22,8 +22,7 @@ export interface IFormInput {
 }
 
 const validationSchema = Yup.object({
-  name: Yup.string()
-      .required("Role Name is required"),
+  name: Yup.string().required("Role Name is required"),
 }).required();
 
 const AddRoleForm = () => {
@@ -43,7 +42,7 @@ const AddRoleForm = () => {
   );
 
   const onSubmit = async (submittedFormData: IFormInput) => {
-    fetch(URLS.ADMIN_ROLES_URL, {
+    fetch(`${URLS.ADMIN_ROLES_URL}/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -37,6 +37,8 @@ const navBarItems = [
 
 const settings = [
   { label: "Profile", path: "/user/profile", renderAfterLogin: true },
+  { label: "Messages", path: "/user/messages", renderAfterLogin: true },
+  { label: "My Orders", path: "/user/orders", renderAfterLogin: true },
   {
     label: "Dashboard",
     path: "/admin/dashboard/",

@@ -28,7 +28,7 @@ const URLS = {
   DELETE_CART_ITEM: `${BASE_URL}/users/:userId/cart/delete-cart-item/`,
 
   ADMIN_ADD_USER: `${BASE_URL}/users/admin/user/`,
-  ADMIN_ROLES_URL: `${BASE_URL}/users/admin/roles/`,
+  ADMIN_ROLES_URL: `${BASE_URL}/users/admin/roles`,
 
   CREATE_ORDER: `${BASE_URL}/orders/`,
   ORDER_PAYMENT_SUCCESS_URL: `${BASE_URL}/orders/:orderID/payment-success/`,
@@ -44,6 +44,7 @@ const URLS = {
   ADD_RATING: `${BASE_URL}/products/:productId/feedback/ratings/`,
 
   GET_USER_CHAT_ROOMS: `${BASE_URL}/chats/chat-rooms/user-rooms/`,
+  USER_ROLES_CHOICES: `${BASE_URL}/users/admin/roles/choices/`,
 };
 
 export default URLS;
