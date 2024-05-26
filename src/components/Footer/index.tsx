@@ -13,12 +13,6 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import MailIcon from "@mui/icons-material/Mail";
 
-// Replace these with your own social media URLs
-const socialMediaLinks = {
-  facebook: "#",
-  twitter: "#",
-  instagram: "#",
-};
 
 const Footer: React.FC = () => {
   return (
@@ -29,6 +23,7 @@ const Footer: React.FC = () => {
         color: "text.secondary",
         borderTop: "1px solid",
         borderColor: "divider",
+        marginTop: "20px",
         pb: 1,
         pt: 1,
       }}
