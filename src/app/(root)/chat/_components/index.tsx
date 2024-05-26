@@ -80,7 +80,7 @@ const ChatWithSeller = () => {
   const selectChat = () => {};
 
   return (
-    <Grid container item sx={{ padding: 2 }}>
+    <Grid container item sx={{ marginX: 2 }}>
       <Grid container>
         <Grid item xs={12}>
           <Typography variant="h5" className="header-message">
@@ -127,7 +127,7 @@ const ChatWithSeller = () => {
                 <Grid item xs={12}>
                   <ListItemText
                     sx={{ textAlign: "right" }}
-                    primary="Hey man, What's up ?"
+                    primary="Hey!"
                   ></ListItemText>
                 </Grid>
                 <Grid item xs={12}>
@@ -143,7 +143,7 @@ const ChatWithSeller = () => {
                 <Grid item xs={12}>
                   <ListItemText
                     sx={{ textAlign: "left" }}
-                    primary="Hey, Iam Good! What about you ?"
+                    primary="Hello!"
                   ></ListItemText>
                 </Grid>
                 <Grid item xs={12}>
@@ -159,7 +159,7 @@ const ChatWithSeller = () => {
                 <Grid item xs={12}>
                   <ListItemText
                     sx={{ textAlign: "right" }}
-                    primary="Cool. i am good, let's catch up!"
+                    primary="I am interested in this product."
                   ></ListItemText>
                 </Grid>
                 <Grid item xs={12}>
@@ -172,7 +172,7 @@ const ChatWithSeller = () => {
             </ListItem>
           </List>
           <Divider />
-          <Grid container style={{ padding: "20px" }}>
+          <Grid container >
             <Grid item xs={11}>
               <Input
                 value={message}
@@ -181,11 +181,12 @@ const ChatWithSeller = () => {
                 label={"Type Something"}
               />
             </Grid>
-            <Grid item xs={1} sx={{ textAlign: "right" }}>
+            <Grid item xs={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Fab color="primary" aria-label="add" onClick={sendChatMessage}>
                 <SendIcon />
               </Fab>
             </Grid>
+
           </Grid>
         </Grid>
       </Grid>
